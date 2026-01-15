@@ -391,149 +391,118 @@ function RulesetsWireframe() {
 // ==============================================
 
 function AssignmentsWireframe() {
-  const [viewMode, setViewMode] = useState<'bulk' | 'single'>('bulk');
   const [selectedSite, setSelectedSite] = useState<number>(1); // Default to first site
 
+  // Mock data for assignments per site
+  const siteAssignments: Record<number, string[]> = {
+    1: ['Ruleset A', 'Ruleset B'],
+    2: ['Ruleset A'],
+    3: [],
+    4: ['Ruleset C'],
+    5: [],
+  };
+
+  const getFilteredSites = () => {
+    return [1, 2, 3, 4, 5];
+  };
+
   return (
-    <div>
-      {viewMode === 'bulk' ? (
-        <>
-          {/* Header */}
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex border border-slate-300 rounded-lg overflow-hidden">
-              <button
-                onClick={() => setViewMode('bulk')}
-                className="px-4 py-2 text-sm font-medium font-[Chalkboard] bg-slate-100 text-slate-700"
-              >
-                Bulk view
-              </button>
-              <button
-                onClick={() => setViewMode('single')}
-                className="px-4 py-2 text-sm font-medium border-l border-slate-300 font-[Chalkboard] bg-white text-slate-400"
-              >
-                Single site
-              </button>
-            </div>
-            <div className="px-4 py-2 bg-slate-100 border border-slate-300 rounded text-slate-400 text-sm font-[Chalkboard]">
-              + Assign ruleset
-            </div>
+    <div className="flex">
+      {/* Site List Sidebar */}
+      <div className="w-64 flex-shrink-0 pr-6 border-r border-slate-300 -ml-6">
+        {/* Status Filter */}
+        <div className="mb-3 pl-4">
+          <div className="w-full px-3 py-2 text-sm border border-slate-300 rounded bg-white text-slate-400 font-[Chalkboard]">
+            All sites
           </div>
-        <div className="bg-white border border-slate-300 rounded overflow-hidden">
-          {/* Table Header */}
-          <div className="bg-slate-100 border-b border-slate-300 px-6 py-3 flex gap-6">
-            <div className="w-48 text-xs font-medium text-slate-600 uppercase font-[Chalkboard]">Site</div>
-            <div className="w-64 text-xs font-medium text-slate-600 uppercase font-[Chalkboard]">Active assignments</div>
-            <div className="w-64 text-xs font-medium text-slate-600 uppercase font-[Chalkboard]">Scheduled</div>
-            <div className="w-32 text-xs font-medium text-slate-600 uppercase font-[Chalkboard]">Status</div>
-            <div className="w-32 text-xs font-medium text-slate-600 uppercase font-[Chalkboard]">Actions</div>
-          </div>
-
-          {/* Table Rows */}
-          {[1, 2, 3, 4, 5].map((i) => (
-            <div key={i} className="border-b border-slate-200 px-6 py-4 flex gap-6 items-center">
-              <div className="w-48">
-                <div className="text-sm font-medium text-slate-700 font-[Chalkboard]">Site Name {i}</div>
-              </div>
-              <div className="w-64">
-                <div className="flex flex-wrap gap-1">
-                  <span className="bg-slate-100 border border-slate-300 rounded px-2 py-1 text-xs text-slate-600 font-[Chalkboard]">
-                    Ruleset A
-                  </span>
-                  <span className="bg-slate-100 border border-slate-300 rounded px-2 py-1 text-xs text-slate-600 font-[Chalkboard]">
-                    Ruleset B
-                  </span>
-                </div>
-              </div>
-              <div className="w-64">
-                <span className="text-sm text-slate-400 font-[Chalkboard]">—</span>
-              </div>
-              <div className="w-32">
-                <span className="bg-slate-100 border border-slate-300 rounded px-2 py-1 text-xs text-slate-600 font-[Chalkboard] inline-block">
-                  Configured
-                </span>
-              </div>
-              <div className="w-32">
-                <span className="text-sm text-slate-400 font-[Chalkboard]">View details →</span>
-              </div>
-            </div>
-          ))}
         </div>
-      </>
-      ) : (
-        /* Single Site View - Timeline */
-        <div className="flex">
-          {/* Site List Sidebar */}
-          <div className="w-64 flex-shrink-0 pr-6 border-r border-slate-300 -ml-6">
-            <div className="flex border border-slate-300 rounded-lg overflow-hidden mb-3">
-              <button
-                onClick={() => setViewMode('bulk')}
-                className="px-4 py-2 text-sm font-medium font-[Chalkboard] bg-white text-slate-400"
+        
+        <div className="text-sm font-semibold text-slate-700 mb-3 font-[Chalkboard] pl-4">Sites</div>
+        <div className="border-t border-b border-slate-300 bg-white -mr-6">
+          {getFilteredSites().map((i) => {
+            const assignments = siteAssignments[i] || [];
+            
+            return (
+              <div
+                key={i}
+                onClick={() => setSelectedSite(i)}
+                className={`px-4 py-3 cursor-pointer border-b border-slate-100 last:border-b-0 transition-colors ${
+                  selectedSite === i
+                    ? 'bg-slate-100'
+                    : 'hover:bg-slate-50'
+                }`}
               >
-                Bulk view
-              </button>
-              <button
-                onClick={() => setViewMode('single')}
-                className="px-4 py-2 text-sm font-medium border-l border-slate-300 font-[Chalkboard] bg-slate-100 text-slate-700"
-              >
-                Single site
-              </button>
-            </div>
-            <div className="text-sm font-semibold text-slate-700 mb-3 font-[Chalkboard] pl-4">Sites</div>
-            <div className="border-t border-b border-slate-300 bg-white -mr-6">
-              {[1, 2, 3, 4, 5].map((i) => (
-                <div
-                  key={i}
-                  onClick={() => setSelectedSite(i)}
-                  className={`px-4 py-3 text-sm font-[Chalkboard] cursor-pointer border-b border-slate-100 last:border-b-0 transition-colors ${
+                <div className="flex items-center justify-between mb-1">
+                  <span className={`text-sm font-[Chalkboard] ${
                     selectedSite === i
-                      ? 'bg-slate-100 text-slate-700 font-medium'
-                      : 'text-slate-400 hover:bg-slate-50'
-                  }`}
-                >
-                  Site Name {i}
+                      ? 'text-slate-700 font-medium'
+                      : 'text-slate-400'
+                  }`}>
+                    Site Name {i}
+                  </span>
                 </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Assignment Timeline */}
-          <div className="flex-1 pl-6">
-            <div className="flex items-center justify-between">
-              <h4 className="text-lg font-semibold text-slate-700 font-[Chalkboard]">
-                Site Name {selectedSite}
-              </h4>
-              <div className="px-4 py-2 bg-slate-100 border border-slate-300 rounded text-slate-400 text-sm font-[Chalkboard]">
-                + Assign ruleset
-              </div>
-            </div>
-
-            <div className="space-y-3">
-              {[1, 2].map((i) => (
-                <div key={i} className="p-4 bg-white border border-slate-300 rounded-lg">
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-2">
-                        <div className="text-sm font-medium text-slate-700 font-[Chalkboard]">
-                          Ruleset Name {i}
-                        </div>
-                        <span className="bg-slate-100 border border-slate-300 rounded px-2 py-0.5 text-xs text-slate-600 font-[Chalkboard]">
-                          Active
-                        </span>
-                      </div>
-                      <div className="text-sm text-slate-400 font-[Chalkboard]">
-                        <span>From: 2024-01-01</span>
-                        <span className="ml-4">Until: —</span>
-                        <span className="ml-4 text-slate-600">Indefinite</span>
-                      </div>
-                    </div>
-                    <div className="w-6 h-6 bg-slate-100 border border-slate-300 rounded"></div>
+                {assignments.length > 0 && (
+                  <div className="flex flex-wrap gap-1 mt-1.5">
+                    {assignments.map((ruleset, idx) => (
+                      <span
+                        key={idx}
+                        className="text-xs bg-slate-100 border border-slate-300 rounded px-2 py-0.5 text-slate-600 font-[Chalkboard]"
+                      >
+                        {ruleset}
+                      </span>
+                    ))}
                   </div>
-                </div>
-              ))}
-            </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Assignment Timeline */}
+      <div className="flex-1 pl-6">
+        <div className="flex items-center justify-between">
+          <h4 className="text-lg font-semibold text-slate-700 font-[Chalkboard]">
+            Site Name {selectedSite}
+          </h4>
+          <div className="px-4 py-2 bg-slate-100 border border-slate-300 rounded text-slate-400 text-sm font-[Chalkboard]">
+            + Assign ruleset
           </div>
         </div>
-      )}
+
+        <div className="space-y-3 mt-4">
+          {(siteAssignments[selectedSite] || []).length > 0 ? (
+            siteAssignments[selectedSite].map((ruleset, i) => (
+              <div key={i} className="p-4 bg-white border border-slate-300 rounded-lg">
+                <div className="flex items-start justify-between">
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-2">
+                      <div className="text-sm font-medium text-slate-700 font-[Chalkboard]">
+                        {ruleset}
+                      </div>
+                      <span className="bg-slate-100 border border-slate-300 rounded px-2 py-0.5 text-xs text-slate-600 font-[Chalkboard]">
+                        Active
+                      </span>
+                    </div>
+                    <div className="text-sm text-slate-400 font-[Chalkboard]">
+                      <span>From: 2024-01-01</span>
+                      <span className="ml-4">Until: —</span>
+                      <span className="ml-4 text-slate-600">Indefinite</span>
+                    </div>
+                  </div>
+                  <div className="w-6 h-6 bg-slate-100 border border-slate-300 rounded"></div>
+                </div>
+              </div>
+            ))
+          ) : (
+            <div className="text-center py-12 bg-slate-50 rounded-lg">
+              <p className="text-slate-400 font-[Chalkboard]">
+                No ruleset assignments for this site.
+              </p>
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 }

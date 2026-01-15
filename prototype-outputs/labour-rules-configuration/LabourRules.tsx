@@ -1644,14 +1644,14 @@ function AssignmentsTab({
 }: AssignmentsTabProps) {
   const [selectedOrgUnit, setSelectedOrgUnit] = useState<string | null>(null);
   const [showAssignModal, setShowAssignModal] = useState(false);
-  const [viewMode, setViewMode] = useState<'bulk' | 'single'>('bulk');
+  const [statusFilter, setStatusFilter] = useState<string>('all');
 
-  // Set first site as default when switching to single view
+  // Set first site as default
   useEffect(() => {
-    if (viewMode === 'single' && !selectedOrgUnit && orgUnitAttributes.length > 0) {
+    if (!selectedOrgUnit && orgUnitAttributes.length > 0) {
       setSelectedOrgUnit(orgUnitAttributes[0].orgUnit.id);
     }
-  }, [viewMode, orgUnitAttributes, selectedOrgUnit]);
+  }, [orgUnitAttributes, selectedOrgUnit]);
 
   const getAssignmentsForOrgUnit = (orgUnitId: string) => {
     return assignments.filter((a) => a.orgUnitId === orgUnitId);
@@ -1702,247 +1702,165 @@ function AssignmentsTab({
     setShowAssignModal(false);
   };
 
+  // Filter sites based on status
+  const getFilteredSites = () => {
+    if (statusFilter === 'all') return orgUnitAttributes;
+    
+    return orgUnitAttributes.filter((ou) => {
+      const siteAssignments = getAssignmentsForOrgUnit(ou.orgUnit.id);
+      if (statusFilter === 'configured') {
+        return siteAssignments.length > 0;
+      }
+      if (statusFilter === 'no-rules') {
+        return siteAssignments.length === 0;
+      }
+      // Filter by assignment status
+      return siteAssignments.some((a) => a.status === statusFilter);
+    });
+  };
+
   return (
-    <div>
-      {viewMode === 'bulk' ? (
-        <>
-          {/* Header */}
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex border border-gray-200 rounded-lg overflow-hidden">
-              <button
-                onClick={() => setViewMode('bulk')}
-                className="px-4 py-2 text-sm font-medium bg-emerald-50 text-emerald-700"
-              >
-                Bulk view
-              </button>
-              <button
-                onClick={() => setViewMode('single')}
-                className="px-4 py-2 text-sm font-medium bg-white text-gray-600 hover:bg-gray-50"
-              >
-                Single site
-              </button>
-            </div>
-            <button
-              onClick={() => setShowAssignModal(true)}
-              className="ui-button ui-button--primary"
-            >
-              <PlusIcon className="mr-2" />
-              Assign ruleset
-            </button>
-          </div>
-        <div className="sonaui-tablewrapper--default">
-          <table className="sonaui-table sonaui-table--default">
-            <thead>
-              <tr>
-                <th className="sonaui-table__th">Site</th>
-                <th className="sonaui-table__th">Active assignments</th>
-                <th className="sonaui-table__th">Scheduled</th>
-                <th className="sonaui-table__th">Status</th>
-                <th className="sonaui-table__th w-24">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {orgUnitAttributes.map((ou) => {
-                const siteAssignments = getAssignmentsForOrgUnit(ou.orgUnit.id);
-                const activeAssignments = siteAssignments.filter(
-                  (a) => a.status === 'active'
-                );
-                const scheduledAssignments = siteAssignments.filter(
-                  (a) => a.status === 'scheduled'
-                );
-                const hasMissing = ou.missingRequired.length > 0;
-
-                return (
-                  <tr key={ou.orgUnit.id} className="sonaui-table__tr">
-                    <td className="sonaui-table__td">
-                      <div className="flex items-center">
-                        <span className="font-medium">{ou.orgUnit.name}</span>
-                        {hasMissing && (
-                          <span className="ml-2 text-amber-500" title="Missing attributes">
-                            <ExclamationTriangleIcon size="sm" />
-                          </span>
-                        )}
-                      </div>
-                    </td>
-                    <td className="sonaui-table__td">
-                      <div className="flex flex-wrap gap-1">
-                        {activeAssignments.length > 0 ? (
-                          activeAssignments.map((a) => (
-                            <span
-                              key={a.id}
-                              className="text-xs bg-emerald-50 text-emerald-700 px-2 py-1 rounded"
-                            >
-                              {a.rulesetName}
-                            </span>
-                          ))
-                        ) : (
-                          <span className="text-gray-400 text-sm">None</span>
-                        )}
-                      </div>
-                    </td>
-                    <td className="sonaui-table__td">
-                      <div className="flex flex-wrap gap-1">
-                        {scheduledAssignments.length > 0 ? (
-                          scheduledAssignments.map((a) => (
-                            <span
-                              key={a.id}
-                              className="text-xs bg-amber-50 text-amber-700 px-2 py-1 rounded"
-                            >
-                              {a.rulesetName}
-                              <span className="text-[10px] ml-1">
-                                from {a.effectiveFrom}
-                              </span>
-                            </span>
-                          ))
-                        ) : (
-                          <span className="text-gray-400 text-sm">—</span>
-                        )}
-                      </div>
-                    </td>
-                    <td className="sonaui-table__td">
-                      {siteAssignments.length > 0 ? (
-                        <span className="ui-badge ui-badge--success">Configured</span>
-                      ) : (
-                        <span className="ui-badge ui-badge--warning">No rules</span>
-                      )}
-                    </td>
-                    <td className="sonaui-table__td">
-                      <button
-                        onClick={() => {
-                          setSelectedOrgUnit(ou.orgUnit.id);
-                          setViewMode('single');
-                        }}
-                        className="text-sm text-emerald-600 hover:text-emerald-700"
-                      >
-                        View details →
-                      </button>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+    <div className="flex">
+      {/* Site List */}
+      <div className="w-64 flex-shrink-0 pr-6 border-r border-gray-200 -ml-6">
+        {/* Status Filter */}
+        <div className="mb-3 pl-4">
+          <select
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value)}
+            className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+          >
+            <option value="all">All sites</option>
+            <option value="configured">Configured</option>
+            <option value="no-rules">No rules</option>
+            <option value="active">Active assignments</option>
+            <option value="scheduled">Scheduled</option>
+          </select>
         </div>
-      </>
-      ) : (
-        // Single Site View - Timeline
-        <div className="flex">
-          {/* Site List */}
-          <div className="w-64 flex-shrink-0 pr-6 border-r border-gray-200 -ml-6">
-            <div className="flex border border-gray-200 rounded-lg overflow-hidden mb-3">
+        
+        <h4 className="text-sm font-semibold text-gray-900 mb-3 pl-4">Sites</h4>
+        <div className="border-t border-b border-gray-200 bg-white -mr-6">
+          {getFilteredSites().map((ou) => {
+            const siteAssignments = getAssignmentsForOrgUnit(ou.orgUnit.id);
+            const activeAssignments = siteAssignments.filter((a) => a.status === 'active');
+            
+            return (
               <button
-                onClick={() => setViewMode('bulk')}
-                className="px-4 py-2 text-sm font-medium bg-white text-gray-600 hover:bg-gray-50"
+                key={ou.orgUnit.id}
+                onClick={() => setSelectedOrgUnit(ou.orgUnit.id)}
+                className={`w-full text-left px-4 py-3 border-b border-gray-100 last:border-b-0 transition-colors ${
+                  selectedOrgUnit === ou.orgUnit.id
+                    ? 'bg-emerald-50'
+                    : 'hover:bg-gray-50'
+                }`}
               >
-                Bulk view
-              </button>
-              <button
-                onClick={() => setViewMode('single')}
-                className="px-4 py-2 text-sm font-medium bg-emerald-50 text-emerald-700"
-              >
-                Single site
-              </button>
-            </div>
-            <h4 className="text-sm font-semibold text-gray-900 mb-3 pl-4">Sites</h4>
-            <div className="border-t border-b border-gray-200 bg-white -mr-6">
-              {orgUnitAttributes.map((ou) => (
-                <button
-                  key={ou.orgUnit.id}
-                  onClick={() => setSelectedOrgUnit(ou.orgUnit.id)}
-                  className={`w-full text-left px-4 py-3 text-sm border-b border-gray-100 last:border-b-0 transition-colors ${
+                <div className="flex items-center justify-between mb-1">
+                  <span className={`text-sm font-medium ${
                     selectedOrgUnit === ou.orgUnit.id
-                      ? 'bg-emerald-50 text-emerald-700 font-medium'
-                      : 'text-gray-700 hover:bg-gray-50'
-                  }`}
-                >
-                  {ou.orgUnit.name}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Assignment Timeline */}
-          <div className="flex-1 pl-6">
-            {selectedOrgUnit ? (
-              <div>
-                <div className="flex items-center justify-between">
-                  <h4 className="text-lg font-semibold text-gray-900">
-                    {
-                      orgUnitAttributes.find((ou) => ou.orgUnit.id === selectedOrgUnit)
-                        ?.orgUnit.name
-                    }
-                  </h4>
-                  <button
-                    onClick={() => setShowAssignModal(true)}
-                    className="ui-button ui-button--primary"
-                  >
-                    <PlusIcon className="mr-2" />
-                    Assign ruleset
-                  </button>
+                      ? 'text-emerald-700'
+                      : 'text-gray-900'
+                  }`}>
+                    {ou.orgUnit.name}
+                  </span>
                 </div>
-                
-                <div className="space-y-3">
-                  {getAssignmentsForOrgUnit(selectedOrgUnit).length > 0 ? (
-                    getAssignmentsForOrgUnit(selectedOrgUnit).map((assignment) => (
-                      <div
-                        key={assignment.id}
-                        className="p-4 bg-white border border-gray-200 rounded-lg"
+                {activeAssignments.length > 0 && (
+                  <div className="flex flex-wrap gap-1 mt-1.5">
+                    {activeAssignments.map((a) => (
+                      <span
+                        key={a.id}
+                        className="text-xs bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded"
                       >
-                        <div className="flex items-start justify-between">
-                          <div>
-                            <div className="flex items-center gap-2">
-                              <h5 className="font-medium text-gray-900">
-                                {assignment.rulesetName}
-                              </h5>
-                              {getStatusBadge(assignment.status)}
-                            </div>
-                            <div className="mt-2 text-sm text-gray-500">
-                              <span>From: {assignment.effectiveFrom}</span>
-                              {assignment.effectiveUntil && (
-                                <span className="ml-4">
-                                  Until: {assignment.effectiveUntil}
-                                </span>
-                              )}
-                              {!assignment.effectiveUntil && (
-                                <span className="ml-4 text-emerald-600">
-                                  Indefinite
-                                </span>
-                              )}
-                            </div>
-                          </div>
-                          <button
-                            onClick={() => handleRemoveAssignment(assignment.id)}
-                            className="p-1.5 text-gray-400 hover:text-red-600"
-                            title="Remove assignment"
-                          >
-                            <TrashIcon size="sm" />
-                          </button>
+                        {a.rulesetName}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Assignment Timeline */}
+      <div className="flex-1 pl-6">
+        {selectedOrgUnit ? (
+          <div>
+            <div className="flex items-center justify-between">
+              <h4 className="text-lg font-semibold text-gray-900">
+                {
+                  orgUnitAttributes.find((ou) => ou.orgUnit.id === selectedOrgUnit)
+                    ?.orgUnit.name
+                }
+              </h4>
+              <button
+                onClick={() => setShowAssignModal(true)}
+                className="ui-button ui-button--primary"
+              >
+                <PlusIcon className="mr-2" />
+                Assign ruleset
+              </button>
+            </div>
+            
+            <div className="space-y-3 mt-4">
+              {getAssignmentsForOrgUnit(selectedOrgUnit).length > 0 ? (
+                getAssignmentsForOrgUnit(selectedOrgUnit).map((assignment) => (
+                  <div
+                    key={assignment.id}
+                    className="p-4 bg-white border border-gray-200 rounded-lg"
+                  >
+                    <div className="flex items-start justify-between">
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <h5 className="font-medium text-gray-900">
+                            {assignment.rulesetName}
+                          </h5>
+                          {getStatusBadge(assignment.status)}
+                        </div>
+                        <div className="mt-2 text-sm text-gray-500">
+                          <span>From: {assignment.effectiveFrom}</span>
+                          {assignment.effectiveUntil && (
+                            <span className="ml-4">
+                              Until: {assignment.effectiveUntil}
+                            </span>
+                          )}
+                          {!assignment.effectiveUntil && (
+                            <span className="ml-4 text-emerald-600">
+                              Indefinite
+                            </span>
+                          )}
                         </div>
                       </div>
-                    ))
-                  ) : (
-                    <div className="text-center py-12 bg-gray-50 rounded-lg">
-                      <p className="text-gray-500">
-                        No ruleset assignments for this site.
-                      </p>
                       <button
-                        onClick={() => setShowAssignModal(true)}
-                        className="mt-4 text-sm text-emerald-600 hover:text-emerald-700 font-medium"
+                        onClick={() => handleRemoveAssignment(assignment.id)}
+                        className="p-1.5 text-gray-400 hover:text-red-600"
+                        title="Remove assignment"
                       >
-                        + Assign a ruleset
+                        <TrashIcon size="sm" />
                       </button>
                     </div>
-                  )}
+                  </div>
+                ))
+              ) : (
+                <div className="text-center py-12 bg-gray-50 rounded-lg">
+                  <p className="text-gray-500">
+                    No ruleset assignments for this site.
+                  </p>
+                  <button
+                    onClick={() => setShowAssignModal(true)}
+                    className="mt-4 text-sm text-emerald-600 hover:text-emerald-700 font-medium"
+                  >
+                    + Assign a ruleset
+                  </button>
                 </div>
-              </div>
-            ) : (
-              <div className="flex items-center justify-center h-full text-gray-500">
-                <p>Select a site to view its assignments</p>
-              </div>
-            )}
+              )}
+            </div>
           </div>
-        </div>
-      )}
+        ) : (
+          <div className="flex items-center justify-center h-full text-gray-500">
+            <p>Select a site to view its assignments</p>
+          </div>
+        )}
+      </div>
 
       {/* Assign Modal */}
       {showAssignModal && (
