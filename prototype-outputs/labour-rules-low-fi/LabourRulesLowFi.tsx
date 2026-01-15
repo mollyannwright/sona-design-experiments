@@ -248,12 +248,12 @@ function RulesetsWireframe() {
       {/* Left Sidebar - Rulesets List */}
       <div className="w-80 flex-shrink-0 pr-6 border-r border-slate-300">
         <div className="flex items-center justify-between mb-4">
-          <div className="text-sm font-semibold text-slate-700 font-[Chalkboard]">Rulesets</div>
+          <div className="text-sm font-semibold text-slate-700 font-[Chalkboard] pl-4">Rulesets</div>
           <div className="text-sm text-slate-400 font-[Chalkboard]">+ New</div>
         </div>
 
         {/* Ruleset Rows */}
-        <div className="border-t border-b border-slate-300 bg-white -mr-6">
+        <div className="border-t border-b border-slate-300 bg-white -ml-0 -mr-6">
           {[1, 2, 3].map((i) => (
             <div
               key={i}
@@ -479,8 +479,8 @@ function AssignmentsWireframe() {
                 Single site
               </button>
             </div>
-            <div className="text-sm font-semibold text-slate-700 mb-3 font-[Chalkboard]">Sites</div>
-            <div className="border-t border-b border-slate-300 bg-white -mr-6">
+            <div className="text-sm font-semibold text-slate-700 mb-3 font-[Chalkboard] pl-4">Sites</div>
+            <div className="border-t border-b border-slate-300 bg-white -ml-0 -mr-6">
               {[1, 2, 3, 4, 5].map((i) => (
                 <div
                   key={i}
