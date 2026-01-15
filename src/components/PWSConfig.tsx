@@ -357,53 +357,55 @@ const CarePackageTab = ({
         <h3 className="text-base font-medium text-gray-900">Care package records</h3>
       </div>
 
-      {/* Table */}
-      <table className="w-full">
-        <thead>
-          <tr className="bg-slate-100 border-y border-gray-200">
-            <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-              Care Package Name
-            </th>
-            <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-              Status
-            </th>
-            <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-              Effective Date
-            </th>
-            <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-              End Date
-            </th>
-            <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-              Package Code
-            </th>
-            <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-              Primary Service
-            </th>
-            <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-              Residency Address
-            </th>
-          </tr>
-        </thead>
-        <tbody className="divide-y divide-gray-100">
-          {pws.carePackages.map((pkg) => (
-            <tr
-              key={pkg.id}
-              className="hover:bg-gray-50 transition-colors cursor-pointer"
-              onClick={() => onViewPackage(pkg)}
-            >
-              <td className="px-6 py-4 text-sm text-gray-900">{pkg.name}</td>
-              <td className="px-6 py-4">
-                <StatusBadge status={pkg.status} />
-              </td>
-              <td className="px-6 py-4 text-sm text-gray-700">{pkg.effectiveDate}</td>
-              <td className="px-6 py-4 text-sm text-gray-700">{pkg.endDate}</td>
-              <td className="px-6 py-4 text-sm text-gray-700">{pkg.packageCode}</td>
-              <td className="px-6 py-4 text-sm text-gray-700">{pkg.primaryService}</td>
-              <td className="px-6 py-4 text-sm text-gray-700">{pkg.residencyAddress}</td>
+      {/* Table with padding */}
+      <div className="px-6 pb-6">
+        <table className="w-full">
+          <thead>
+            <tr className="bg-slate-100 border-y border-gray-200">
+              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                Care Package Name
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                Status
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                Effective Date
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                End Date
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                Package Code
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                Primary Service
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                Residency Address
+              </th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody className="divide-y divide-gray-100">
+            {pws.carePackages.map((pkg) => (
+              <tr
+                key={pkg.id}
+                className="hover:bg-gray-50 transition-colors cursor-pointer"
+                onClick={() => onViewPackage(pkg)}
+              >
+                <td className="px-6 py-4 text-sm text-gray-900">{pkg.name}</td>
+                <td className="px-6 py-4">
+                  <StatusBadge status={pkg.status} />
+                </td>
+                <td className="px-6 py-4 text-sm text-gray-700">{pkg.effectiveDate}</td>
+                <td className="px-6 py-4 text-sm text-gray-700">{pkg.endDate}</td>
+                <td className="px-6 py-4 text-sm text-gray-700">{pkg.packageCode}</td>
+                <td className="px-6 py-4 text-sm text-gray-700">{pkg.primaryService}</td>
+                <td className="px-6 py-4 text-sm text-gray-700">{pkg.residencyAddress}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };
@@ -428,23 +430,28 @@ const CarePackageDetail = ({
       </button>
 
       {/* Main Card */}
-      <div className="bg-white rounded-lg border border-gray-200 p-6">
+      <div className="bg-white rounded-lg border border-gray-200">
         {/* Package Header */}
-        <div className="flex items-center gap-3 mb-6">
-          <h2 className="text-xl font-semibold text-gray-900">{pkg.name}</h2>
-          <StatusBadge status={pkg.status} />
+        <div className="px-6 py-5">
+          <div className="flex items-center gap-3">
+            <h2 className="text-xl font-semibold text-gray-900">{pkg.name}</h2>
+            <StatusBadge status={pkg.status} />
+          </div>
         </div>
 
         {/* Summary of Changes (for Pending packages) */}
         {pkg.status === 'Pending' && pkg.summaryOfChanges && (
-          <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-6">
-            <h4 className="text-sm font-semibold text-amber-800 mb-1">Summary of changes</h4>
-            <p className="text-sm text-amber-700">{pkg.summaryOfChanges}</p>
+          <div className="px-6 mb-6">
+            <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
+              <h4 className="text-sm font-semibold text-amber-800 mb-1">Summary of changes</h4>
+              <p className="text-sm text-amber-700">{pkg.summaryOfChanges}</p>
+            </div>
           </div>
         )}
 
         {/* Package Details Grid */}
-        <div className="grid grid-cols-5 gap-6 mb-6 pb-6 border-b border-gray-200">
+        <div className="px-6 pb-6 mb-6 border-b border-gray-200">
+          <div className="grid grid-cols-5 gap-6">
           <div>
             <div className="text-xs text-gray-500 mb-1">Effective date</div>
             <div className="text-sm font-medium text-gray-900">{pkg.effectiveDate}</div>
@@ -465,86 +472,93 @@ const CarePackageDetail = ({
             <div className="text-xs text-gray-500 mb-1">Residency address</div>
             <div className="text-sm font-medium text-gray-900">{pkg.residencyAddress}</div>
           </div>
+          </div>
         </div>
 
         {/* Specified Commissioned Hours */}
-        <div className="mb-6">
+        <div className="px-6 pb-6 mb-6">
           <h3 className="text-base font-medium text-gray-900 mb-4">Specified commissioned hours</h3>
-          <table className="w-full">
-            <thead>
-              <tr className="border-b border-gray-200">
-                <th className="py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                  Hour Type
-                </th>
-                <th className="py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                  Hours Amount
-                </th>
-                <th className="py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                  Carer Ratio
-                </th>
-                <th className="py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                  Applied When
-                </th>
-                <th className="py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                  Hour Banking
-                </th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-100">
-              {pkg.specifiedHours.map((hour, idx) => (
-                <tr key={idx}>
-                  <td className="py-4 text-sm text-gray-900">{hour.hourType}</td>
-                  <td className="py-4 text-sm text-gray-700">{hour.hoursAmount}</td>
-                  <td className="py-4 text-sm text-gray-700">{hour.carerRatio}</td>
-                  <td className="py-4 text-sm text-gray-700">{hour.appliedWhen}</td>
-                  <td className="py-4 text-sm text-gray-700">{hour.hourBanking}</td>
+          <div className="overflow-x-auto border border-gray-200 rounded">
+            <table className="w-full border-collapse">
+              <thead>
+                <tr className="bg-slate-100">
+                  <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200">
+                    Hour Type
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200">
+                    Hours Amount
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200">
+                    Carer Ratio
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200">
+                    Applied When
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200">
+                    Hour Banking
+                  </th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-100">
+                {pkg.specifiedHours.map((hour, idx) => (
+                  <tr key={idx} className="hover:bg-gray-50">
+                    <td className="px-6 py-4 text-sm text-gray-900">{hour.hourType}</td>
+                    <td className="px-6 py-4 text-sm text-gray-700">{hour.hoursAmount}</td>
+                    <td className="px-6 py-4 text-sm text-gray-700">{hour.carerRatio}</td>
+                    <td className="px-6 py-4 text-sm text-gray-700">{hour.appliedWhen}</td>
+                    <td className="px-6 py-4 text-sm text-gray-700">{hour.hourBanking}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
 
         {/* Shared Commissioned Hours */}
-        <div className="mb-6">
+        <div className="px-6 pb-6 mb-6">
           <h3 className="text-base font-medium text-gray-900 mb-4">Shared commissioned hours</h3>
-          <table className="w-full">
-            <thead>
-              <tr className="border-b border-gray-200">
-                <th className="py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                  Hour Type
-                </th>
-                <th className="py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                  Hours Amount
-                </th>
-                <th className="py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                  Carer Ratio
-                </th>
-                <th className="py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                  Applied When
-                </th>
-                <th className="py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                  Hour Banking
-                </th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-100">
-              {pkg.sharedHours.map((hour, idx) => (
-                <tr key={idx}>
-                  <td className="py-4 text-sm text-gray-900">{hour.hourType}</td>
-                  <td className="py-4 text-sm text-gray-700">{hour.hoursAmount}</td>
-                  <td className="py-4 text-sm text-gray-700">{hour.carerRatio}</td>
-                  <td className="py-4 text-sm text-gray-700">{hour.appliedWhen}</td>
-                  <td className="py-4 text-sm text-gray-700">{hour.hourBanking}</td>
+          <div className="overflow-x-auto border border-gray-200 rounded">
+            <table className="w-full border-collapse">
+              <thead>
+                <tr className="bg-slate-100">
+                  <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200">
+                    Hour Type
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200">
+                    Hours Amount
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200">
+                    Carer Ratio
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200">
+                    Applied When
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200">
+                    Hour Banking
+                  </th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-100">
+                {pkg.sharedHours.map((hour, idx) => (
+                  <tr key={idx} className="hover:bg-gray-50">
+                    <td className="px-6 py-4 text-sm text-gray-900">{hour.hourType}</td>
+                    <td className="px-6 py-4 text-sm text-gray-700">{hour.hoursAmount}</td>
+                    <td className="px-6 py-4 text-sm text-gray-700">{hour.carerRatio}</td>
+                    <td className="px-6 py-4 text-sm text-gray-700">{hour.appliedWhen}</td>
+                    <td className="px-6 py-4 text-sm text-gray-700">{hour.hourBanking}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
 
         {/* Footer */}
-        <div className="text-sm text-gray-500 space-y-1 pt-4 border-t border-gray-200">
-          <p>Created by: {pkg.createdBy} on {pkg.createdAt}</p>
-          {pkg.reasonForChange && <p>Reason for change: {pkg.reasonForChange}</p>}
+        <div className="px-6 py-4 border-t border-gray-200">
+          <div className="text-sm text-gray-500 space-y-1">
+            <p>Created by: {pkg.createdBy} on {pkg.createdAt}</p>
+            {pkg.reasonForChange && <p>Reason for change: {pkg.reasonForChange}</p>}
+          </div>
         </div>
       </div>
     </div>
@@ -560,43 +574,45 @@ const OccupancyTab = ({ pws }: { pws: PWS }) => {
         <h3 className="text-base font-medium text-gray-900">Out of service records</h3>
       </div>
 
-      {/* Table */}
-      <table className="w-full">
-        <thead>
-          <tr className="bg-slate-100 border-y border-gray-200">
-            <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-              Out of Service Date
-            </th>
-            <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-              Expected Return Date
-            </th>
-            <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-              Reason
-            </th>
-            <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-              Impact on Total Commissioned Hours (Between Selected Dates)
-            </th>
-            <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-              Notes
-            </th>
-            <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-              Hour Distribution
-            </th>
-          </tr>
-        </thead>
-        <tbody className="divide-y divide-gray-100">
-          {pws.outOfServiceRecords.map((record) => (
-            <tr key={record.id} className="hover:bg-gray-50 transition-colors">
-              <td className="px-6 py-4 text-sm text-gray-900">{record.outOfServiceDate}</td>
-              <td className="px-6 py-4 text-sm text-gray-700">{record.expectedReturnDate}</td>
-              <td className="px-6 py-4 text-sm text-gray-700">{record.reason}</td>
-              <td className="px-6 py-4 text-sm text-gray-700">{record.impactOnHours}</td>
-              <td className="px-6 py-4 text-sm text-gray-500">{record.notes}</td>
-              <td className="px-6 py-4 text-sm text-gray-700">{record.hourDistribution}</td>
+      {/* Table with padding */}
+      <div className="px-6 pb-6">
+        <table className="w-full">
+          <thead>
+            <tr className="bg-slate-100 border-y border-gray-200">
+              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                Out of Service Date
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                Expected Return Date
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                Reason
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                Impact on Total Commissioned Hours (Between Selected Dates)
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                Notes
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                Hour Distribution
+              </th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody className="divide-y divide-gray-100">
+            {pws.outOfServiceRecords.map((record) => (
+              <tr key={record.id} className="hover:bg-gray-50 transition-colors">
+                <td className="px-6 py-4 text-sm text-gray-900">{record.outOfServiceDate}</td>
+                <td className="px-6 py-4 text-sm text-gray-700">{record.expectedReturnDate}</td>
+                <td className="px-6 py-4 text-sm text-gray-700">{record.reason}</td>
+                <td className="px-6 py-4 text-sm text-gray-700">{record.impactOnHours}</td>
+                <td className="px-6 py-4 text-sm text-gray-500">{record.notes}</td>
+                <td className="px-6 py-4 text-sm text-gray-700">{record.hourDistribution}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };
@@ -733,9 +749,22 @@ const OutOfServiceModal = ({
           </button>
           <button
             onClick={() => {
+              // Format dates properly
+              const formatDateTime = (dateStr: string, timeStr: string): string => {
+                if (!dateStr || !timeStr) return '';
+                const [year, month, day] = dateStr.split('-');
+                const formattedDate = `${day}/${month}/${year}`;
+                const [hours, minutes] = timeStr.split(':');
+                const hour24 = parseInt(hours, 10);
+                const hour12 = hour24 === 0 ? 12 : hour24 > 12 ? hour24 - 12 : hour24;
+                const ampm = hour24 >= 12 ? 'PM' : 'AM';
+                const formattedTime = `${hour12}:${minutes} ${ampm}`;
+                return `${formattedDate} @ ${formattedTime}`;
+              };
+
               onSubmit({
-                outOfServiceDate: `${formData.fromDate} @ ${formData.fromTime}`,
-                expectedReturnDate: `${formData.toDate} @ ${formData.toTime}`,
+                outOfServiceDate: formatDateTime(formData.fromDate, formData.fromTime),
+                expectedReturnDate: formatDateTime(formData.toDate, formData.toTime),
                 reason: formData.reason,
                 notes: formData.notes || '--',
                 hourDistribution: 'Auto',
@@ -1518,6 +1547,14 @@ export const PWSConfig = () => {
     });
   };
 
+  const handleLogBackInService = () => {
+    setPws({
+      ...pws,
+      status: 'In service',
+      expectedReturn: undefined,
+    });
+  };
+
   // Show Add Package Wizard
   if (showAddPackage) {
     return (
@@ -1668,20 +1705,29 @@ export const PWSConfig = () => {
             <div className="px-6 py-4 bg-white border-b border-gray-200">
               <div className="flex items-center justify-between">
                 <p className="text-sm text-gray-700">
-                  Current status:{' '}
-                  <span className={pws.status === 'In service' ? 'text-gray-900' : 'text-red-600 font-medium'}>
-                    {pws.status}
-                  </span>
-                  {pws.status === 'Out of service' && pws.expectedReturn && (
-                    <span className="text-gray-500"> (Expected return: {pws.expectedReturn})</span>
+                  {pws.status === 'In service' ? (
+                    <>Current status: <span className="text-gray-900">{pws.status}</span></>
+                  ) : (
+                    <>
+                      Current status: <span className="text-red-600 font-medium">{pws.status}</span>
+                      {pws.expectedReturn && (
+                        <span className="text-gray-500"> (Expected return: {pws.expectedReturn})</span>
+                      )}
+                    </>
                   )}
                 </p>
                 <button
-                  onClick={() => setShowOutOfServiceModal(true)}
+                  onClick={() => {
+                    if (pws.status === 'In service') {
+                      setShowOutOfServiceModal(true);
+                    } else {
+                      handleLogBackInService();
+                    }
+                  }}
                   className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors shadow-sm ${
                     pws.status === 'In service'
                       ? 'text-emerald-700 bg-white border border-gray-200 hover:bg-gray-50'
-                      : 'bg-emerald-600 text-white hover:bg-emerald-700 border border-emerald-600'
+                      : 'bg-red-600 text-white hover:bg-red-700 border border-red-600'
                   }`}
                 >
                   {pws.status === 'In service' ? 'Log out of service' : 'Log back in service'}
