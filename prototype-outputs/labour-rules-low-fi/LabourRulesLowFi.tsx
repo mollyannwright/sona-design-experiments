@@ -410,14 +410,15 @@ function AssignmentsWireframe() {
     <div className="flex">
       {/* Site List Sidebar */}
       <div className="w-64 flex-shrink-0 pr-6 border-r border-slate-300 -ml-6">
+        <div className="text-sm font-semibold text-slate-700 mb-3 font-[Chalkboard] pl-4">Sites</div>
+        
         {/* Status Filter */}
         <div className="mb-3 pl-4">
+          <div className="text-xs text-slate-500 mb-1 font-[Chalkboard]">Filter sites</div>
           <div className="w-full px-3 py-2 text-sm border border-slate-300 rounded bg-white text-slate-400 font-[Chalkboard]">
             All sites
           </div>
         </div>
-        
-        <div className="text-sm font-semibold text-slate-700 mb-3 font-[Chalkboard] pl-4">Sites</div>
         <div className="border-t border-b border-slate-300 bg-white -mr-6">
           {getFilteredSites().map((i) => {
             const assignments = siteAssignments[i] || [];

@@ -1723,8 +1723,11 @@ function AssignmentsTab({
     <div className="flex">
       {/* Site List */}
       <div className="w-64 flex-shrink-0 pr-6 border-r border-gray-200 -ml-6">
+        <h4 className="text-sm font-semibold text-gray-900 mb-3 pl-4">Sites</h4>
+        
         {/* Status Filter */}
         <div className="mb-3 pl-4">
+          <label className="block text-xs text-gray-500 mb-1">Filter sites</label>
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
@@ -1737,8 +1740,6 @@ function AssignmentsTab({
             <option value="scheduled">Scheduled</option>
           </select>
         </div>
-        
-        <h4 className="text-sm font-semibold text-gray-900 mb-3 pl-4">Sites</h4>
         <div className="border-t border-b border-gray-200 bg-white -mr-6">
           {getFilteredSites().map((ou) => {
             const siteAssignments = getAssignmentsForOrgUnit(ou.orgUnit.id);
