@@ -35,6 +35,18 @@ export interface OutOfServiceRecord {
   hourDistribution: 'Auto' | 'Manual';
 }
 
+export interface Shift {
+  id: string;
+  day: string;
+  startTime: string;
+  endTime: string;
+  duration: string;
+  careType: 'Specified care (1:1)' | 'Shared care (1:4)';
+  employeeName: string;
+  isCompliant: boolean;
+  status?: 'non-compliant';
+}
+
 export interface PWS {
   id: string;
   name: string;
@@ -51,6 +63,7 @@ export interface PWS {
   sharedHoursRemaining: number;
   carePackages: CarePackage[];
   outOfServiceRecords: OutOfServiceRecord[];
+  weeklyShifts?: Shift[];
 }
 
 export interface Service {
@@ -244,6 +257,63 @@ export const mockPWS: PWS = {
       impactOnHours: -10,
       notes: '--',
       hourDistribution: 'Auto',
+    },
+  ],
+  weeklyShifts: [
+    // Monday 6
+    {
+      id: 'shift-001',
+      day: 'Mon 6',
+      startTime: '08:00',
+      endTime: '17:30',
+      duration: '9h',
+      careType: 'Specified care (1:1)',
+      employeeName: 'Sarah Thompson',
+      isCompliant: true,
+    },
+    {
+      id: 'shift-002',
+      day: 'Mon 6',
+      startTime: '14:00',
+      endTime: '22:30',
+      duration: '8h 30m',
+      careType: 'Shared care (1:4)',
+      employeeName: 'Michael Chen',
+      isCompliant: true,
+    },
+    // Tuesday 7
+    {
+      id: 'shift-003',
+      day: 'Tue 7',
+      startTime: '09:00',
+      endTime: '19:50',
+      duration: '10h 20m',
+      careType: 'Shared care (1:4)',
+      employeeName: 'Angela Sidhu',
+      isCompliant: false,
+      status: 'non-compliant',
+    },
+    // Wednesday 8
+    {
+      id: 'shift-004',
+      day: 'Wed 8',
+      startTime: '09:30',
+      endTime: '14:30',
+      duration: '5h',
+      careType: 'Specified care (1:1)',
+      employeeName: 'Carolin Fisher',
+      isCompliant: true,
+    },
+    // Thursday 9
+    {
+      id: 'shift-005',
+      day: 'Thu 9',
+      startTime: '08:00',
+      endTime: '16:00',
+      duration: '8h',
+      careType: 'Shared care (1:4)',
+      employeeName: 'James Wilson',
+      isCompliant: true,
     },
   ],
 };

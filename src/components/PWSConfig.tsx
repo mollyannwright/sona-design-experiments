@@ -13,6 +13,7 @@ import {
   type CarePackage,
   type OutOfServiceRecord,
   type CommissionedHour,
+  type Shift,
 } from '../data/pwsConfigData';
 
 // Icons
@@ -292,26 +293,180 @@ const MetricCard = ({
   </div>
 );
 
+// Chevron Down Icon
+const ChevronDownIcon = ({ className }: { className?: string }) => (
+  <svg className={className || "w-5 h-5"} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+  </svg>
+);
+
+// User Icon for shift blocks
+const UserIconSmall = () => (
+  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+  </svg>
+);
+
+// Users Icon for shared care
+const UsersIconSmall = () => (
+  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+  </svg>
+);
+
+// Check Icon
+const CheckIconSmall = () => (
+  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+  </svg>
+);
+
+// X Icon
+const XIconSmall = () => (
+  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+  </svg>
+);
+
 // Overview Tab Component
 const OverviewTab = ({ pws }: { pws: PWS }) => {
   const [dateRange] = useState('Jan 5 - Jan 11');
+  const [isShiftsOpen, setIsShiftsOpen] = useState(false);
+
+  const days = ['Mon 6', 'Tue 7', 'Wed 8', 'Thu 9', 'Fri 10', 'Sat 11', 'Sun 12'];
+  const shiftsByDay = pws.weeklyShifts?.reduce((acc, shift) => {
+    if (!acc[shift.day]) acc[shift.day] = [];
+    acc[shift.day].push(shift);
+    return acc;
+  }, {} as Record<string, Shift[]>) || {};
 
   return (
     <div className="space-y-6">
-      {/* Week Selector */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <ChevronLeftIcon />
-          <span className="text-sm font-medium text-gray-900">This week's shifts</span>
-          <button className="flex items-center gap-2 px-3 py-1.5 border border-gray-200 rounded-lg text-sm">
-            {dateRange}
-            <CalendarIcon />
+      {/* Week Selector Accordion */}
+      <div className="bg-white rounded border border-gray-200">
+        {/* Accordion Header */}
+        <button
+          onClick={() => setIsShiftsOpen(!isShiftsOpen)}
+          className="w-full flex items-center justify-between px-4 py-4 hover:bg-gray-50 transition-colors"
+        >
+          <div className="flex items-center gap-3">
+            <div className={`transition-transform ${isShiftsOpen ? 'rotate-180' : ''}`}>
+              <ChevronDownIcon className="w-5 h-5 text-gray-900" />
+            </div>
+            <span className="text-sm font-medium text-gray-900">This week's shifts</span>
+            <button 
+              onClick={(e) => e.stopPropagation()}
+              className="flex items-center gap-2 px-3 py-1.5 border border-gray-200 rounded text-sm"
+            >
+              {dateRange}
+              <CalendarIcon />
+            </button>
+          </div>
+          <button 
+            onClick={(e) => {
+              e.stopPropagation();
+              // Handle view in roster
+            }}
+            className="flex items-center gap-1 text-sm text-gray-600 hover:text-gray-900"
+          >
+            View in roster
+            <ChevronRightIcon />
           </button>
-        </div>
-        <button className="flex items-center gap-1 text-sm text-gray-600 hover:text-gray-900">
-          View in roster
-          <ChevronRightIcon />
         </button>
+
+        {/* Accordion Content - Weekly Schedule */}
+        {isShiftsOpen && (
+          <div className="border-t border-gray-200 p-4">
+            <div className="grid grid-cols-7 gap-0 border border-gray-200 rounded overflow-hidden">
+              {days.map((day) => {
+                const isToday = day === 'Thu 9';
+                const dayShifts = shiftsByDay[day] || [];
+                
+                return (
+                  <div 
+                    key={day} 
+                    className={`flex flex-col gap-3 p-3 border-r border-gray-200 last:border-r-0 ${isToday ? 'bg-blue-50' : ''}`}
+                  >
+                    {/* Day Header */}
+                    <div className="text-center mb-2 min-h-[30px] flex items-center justify-center">
+                      {isToday ? (
+                        <span className="text-sm font-semibold text-white bg-indigo-600 px-4 py-1 rounded-full">
+                          {day}
+                        </span>
+                      ) : (
+                        <span className="text-sm font-semibold text-gray-900">{day}</span>
+                      )}
+                    </div>
+
+                    {/* Shift Blocks */}
+                    <div className="flex flex-col gap-3">
+                      {dayShifts.map((shift) => (
+                        <div
+                          key={shift.id}
+                          className={`rounded-md p-2 flex flex-col gap-1 ${
+                            shift.isCompliant
+                              ? 'bg-blue-600 text-white'
+                              : 'bg-white border-2 border-red-600 text-blue-600'
+                          }`}
+                        >
+                          {/* Shift Header */}
+                          <div className="flex items-start justify-between mb-1">
+                            <div>
+                              <div className={`text-xs font-semibold ${shift.isCompliant ? 'text-white' : 'text-blue-600'}`}>
+                                {shift.startTime}-{shift.endTime}
+                              </div>
+                              <div className={`text-[11px] ${shift.isCompliant ? 'text-white' : 'text-blue-600'}`}>
+                                {shift.duration}
+                              </div>
+                            </div>
+                            <div className={`flex items-center gap-1 ${shift.isCompliant ? 'text-white' : 'text-red-600'}`}>
+                              {shift.isCompliant ? (
+                                <div className="w-3.5 h-3.5 rounded-full bg-white/20 flex items-center justify-center">
+                                  <CheckIconSmall />
+                                </div>
+                              ) : (
+                                <div className="w-3.5 h-3.5 rounded-full bg-red-600 flex items-center justify-center text-white">
+                                  <XIconSmall />
+                                </div>
+                              )}
+                              {shift.careType.includes('Shared') && (
+                                <UsersIconSmall />
+                              )}
+                            </div>
+                          </div>
+
+                          {/* Care Type */}
+                          <div className={`text-[11px] font-medium ${shift.isCompliant ? 'text-white' : 'text-blue-600'}`}>
+                            {shift.careType}
+                          </div>
+
+                          {/* Employee */}
+                          <div className="flex items-center gap-1.5 mt-1">
+                            <div className={`w-5 h-5 rounded-full flex items-center justify-center ${
+                              shift.isCompliant ? 'bg-white/20' : 'bg-gray-200'
+                            }`}>
+                              <UserIconSmall className={shift.isCompliant ? 'text-white' : 'text-gray-500'} />
+                            </div>
+                            <div className={`text-[10px] ${shift.isCompliant ? 'text-white' : 'text-blue-600'}`}>
+                              {shift.employeeName}
+                            </div>
+                          </div>
+
+                          {/* Non-compliant label */}
+                          {!shift.isCompliant && (
+                            <div className="text-[10px] text-red-600 font-medium mt-1">
+                              Non-compliant
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Metrics Cards - Row 1 */}
@@ -359,12 +514,13 @@ const CarePackageTab = ({
 
       {/* Table with padding */}
       <div className="px-6 pb-6">
-        <table className="w-full">
-          <thead>
-            <tr className="bg-slate-100 border-y border-gray-200">
-              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                Care Package Name
-              </th>
+        <div className="border border-gray-200 rounded overflow-hidden">
+          <table className="w-full">
+            <thead>
+              <tr className="bg-slate-100 border-b border-gray-200">
+                <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                  Care Package Name
+                </th>
               <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                 Status
               </th>
@@ -404,7 +560,8 @@ const CarePackageTab = ({
               </tr>
             ))}
           </tbody>
-        </table>
+          </table>
+        </div>
       </div>
     </div>
   );
@@ -576,12 +733,13 @@ const OccupancyTab = ({ pws }: { pws: PWS }) => {
 
       {/* Table with padding */}
       <div className="px-6 pb-6">
-        <table className="w-full">
-          <thead>
-            <tr className="bg-slate-100 border-y border-gray-200">
-              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                Out of Service Date
-              </th>
+        <div className="border border-gray-200 rounded overflow-hidden">
+          <table className="w-full">
+            <thead>
+              <tr className="bg-slate-100 border-b border-gray-200">
+                <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                  Out of Service Date
+                </th>
               <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                 Expected Return Date
               </th>
@@ -611,7 +769,8 @@ const OccupancyTab = ({ pws }: { pws: PWS }) => {
               </tr>
             ))}
           </tbody>
-        </table>
+          </table>
+        </div>
       </div>
     </div>
   );
