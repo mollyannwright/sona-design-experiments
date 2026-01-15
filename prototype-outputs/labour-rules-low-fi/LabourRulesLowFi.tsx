@@ -418,7 +418,6 @@ function AssignmentsWireframe() {
               + Assign ruleset
             </div>
           </div>
-        /* Bulk View - Table */
         <div className="bg-white border border-slate-300 rounded overflow-hidden">
           {/* Table Header */}
           <div className="bg-slate-100 border-b border-slate-300 px-6 py-3 flex gap-6">
