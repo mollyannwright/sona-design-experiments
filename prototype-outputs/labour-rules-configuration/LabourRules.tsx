@@ -1002,7 +1002,7 @@ function RulesetsTab({
               key={ruleset.id}
               className={`px-4 py-3 cursor-pointer transition-colors border-b border-gray-100 last:border-b-0 ${
                 selectedRuleset?.id === ruleset.id
-                  ? 'bg-emerald-50'
+                  ? 'bg-gray-100'
                   : 'hover:bg-gray-50'
               }`}
               onClick={() => setSelectedRuleset(ruleset)}
@@ -1011,7 +1011,7 @@ function RulesetsTab({
                 <div className="flex-1 min-w-0">
                   <h4 className={`font-medium text-sm truncate ${
                     selectedRuleset?.id === ruleset.id
-                      ? 'text-emerald-700'
+                      ? 'text-gray-900'
                       : 'text-gray-900'
                   }`}>
                     {ruleset.name}
@@ -1751,14 +1751,14 @@ function AssignmentsTab({
                 onClick={() => setSelectedOrgUnit(ou.orgUnit.id)}
                 className={`w-full text-left px-4 py-3 border-b border-gray-100 last:border-b-0 transition-colors ${
                   selectedOrgUnit === ou.orgUnit.id
-                    ? 'bg-emerald-50'
+                    ? 'bg-gray-100'
                     : 'hover:bg-gray-50'
                 }`}
               >
                 <div className="flex items-center justify-between mb-1">
                   <span className={`text-sm font-medium ${
                     selectedOrgUnit === ou.orgUnit.id
-                      ? 'text-emerald-700'
+                      ? 'text-gray-900'
                       : 'text-gray-900'
                   }`}>
                     {ou.orgUnit.name}
