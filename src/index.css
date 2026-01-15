@@ -1,0 +1,248 @@
+@import "tailwindcss";
+
+/**
+ * SonaUI Design Tokens & Component Styles
+ * Source: /Users/molly/Documents/Sona/backend/assets/css/sonaui/
+ * Typography: Lexend font (see sonaui-design-system/Sona typography.png)
+ */
+
+/* ==============================================
+   DESIGN TOKENS (from colors.css)
+   ============================================== */
+:root {
+  /* Brand Colors */
+  --ui-brand-primary: theme('colors.emerald.600');
+  --ui-brand-primary-dark: theme('colors.emerald.700');
+
+  /* Surface Colors */
+  --ui-surface-default: theme('colors.white');
+  --ui-surface-subtle: theme('colors.gray.50');
+  --ui-surface-strong: theme('colors.gray.100');
+  --ui-surface-success: theme('colors.green.50');
+  --ui-surface-info: theme('colors.indigo.50');
+  --ui-surface-warning: theme('colors.amber.50');
+  --ui-surface-error: theme('colors.red.50');
+
+  /* Text Colors */
+  --ui-text-default: theme('colors.gray.900');
+  --ui-text-primary: theme('colors.black');
+  --ui-text-secondary: theme('colors.gray.700');
+  --ui-text-tertiary: theme('colors.gray.500');
+  --ui-text-inverted: theme('colors.white');
+  --ui-text-success: theme('colors.emerald.700');
+  --ui-text-warning: theme('colors.orange.600');
+  --ui-text-error: theme('colors.red.600');
+
+  /* Border Colors */
+  --ui-border-default: theme('colors.gray.200');
+  --ui-border-subtle: theme('colors.gray.100');
+  --ui-border-strong: theme('colors.gray.400');
+}
+
+/* ==============================================
+   TABLE COMPONENT (from table.css)
+   ============================================== */
+@layer components {
+  .sonaui-tablewrapper--default {
+    @apply rounded ring-1 ring-gray-200 w-full overflow-hidden;
+  }
+
+  .sonaui-table {
+    @apply w-full min-w-full;
+  }
+
+  .sonaui-table__th {
+    @apply uppercase p-3 text-left font-semibold text-xs text-gray-900 border-b border-gray-200;
+  }
+
+  .sonaui-table__th:first-child {
+    @apply rounded-tl;
+  }
+
+  .sonaui-table__th:last-child {
+    @apply rounded-tr;
+  }
+
+  .sonaui-table--default .sonaui-table__th {
+    @apply bg-gray-50;
+  }
+
+  .sonaui-table__tr {
+    @apply transition-colors;
+  }
+
+  .sonaui-table__tr--clickable {
+    @apply hover:bg-gray-50 cursor-pointer;
+  }
+
+  .sonaui-table__td {
+    @apply text-left p-3 text-sm text-gray-900 border-b border-gray-200;
+  }
+
+  .sonaui-table__td--clickable {
+    @apply hover:cursor-pointer;
+  }
+
+  .sonaui-table--default tr:last-child .sonaui-table__td {
+    @apply border-none;
+  }
+
+  /* Borderless variant */
+  .sonaui-tablewrapper--borderless {
+    @apply w-full;
+  }
+
+  .sonaui-table--borderless .sonaui-table__th {
+    @apply bg-white;
+  }
+}
+
+/* ==============================================
+   BUTTON COMPONENT (from button.css)
+   ============================================== */
+@layer components {
+  .ui-button {
+    @apply inline-flex justify-center items-center whitespace-nowrap relative text-sm rounded-md py-2 px-3 focus:ring-2 focus:ring-offset-2 focus:outline-none shadow-sm font-medium;
+  }
+
+  .ui-button--content {
+    @apply w-max;
+  }
+
+  .ui-button--full {
+    @apply w-full;
+  }
+
+  .ui-button--primary {
+    @apply text-white bg-emerald-600 border border-emerald-600 hover:bg-emerald-700 hover:border-emerald-700 focus:ring-emerald-500;
+  }
+
+  .ui-button--secondary {
+    @apply text-gray-800 bg-white border border-gray-200 hover:bg-gray-50 hover:border-gray-200 focus:ring-gray-500;
+  }
+
+  .ui-button--destructive-primary {
+    @apply text-white bg-red-700 border border-red-700 hover:bg-red-600 hover:border-red-600 focus:ring-gray-500;
+  }
+
+  .ui-button--disabled {
+    @apply pointer-events-none text-gray-700 bg-gray-200 border-gray-200 font-medium;
+  }
+}
+
+/* ==============================================
+   BADGE COMPONENT (from badge.ex)
+   ============================================== */
+@layer components {
+  .ui-badge {
+    @apply font-medium rounded-full text-center w-fit whitespace-nowrap px-3 py-0.5 text-xs border border-solid;
+  }
+
+  .ui-badge--success {
+    @apply bg-green-50 text-green-700 border-green-700/20;
+  }
+
+  .ui-badge--warning {
+    @apply bg-yellow-50 text-yellow-700 border-yellow-700/20;
+  }
+
+  .ui-badge--error {
+    @apply bg-red-50 text-red-700 border-red-700/20;
+  }
+
+  .ui-badge--info {
+    @apply bg-gray-100 text-gray-700 border-gray-700/20;
+  }
+}
+
+/* ==============================================
+   TYPOGRAPHY (from Sona typography.png)
+   Font: Lexend
+   ============================================== */
+@layer components {
+  /* Headers */
+  .text-h1 {
+    font-family: 'Lexend', sans-serif;
+    font-weight: 600; /* SemiBold */
+    font-size: 30px;
+    line-height: 36px;
+  }
+
+  .text-h2 {
+    font-family: 'Lexend', sans-serif;
+    font-weight: 600; /* SemiBold */
+    font-size: 20px;
+    line-height: 28px;
+  }
+
+  .text-h3 {
+    font-family: 'Lexend', sans-serif;
+    font-weight: 600; /* SemiBold */
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .text-subtitle {
+    font-family: 'Lexend', sans-serif;
+    font-weight: 300; /* Light */
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  /* Body */
+  .text-body {
+    font-family: 'Lexend', sans-serif;
+    font-weight: 300; /* Light */
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+  .text-body-bold {
+    font-family: 'Lexend', sans-serif;
+    font-weight: 500; /* Medium */
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+  /* Caption */
+  .text-caption {
+    font-family: 'Lexend', sans-serif;
+    font-weight: 300; /* Light */
+    font-size: 12px;
+    line-height: 16px;
+  }
+
+  .text-caption-bold {
+    font-family: 'Lexend', sans-serif;
+    font-weight: 500; /* Medium */
+    font-size: 12px;
+    line-height: 16px;
+  }
+
+  /* Micro */
+  .text-micro {
+    font-family: 'Lexend', sans-serif;
+    font-weight: 300; /* Light */
+    font-size: 10px;
+    line-height: 12px;
+  }
+
+  .text-micro-bold {
+    font-family: 'Lexend', sans-serif;
+    font-weight: 500; /* Medium */
+    font-size: 10px;
+    line-height: 12px;
+  }
+}
+
+/* ==============================================
+   BASE STYLES
+   ============================================== */
+body {
+  font-family: 'Lexend', sans-serif;
+  font-weight: 300; /* Light - default body weight */
+  font-size: 14px;
+  line-height: 20px;
+  background-color: var(--ui-surface-subtle);
+  color: var(--ui-text-default);
+}

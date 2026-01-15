@@ -1,0 +1,179 @@
+Design requirements: Labour rules v2
+Attribute-based and date-bound productivity rules
+
+
+
+
+Executive summary
+This project redesigns how customers configure labour productivity rules. Currently, ops teams create dozens of near-identical rulesets because values like opening times must be hardcoded. They're using Claude artifacts as a workaround to generate CSV files for upload.
+
+Two new capabilities will fix this:
+Interpolated attributes — rules can reference site-level data (e.g. opening times) instead of hardcoded values
+Date-bound assignments — ruleset assignments can have effective date ranges, enabling scheduled changes
+
+The goal is to make LP configuration self-serviceable by customer ops teams, reducing the need for Sona staff involvement and eliminating manual workarounds.
+Design scope
+The configuration journey has four interconnected areas, each requiring design work:
+
+
+
+
+Area 1: Attributes
+Purpose: Define which attributes exist at the organisation level. These become the columns that sites can have values for.
+
+Functional requirements
+List view showing all defined attributes with: name, type, default value (if set), count of rulesets using it
+Add attribute flow: enter name, select type (time, boolean, integer, float, string), optionally set default value
+Edit and delete existing attributes
+Cannot delete an attribute that is referenced by any ruleset — show which rulesets use it
+
+Example data
+
+
+Design considerations
+Naming conventions: should we guide users toward consistent naming (e.g. snake_case)? Current examples use this pattern.
+Day-of-week handling: MVP uses flat attributes (opening_time_monday, opening_time_tuesday, etc.) which means 14+ attributes just for opening hours. Consider how this scales visually.
+Future-proofing: structured attributes (Option B/C in brief) may come later. Don't design yourself into a corner.
+Area 2: Org unit attributes
+Purpose: Set attribute values per site. This is the data that formulas will reference at schedule generation time.
+
+Functional requirements
+Primary view: Bulk edit table
+Matrix view: org units down the left, attributes across the top
+Respect org unit hierarchy (regions, areas, sites) with typical hierarchy filter
+Inline cell editing
+Empty cells inherit default (if set) or show warning if required by an assigned ruleset
+Bulk actions: select multiple rows → set value for a column
+
+Secondary view: Single org unit
+Click org unit row to open org_unit_productivity_config show page
+Shows all attributes with ability to add/edit values
+
+CSV upload flow
+Download template (columns: org_unit_id, attribute_1, attribute_2...)
+Upload, review validation errors, confirm
+
+Example bulk edit view
+
+
+Design considerations
+Scale: with 14+ attributes for opening hours alone, horizontal scrolling is likely. How do we keep the org unit column visible?
+Column types: time pickers for time attributes, checkboxes for booleans, etc. Consider inline editing UX for each type.
+Warning states: how to show that a cell is empty but required? What about inherited defaults vs explicit values?
+Future: date-bound attributes may come in Phase 2. Brief notes this "may become more UI intensive".
+Area 3: Rulesets and rules
+Purpose: Create rulesets (containers) and the rules within them. Rules can now reference attributes using formulas — this is the core new capability.
+
+⚠ Design crux: The formula editor is the make-or-break UX. If ops teams can't understand and write formulas, they won't self-serve.
+
+Functional requirements
+Ruleset list view
+Show: name, rule count, assigned site count, actions (edit, clone, assign)
+Clone workflow: creates copy with name "{original} (copy)"
+
+Rule editor
+Rule types: Fixed (start_time, end_time, duration), Minimum (start_time, end_time, minimum_people_required), Variable (TBC)
+Fields accept either literal values (e.g. "07:00") or formulas (e.g. #{opening_time_monday} - 1.hour)
+Inline syntax validation — highlight errors immediately
+Auto-compute and display required attributes from formulas
+All referenced attributes must exist
+
+Formula syntax
+The brief proposes Elixir-compatible syntax:
+
+
+
+Example rule (Popeyes Manager)
+
+
+Design considerations
+Formula input UX: Free text field? Structured builder? The brief suggests "visual fields into which we can enter formulae" rather than one long formula string.
+Autocomplete: Should typing "#{" trigger a dropdown of available attributes? This would significantly reduce errors.
+Syntax highlighting: Visual distinction between attribute references, operators, and literals.
+Error messages: How do we explain "missing attribute" or "invalid syntax" in user-friendly terms?
+Preview/test: Could users see what a formula resolves to for a specific site before saving?
+Progressive disclosure: Can simple cases (literal values) feel simple, with formula complexity only appearing when needed?
+Area 4: Assignments
+Purpose: Assign rulesets to sites with optional effective date ranges. This enables scheduled rule changes without manual cutover.
+
+Functional requirements
+Primary view: Bulk edit table
+Matrix view: org units down the left, rulesets as columns OR as a list per row
+Show current assignments and scheduled changes
+When adding assignment, prompt for effective_from and effective_until (optional)
+Bulk actions: select multiple org units → assign/remove ruleset
+
+Secondary view: Single org unit
+Timeline view of all assignments for that site
+Show: ruleset name, effective from, effective until, status (active/scheduled/expired)
+Actions: add assignment, edit dates, remove
+
+Alternative entry point (from ruleset)
+From ruleset detail → "Assign to sites"
+Multi-select sites, set dates
+Option: "End existing assignments of [other ruleset] on [day before]?" for replacement workflows
+
+Validation
+Cannot assign ruleset if org unit is missing required attributes
+Show which attributes are missing
+Warn if there's a gap (site has no rulesets for a future period)
+
+Example single org unit view
+
+
+Design considerations
+Table layout: Brief asks: checkbox grid (rulesets as columns) or list per row? PM leans toward list. Checkbox grid may not scale with many rulesets.
+Date-bound visualisation: How to show current vs scheduled vs historical? Could use colour coding, badges, or a timeline view.
+Gap detection: How prominently to warn when a site has no rulesets for a future period? Visual indicator in the table?
+Overlapping assignments: The system allows this (rulesets are additive). Do we need to surface potential conflicts?
+Open questions for design
+These questions need resolution before or during detailed design. Some may require research or PM decisions.
+
+User research gaps
+
+
+Technical/PM decisions needed
+
+
+UX questions to explore
+Formula editor: free text with autocomplete, or structured builder with dropdowns?
+Can users preview what a formula resolves to for a specific site?
+How to handle the transition from CSV-based workflows? Users are comfortable with upload/download.
+Progressive disclosure: can simple cases (literal values only) feel simple?
+How to visualise date-bound assignments without overwhelming the bulk edit view?
+Current state context
+Understanding the workaround users have built reveals the pain we're solving.
+
+The Popeyes workflow today
+Popeyes uploads opening hours to a shared Google doc
+Someone pastes those parameters into a Claude artifact that generates CSV files
+They upload Productivity Rule Sets CSV first, then Productivity Rules CSV
+Then manually apply rulesets to each org unit via Admin → Sona AI → Org Unit Config
+Repeat for every new site
+
+What this tells us
+CSV muscle memory: Users think in terms of "upload this, then upload that". The new UI should feel at least as efficient.
+Claude as a crutch: They're already comfortable describing rules to an AI. Could inform how we explain formulas.
+Validation is manual: Current workflow has no guardrails. Inline validation is a big UX win.
+Simple underlying logic: Popeyes needs 3 variables and basic arithmetic. The formula syntax could feel intimidating even though the actual logic isn't complex.
+Out of scope
+The brief explicitly excludes these items:
+
+Mobile experience
+Audit logging UI
+LLM-assisted rule generation
+Budgeting integration
+Time-bound attributes (Phase 2)
+Programmatic/API-based ruleset assignment (mentioned as future consideration)
+
+
+Key contacts
+
+
+
+Suggested next steps
+Clarify user research gaps with Michael — particularly who actually does LP config today and whether we can observe the current workflow
+Get PM decisions on open technical questions — day-of-week approach, formula syntax, table layout preference
+Review existing bulk edit patterns in the product — are there tables we should align with?
+Prioritise the formula editor — this is the design crux; consider starting here with concepts
+Request the Claude artifact — seeing what ops teams are already comfortable with could inform the formula UX

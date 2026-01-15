@@ -1,0 +1,144 @@
+Meeting Title: Michael / Molly
+Date: Jan 13
+Meeting participants: Michael
+
+Transcript:
+ 
+Me: Hello.  
+Them: Hey, molly.  
+Me: Hey, how are you?  
+Them: I'm all right, thanks. I got blighted by this sort of virusy thing going around over Christmas.  
+Me: Go. D.  
+Them: I'm finally there. It's been the longest I've been ill for in, like, forever.  
+Me: Yeah. I had that as well. It's not fun. I think I was over, like, two weeks, two and a half weeks.  
+Them: Look. It's not very festive, is it, to just be, like, splattering away and feeling fevery and headachy the whole time?  
+Me: Oh, no. Were you sick over Christmas as well?  
+Them: Yeah.  
+Me: Oh, God.  
+Them: It's. It's been from, like, Christmas Day.  
+Me: Oh, God.  
+Them: Yeah. Anyway.  
+Me: Yeah. When you've got kids as well. I can imagine that's not fun.  
+Them: Yeah.  
+Me: Oh, no. One of those. Give me one of those weeks. Are you recovering still?  
+Them: Y. Eah. Pretty much. There.  
+Me: Just an after bed. Hopefully this went here too long. I just wanted to. Catch up with you about? Yeah, that labor all stuff.  
+Them: Y.  
+Me: Yeah, I've been reading up on it today. And I think it all looks pretty good. I basically took. Your document. Your compliments document. And. I was laughing with Lauren about this because basically I got Claude. To break it down into design requirements. So it's like taking something like Claude has made to break it down again. To be have less detail. Anyway, I think it makes sense.  
+Them: Eah.  
+Me: But is there anything. Important I need to know. Basically, in that document.  
+Them: Okay, so let me just do the top line on where. Where it's come from and what I think the important bits are, so.  
+Me: Yes.  
+Them: Labor rules are one of the most important pieces in terms of getting the right scheduling tells you what requirement there is for staff based on either what type of day it is or what level of demand you've got. And this has been like, the biggest black box. With fourth users. They're always like, oh, for God's sake, we have to email in and then it takes ages to get it turned around and we can't access them. And we want to be able to say yes. With sonar, it's completely different. And to some extent it is because in theory they can manage it in the customer facing admin, but it's so tricky. To manage that they couldn't, realistically. So the aim of this is to get to the stage. Like, the real success criteria here is we have a client who's managing their own rules. So that's. That's the top level goal. The reason. We then get to attributes and formula that can refer to attributes. Is one of the biggest blockers at the moment is fixed rules, which relate to opening hours. So every site has different opening hours by day. There's, like, almost no sites that have the same complete opening hours across the week. And if you just want to do something that sounds trivial, Like we want a manager in from 1 hour pre open till 2 hours post close. You currently have to create a new rule set with a new rule. Per day of week. For every site. And so.  
+Me: Is that like a hard coded think I read somewhere. So you put in the time it's not. A formula.  
+Them: Let me just load it up, actually.  
+Me: Yeah, I was just looking around what we have currently as well. Which, I'm being honest, I'm finding it hard to get my head around it. I mean, I'm in the org unit config bit and then the formatting rule templates.  
+Them: So can you see my screen?  
+Me: Oh, yeah. Okay, I can see it.  
+Them: So. In this guy here. Productivity rule sets.  
+Me: Okay? I need to switch on.  
+Them: This is where we'll have if we go, like, fixed. For anything you can see. What we got is a fixed rule set for every site.  
+Me: Okay?  
+Them: So if I look at. Fixed bradford. What that is saying is. For every day of week. We need a batterer. And we need it. In this case, it's always from 9am and the duration is 1080 minutes, which is quite a long time.  
+Me: By butter. Are you talking about literally battering food?  
+Them: Yeah, that's ring check.  
+Me: Okay?  
+Them: Yeah, that's a role. And the more varied one is. There's kitchen to open. Here we go. So this is the one that's, like, from. One hour pre open until two hours post close. And so you see, we got a different. So you got dare, we got duration minutes, we got start time. And then these two here. Start time and duration Minutes are just hard values. And what we really want to be able to say is start time. Is opening minus one hour. Where? Opening as an attribute that's stored against this org unit.  
+Me: Yeah, okay.  
+Them: And duration is also some formula. And. That would mean we wouldn't have to have one of these written out for every single Aug unit.  
+Me: Y.  
+Them: And if they wanted to go? Actually, we think we only need it.  
+Me: Es.  
+Them: Half an hour.  
+Me: Y. Es.  
+Them: Pre open. You can go. All right. We'll edit that. And it's just one rule that you edit as opposed to. I mean, if they ask now, can we change the way that we do the fixed rules?  
+Me: Y.  
+Them: It'd be a nightmare.  
+Me: Es. Okay? Okay. Yeah. Okay, this makes sense. So basically, you'd have. A formula. What you're saying is formula for ip. So let me start the opening time. And so one service Sundays, we open two hours earlier than everyone else. You basically can go into that service and adjust it by minusing two hours from the opening time. So you have. Yeah, like the. The formula minus two or what I think I saw. Yeah. In the document.  
+Them: Yeah, exactly. So this is what? I just chucked it at Claude.  
+Me: Yeah. Nice. Okay.  
+Them: I imagine this is. This wasn't the mock up thing. This was just Claude code, so it's probably done a much less good job. But yeah. So if you have an attribute. Which is like opening time Monday.  
+Me: Y.  
+Them: And say that is 7am for Birmingham High Street.  
+Me: Ep? Yep.  
+Them: And then you have a rule set. And this looks hideous, but. You had a rule set which was like, Opening time minus one hour.  
+Me: Yes.  
+Them: Save. Obviously, this is just HTML, it's just not a real thing. But yeah, and then you assign that to Birmingham High Street.  
+Me: Yeah.  
+Them: Then that would say all right. For that site. It's going to be 6:00am. Until whatever.  
+Me: Okay?  
+Them: So I think the key things to get right. Is. Making this, so it's very easy to populate. Another thing worth bearing in mind is they change the opening hours quite a lot. At least in my experience with Popeyes. They're constantly. This is there where they sort of log request, but they're constantly changing opening hours. Opening hours changed opening hours.  
+Me: Wonder why. Have you asked why that is?  
+Them: Change. It's just they're always looking to optimize that. If they see there's any particular time, they'll change it. If they see a similar site is doing like 2am decent 2m sales, they'll open one up for longer.  
+Me: Yeah. Yeah.  
+Them: They're just always looking at performance of. Like a specific site or similar sites and then figuring out. So having this be quite user friendly in terms of like able to edit opening hours.  
+Me: Okay?  
+Them: Is one important thing. And then the second bit is, I think this formula field. Where you'd be like, it's opening minus one hour. Has to be quite. Has to be quite friendly. Like when you're referencing a variable, when you're referencing opening time. You know, that sort of thing where auto populates. If you're typing a variable name so it drops down, you click it, that sort of thing.  
+Me: Left.  
+Them: It's got to feel. Quite simple.  
+Me: Yeah. Okay? Okay?  
+Them: Yeah.  
+Me: Nice. Can you click on so quickly the Create rule set button? Does that work? Oh, yeah.  
+Them: Yeah. So within a rule set, nothing actually works. Here. Because, you know. So you would then. You would then go into the rule set page where you add rules. And within each rule. That's where you've got to have sort of variable type thing.  
+Me: Yeah. Okay, so. Okay, nice. So basically. You name the rule. Set. So is this like, can you give an example? So have you just examples of Claude have put together? Can you give like a real life example of what one of these rule sets might be?  
+Them: Y.  
+Me: With what rules within.  
+Them: Eah. So it would be if we just go into.  
+Me: That.  
+Them: Yeah. So what we're aiming to remove the need for is. The same logical rule set across all the sites, needing a separate rule set. All of these ones with 33 rules in are all just like we need a manager from one hour pre opening till two hours post close and we need a battery from nine until two hours post goes. That's all. These 33 says exactly the same logical thing.  
+Me: Okay? Yeah.  
+Them: So that all of these would just become one rule set. And then other things you might have is like for some of them. They want to have, like, additional. Yeah. Where they've got multiple floors. They're like, we want to add an additional manager when we got, like, two or three floors. So that would be a rule set. And when they don't have an automated drinks thing. Right. So in most customer service themselves drinks, they just get the carpet, then they go to the station thing.  
+Me: Y.  
+Them: They would have a different thing for that. So it's kind of like. Logical differences between sites. So where there's different demand for staffing because it's a different kind of site.  
+Me: Eah.  
+Them: But if it's a drive through, you'd have different rules there. If it's. Yeah. Not got the drink thing if it's got an additional floor. You know, like real world reasons to have different staffing requirements.  
+Me: Y. Eah.  
+Them: But there might also be. We're going to do a winter menu, and the amount of staff, it's super complicated because you got to get the cranberry sauce in, and so we need additional demand for that. Sorry. Additional labor for the same amount of demand for that. So you might have, like, winter rules, Christmas menu rules or something?  
+Me: Okay, cool. Okay. Yeah, makes sense. So, basically, you have your rules that you. You give it a name. Description of some sort. It could have multiple rules within that. Slightly example you just gave about the batter and the extra manager. And then you apply that to relevant services. Maybe have like a multi select. Way to search. And then you have stored all of the assignments. Or would that then live in like the assignments? Oh, no, sorry. Against each service you would have what rule sets have been applied to each service?  
+Them: Yeah. Exactly. So where have I put it? So I don't know the word assignments, but yeah, you'd have, like, what rule sets are applied to each site?  
+Me: Okay? Sorry.  
+Them: And then you got attributes and you've got assignment. Yeah.  
+Me: Yeah, okay. I can never think about that as well. The tabs and I won't. Yeah, what's cool? So there was one other thing. It was. The. What was it? Oh, yeah. So the bulk editing patterns. Value press, though. Edit matrix.  
+Them: Yeah, so. That's what I'm keen to avoid. Is if you want to update. Some closing, some opening hours. You have to click into each one. Go to Attributes for that one edit attribute. Yeah. I'd quite like to have this sort of thing where you got all the attributes across the top and all the rosterable org units down the side.  
+Me: Yes.  
+Them: Yeah, so that's that bit.  
+Me: Okay? Okay, cool.  
+Them: Let me just find the. So the other thing is. Yeah. What I think might become a bit tricky. Is. One of the other things that people complain about with fourth is that. When they edit. Let's. Let's say they edit their opening hours. It will change. What's the perceived demand in the past? And from that point, going forwards into the future. So let's say currently it opens at 9:00, so you need a manager from a. And you say, actually, it's now going to open from 11, so you need a manager from 10. What that will mean is when you look back at your historic staffing, it will say you had way too much stuff. You had a manager from 8 and you don't need it till 10. But actually, at the time, you did need a tape, so you weren't overstuffed. So this concept of these, the attributes themselves, like the values in here. Kind of need to be date bound.  
+Me: Yeah. And then. Okay, so. You select. Would you want some sort of, like, log, like a history? Sort of like employment periods where you have.  
+Them: Yeah.  
+Me: History of a change. In.  
+Them: Yeah.  
+Me: Yeah. This is, like. I don't know if you spoken to Tom about the work we're doing with Voyage, but I feel like there's some, like, crossover in terms of. The concept of, like, Adding, like in care. We're creating care packages that you can duplicate and create a new version. Is your, like, commissioned hours or, like, staffing needs change. And then you create, like, a. A new package which is sort of similar to employment periods. I feel like it's kind of similar. Where? I mean, not obviously similar. Because.  
+Them: Now.  
+Me: Yeah.  
+Them: This is how things were. Between these dates.  
+Me: Yeah.  
+Them: Yeah.  
+Me: It's like if. If there's, say, for example. Yeah, this is all working at the moment. And then you have, like, care package records. And then if you want to go in and change. Like you'll start your ratio of like how? Many. How many people you need supporting you for, like, your specified commissioned hours. You go in and you can update this package. To have, like, more stuff. On or like. Yeah, and you can update the date as well. I don't know. Overrides your current care package.  
+Them: Yeah.  
+Me: I mean. A little bit of crossover. But it's just because I'm in that headspace at the moment.  
+Them: Definitely. I'm wondering. I basically went into flag it because I don't know the best way to do it. From a dev point of view, I think it would be best to build it. But not have datebound initially and then we can down later. But I'm just wondering from a UI point of view. If knowing that we're going to have to do date bound stuff.  
+Me: Y.  
+Them: And if you where you think about it, that's the only reason I flag it now.  
+Me: Es. Yeah, maybe I'll think as I'm. Yeah, I'll think about the datebound. As well, I think, because, yeah, we don't want to kind of build an empire in a place where it's hard to come out of it. Or like it'll be extra work. Kind of reversing what we've done to make it work for Datebound, so. Yeah, I'll have a think about that as well. When do we need. So the guys are working on it now. What? What are they working on? Is it like.  
+Them: Yeah. They'll be doing the backend.  
+Me: Back end. Yeah. Okay?  
+Them: But they move pretty, pretty sharpish.  
+Me: Yeah. Yeah, because I'm. I'm. Basically, I'm doing people's pension stuff today and tomorrow. And then I can jump on this. Do you think they'll want some Decides in two days. Yeah, maybe I can ask. Yeah, because I can move on to this, basically.  
+Them: Cool.  
+Me: On Thursday. Is my plan. Baby, this is, like, high priority. I can pause what I'm doing.  
+Them: Well, let's. Let's try to aim not to make you pause what you're doing. Always nice to actually tick something off. Yeah. Cool. Shall I start a thread in the channel and we can see where they're expecting to be at?  
+Me: Yep, that sounds good. Cool. Sounds good. Thanks. For context.  
+Them: Most. I appreciate that. I've been spending longer than I would probably have liked embedded in this world for ages, so it's all quite clear to me. But I know it's like a lot to get your head around when you've just been thinking about Voyage Care and Services.  
+Me: Yeah. Honestly, I'm just, like, so in that. In that world at the moment, like, just all I'm thinking about. I'm gonna try my best to quickly context switch, but I think I do. Yeah, I think I'm getting my head around it. But I'll let you know if I have any questions.  
+Them: Yeah, please don't be afraid to ask. Or if you just want to, like, do another walkthrough of a Popeye setup. Or if you want to, like, recap on why is it tricky to set up a load of fixed rules again?  
+Me: Yeah. Nice.  
+Them: Just ask.  
+Me: Yeah, What I usually like to do is I'll just send you my progress quite frequently of what I'm doing, and then you can just tell me. Molly, what the hell? This is not what we talked about. Just so.  
+Them: I'll just prepare that message and.  
+Me: Set up an automated response. Okay, cool. That sounds good.  
+Them: Awesome. Thanks, Molly. I'm looking forward to working on this.  
+Me: Yeah. No, it's cool. Yeah. It's nice to work on a bit of the auto scheduling stuff.  
+Them: Y.  
+Me: I feel like that's the only thing I haven't actually touched yet. Like I haven't worked on yet. Nice. Hope feel better as well.  
+Them: Eah, we're getting there. We're getting there. All right. 

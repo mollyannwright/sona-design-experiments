@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payroll Control Overview | Sona</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: #f8fafc;
+            display: flex;
+            height: 100vh;
+        }
+
+        /* Sidebar - Consistent with Sona */
+        .sona-sidebar {
+            background: white;
+            border-right: 1px solid #e5e7eb;
+            padding: 0;
+            width: 280px;
+            height: 100vh;
+            overflow-y: auto;
+            flex-shrink: 0;
+        }
+
+        .sidebar-header {
+            padding: 16px 24px;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .sona-logo {
+            font-size: 24px;
+            font-weight: 600;
+            color: #10b981;
+        }
+
+        .sidebar-content {
+            padding: 24px 0;
+        }
+
+        .sidebar-section {
+            margin-bottom: 32px;
+        }
+
+        .sidebar-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 16px;
+            padding: 0 24px;
+        }
+
+        .sidebar-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 24px;
+            color: #374151;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .sidebar-item:hover {
+            background: #f3f4f6;
+        }
+
+        .sidebar-item.active {
+            background: #f0f9ff;
+            color: #0369a1;
+            border-right: 3px solid #0369a1;
+        }
+
+        .sidebar-icon {
+            margin-right: 12px;
+            font-size: 16px;
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 24px;
+            overflow-y: auto;
+        }
+
+        /* Page Header */
+        .page-header {
+            background: white;
+            padding: 24px;
+            border-radius: 8px;
+            margin-bottom: 24px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .page-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 8px;
+        }
+
+        .page-subtitle {
+            font-size: 16px;
+            color: #6b7280;
+        }
+
+        /* Summary Dashboard */
+        .summary-dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .summary-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+            text-align: center;
+        }
+
+        .summary-number {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .summary-label {
+            font-size: 14px;
+            color: #6b7280;
+            font-weight: 500;
+        }
+
+        .summary-card.total .summary-number { color: #374151; }
+        .summary-card.open .summary-number { color: #10b981; }
+        .summary-card.submitted .summary-number { color: #3b82f6; }
+        .summary-card.amendments .summary-number { color: #f59e0b; }
+
+        /* Payroll Groups Overview */
+        .payroll-groups-section {
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+            overflow: hidden;
+        }
+
+        .section-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid #e5e7eb;
+            background: #fafafa;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #111827;
+        }
+
+        .payroll-group-overview {
+            padding: 20px 24px;
+            border-bottom: 1px solid #f3f4f6;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .payroll-group-overview:hover {
+            background: #f9fafb;
+        }
+
+        .payroll-group-overview:last-child {
+            border-bottom: none;
+        }
+
+        .group-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 16px;
+        }
+
+        .group-info h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 4px;
+        }
+
+        .group-meta {
+            font-size: 14px;
+            color: #6b7280;
+        }
+
+        .group-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .group-status.attention {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .group-status.good {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .group-status.critical {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .status-dot.attention { background: #f59e0b; }
+        .status-dot.good { background: #10b981; }
+        .status-dot.critical { background: #ef4444; }
+
+        .group-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 16px;
+        }
+
+        .summary-item {
+            text-align: center;
+            padding: 12px;
+            background: #f9fafb;
+            border-radius: 6px;
+        }
+
+        .summary-item-number {
+            font-size: 20px;
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 4px;
+        }
+
+        .summary-item-label {
+            font-size: 12px;
+            color: #6b7280;
+            font-weight: 500;
+        }
+
+        .amendments-count {
+            color: #f59e0b;
+        }
+
+        .drill-in-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 12px;
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .drill-in-indicator:hover {
+            color: #10b981;
+        }
+
+        /* Quick Actions */
+        .quick-actions {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .fab {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: #10b981;
+            color: white;
+            border: none;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            transition: all 0.2s;
+        }
+
+        .fab:hover {
+            background: #059669;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);
+        }
+
+        .fab-tooltip {
+            position: absolute;
+            right: 70px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #374151;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.2s;
+        }
+
+        .fab:hover .fab-tooltip {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .summary-dashboard {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .group-summary {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .quick-actions {
+                bottom: 16px;
+                right: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <aside class="sona-sidebar">
+        <div class="sidebar-header">
+            <div class="sona-logo">Sona.</div>
+        </div>
+        
+        <div class="sidebar-content">
+            <div class="sidebar-section">
+                <div class="sidebar-title">Business Wide</div>
+                <a href="#" class="sidebar-item">
+                    <span class="sidebar-icon">🏠</span>
+                    Home
+                </a>
+                <a href="#" class="sidebar-item">
+                    <span class="sidebar-icon">📋</span>
+                    Roster
+                </a>
+                <a href="#" class="sidebar-item">
+                    <span class="sidebar-icon">💰</span>
+                    Revenues & Forecasts
+                </a>
+                <a href="#" class="sidebar-item">
+                    <span class="sidebar-icon">👥</span>
+                    Employee Management
+                </a>
+                <a href="#" class="sidebar-item">
+                    <span class="sidebar-icon">🎯</span>
+                    Agentic Workforce
+                </a>
+                <a href="#" class="sidebar-item">
+                    <span class="sidebar-icon">✅</span>
+                    Tasks
+                </a>
+                <a href="#" class="sidebar-item">
+                    <span class="sidebar-icon">📧</span>
+                    Inbox
+                </a>
+                <a href="#" class="sidebar-item">
+                    <span class="sidebar-icon">🏖️</span>
+                    Vacation
+                </a>
+                <a href="#" class="sidebar-item">
+                    <span class="sidebar-icon">😊</span>
+                    Retention
+                </a>
+                <a href="#" class="sidebar-item active">
+                    <span class="sidebar-icon">💼</span>
+                    Payroll
+                </a>
+                <a href="#" class="sidebar-item">
+                    <span class="sidebar-icon">📊</span>
+                    Insights
+                </a>
+                <a href="#" class="sidebar-item">
+                    <span class="sidebar-icon">📰</span>
+                    Feed
+                </a>
+                <a href="#" class="sidebar-item">
+                    <span class="sidebar-icon">💬</span>
+                    Chat
+                </a>
+                <a href="#" class="sidebar-item">
+                    <span class="sidebar-icon">⚙️</span>
+                    Admin
+                </a>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1 class="page-title">Payroll Control Overview</h1>
+            <p class="page-subtitle">Monitor payroll period states and amendments across all locations</p>
+        </div>
+
+        <!-- Summary Dashboard -->
+        <div class="summary-dashboard">
+            <div class="summary-card total">
+                <div class="summary-number">28</div>
+                <div class="summary-label">Total Pay Periods</div>
+            </div>
+            <div class="summary-card open">
+                <div class="summary-number">12</div>
+                <div class="summary-label">Payroll Open</div>
+            </div>
+            <div class="summary-card submitted">
+                <div class="summary-number">8</div>
+                <div class="summary-label">Submitted</div>
+            </div>
+            <div class="summary-card amendments">
+                <div class="summary-number">17</div>
+                <div class="summary-label">Pending Amendments</div>
+            </div>
+        </div>
+
+        <!-- Payroll Groups Overview -->
+        <div class="payroll-groups-section">
+            <div class="section-header">
+                <h2 class="section-title">Payroll Groups by Location</h2>
+            </div>
+
+            <!-- Beach View Care Home -->
+            <div class="payroll-group-overview" onclick="drillIntoGroup('beach-view')">
+                <div class="group-header">
+                    <div class="group-info">
+                        <h3>Beach View Care Home</h3>
+                        <div class="group-meta">45 employees • Monthly payroll</div>
+                    </div>
+                    <div class="group-status attention">
+                        <div class="status-dot attention"></div>
+                        Needs Attention
+                    </div>
+                </div>
+                <div class="group-summary">
+                    <div class="summary-item">
+                        <div class="summary-item-number">3</div>
+                        <div class="summary-item-label">Pay Periods</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-item-number">1</div>
+                        <div class="summary-item-label">Ready to Submit</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-item-number amendments-count">6</div>
+                        <div class="summary-item-label">Pending Amendments</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-item-number">£481.80</div>
+                        <div class="summary-item-label">Amendment Value</div>
+                    </div>
+                </div>
+                <div class="drill-in-indicator">
+                    <span>Click to manage periods and amendments</span>
+                    <span>→</span>
+                </div>
+            </div>
+
+            <!-- Tall Tree Care Home -->
+            <div class="payroll-group-overview" onclick="drillIntoGroup('tall-tree')">
+                <div class="group-header">
+                    <div class="group-info">
+                        <h3>Tall Tree Care Home</h3>
+                        <div class="group-meta">38 employees • Monthly payroll</div>
+                    </div>
+                    <div class="group-status good">
+                        <div class="status-dot good"></div>
+                        On Track
+                    </div>
+                </div>
+                <div class="group-summary">
+                    <div class="summary-item">
+                        <div class="summary-item-number">3</div>
+                        <div class="summary-item-label">Pay Periods</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-item-number">2</div>
+                        <div class="summary-item-label">Open Periods</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-item-number amendments-count">4</div>
+                        <div class="summary-item-label">Pending Amendments</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-item-number">£455.25</div>
+                        <div class="summary-item-label">Amendment Value</div>
+                    </div>
+                </div>
+                <div class="drill-in-indicator">
+                    <span>Click to manage periods and amendments</span>
+                    <span>→</span>
+                </div>
+            </div>
+
+            <!-- Kitchen Department -->
+            <div class="payroll-group-overview" onclick="drillIntoGroup('kitchen')">
+                <div class="group-header">
+                    <div class="group-info">
+                        <h3>Kitchen Department</h3>
+                        <div class="group-meta">12 employees • Bi-weekly payroll</div>
+                    </div>
+                    <div class="group-status attention">
+                        <div class="status-dot attention"></div>
+                        Ready to Submit
+                    </div>
+                </div>
+                <div class="group-summary">
+                    <div class="summary-item">
+                        <div class="summary-item-number">4</div>
+                        <div class="summary-item-label">Pay Periods</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-item-number">1</div>
+                        <div class="summary-item-label">Ready to Submit</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-item-number amendments-count">3</div>
+                        <div class="summary-item-label">Pending Amendments</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-item-number">£179.00</div>
+                        <div class="summary-item-label">Amendment Value</div>
+                    </div>
+                </div>
+                <div class="drill-in-indicator">
+                    <span>Click to manage periods and amendments</span>
+                    <span>→</span>
+                </div>
+            </div>
+
+            <!-- Housekeeping -->
+            <div class="payroll-group-overview" onclick="drillIntoGroup('housekeeping')">
+                <div class="group-header">
+                    <div class="group-info">
+                        <h3>Housekeeping</h3>
+                        <div class="group-meta">8 employees • Bi-weekly payroll</div>
+                    </div>
+                    <div class="group-status good">
+                        <div class="status-dot good"></div>
+                        On Track
+                    </div>
+                </div>
+                <div class="group-summary">
+                    <div class="summary-item">
+                        <div class="summary-item-number">4</div>
+                        <div class="summary-item-label">Pay Periods</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-item-number">2</div>
+                        <div class="summary-item-label">Open Periods</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-item-number amendments-count">4</div>
+                        <div class="summary-item-label">Pending Amendments</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-item-number">£630.15</div>
+                        <div class="summary-item-label">Amendment Value</div>
+                    </div>
+                </div>
+                <div class="drill-in-indicator">
+                    <span>Click to manage periods and amendments</span>
+                    <span>→</span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Quick Actions -->
+    <div class="quick-actions">
+        <button class="fab" onclick="showBulkActions()">
+            <span>📊</span>
+            <div class="fab-tooltip">Bulk Process Amendments</div>
+        </button>
+        <button class="fab" onclick="exportReport()">
+            <span>📥</span>
+            <div class="fab-tooltip">Export Payroll Report</div>
+        </button>
+    </div>
+
+    <script>
+        function drillIntoGroup(groupId) {
+            // Simulate navigation to detailed view
+            alert(`Navigating to detailed payroll management for ${groupId}.\n\nThis would take you to the full interface with pay periods, amendments, and TGP processing for this specific group.`);
+            
+            // In a real application, this would navigate to the detailed view
+            // window.location.href = `/payroll/groups/${groupId}`;
+        }
+
+        function showBulkActions() {
+            alert('Opening bulk amendment processing interface.\n\nThis would allow you to process amendments across multiple payroll groups simultaneously.');
+        }
+
+        function exportReport() {
+            alert('Generating comprehensive payroll report.\n\nThis would export current period states, amendments, and processing status across all groups.');
+        }
+
+        // Add hover effects to group overview cards
+        document.querySelectorAll('.payroll-group-overview').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-2px)';
+                this.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+                this.style.boxShadow = 'none';
+            });
+        });
+    </script>
+</body>
+</html>
