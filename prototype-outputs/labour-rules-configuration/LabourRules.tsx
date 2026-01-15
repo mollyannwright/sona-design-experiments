@@ -1700,42 +1700,32 @@ function AssignmentsTab({
 
   return (
     <div>
-      {/* Header */}
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex border border-gray-200 rounded-lg overflow-hidden">
-          <button
-            onClick={() => setViewMode('bulk')}
-            className={`px-4 py-2 text-sm font-medium ${
-              viewMode === 'bulk'
-                ? 'bg-emerald-50 text-emerald-700'
-                : 'bg-white text-gray-600 hover:bg-gray-50'
-            }`}
-          >
-            Bulk view
-          </button>
-          <button
-            onClick={() => setViewMode('single')}
-            className={`px-4 py-2 text-sm font-medium ${
-              viewMode === 'single'
-                ? 'bg-emerald-50 text-emerald-700'
-                : 'bg-white text-gray-600 hover:bg-gray-50'
-            }`}
-          >
-            Single site
-          </button>
-        </div>
-        {viewMode === 'bulk' && (
-          <button
-            onClick={() => setShowAssignModal(true)}
-            className="ui-button ui-button--primary"
-          >
-            <PlusIcon className="mr-2" />
-            Assign ruleset
-          </button>
-        )}
-      </div>
-
       {viewMode === 'bulk' ? (
+        <>
+          {/* Header */}
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex border border-gray-200 rounded-lg overflow-hidden">
+              <button
+                onClick={() => setViewMode('bulk')}
+                className="px-4 py-2 text-sm font-medium bg-emerald-50 text-emerald-700"
+              >
+                Bulk view
+              </button>
+              <button
+                onClick={() => setViewMode('single')}
+                className="px-4 py-2 text-sm font-medium bg-white text-gray-600 hover:bg-gray-50"
+              >
+                Single site
+              </button>
+            </div>
+            <button
+              onClick={() => setShowAssignModal(true)}
+              className="ui-button ui-button--primary"
+            >
+              <PlusIcon className="mr-2" />
+              Assign ruleset
+            </button>
+          </div>
         // Bulk View - Site rows with assignment lists
         <div className="sonaui-tablewrapper--default">
           <table className="sonaui-table sonaui-table--default">
@@ -1830,11 +1820,26 @@ function AssignmentsTab({
             </tbody>
           </table>
         </div>
+      </>
       ) : (
         // Single Site View - Timeline
         <div className="flex">
           {/* Site List */}
           <div className="w-64 flex-shrink-0 pr-6 border-r border-gray-200">
+            <div className="flex border border-gray-200 rounded-lg overflow-hidden mb-3">
+              <button
+                onClick={() => setViewMode('bulk')}
+                className="px-4 py-2 text-sm font-medium bg-white text-gray-600 hover:bg-gray-50"
+              >
+                Bulk view
+              </button>
+              <button
+                onClick={() => setViewMode('single')}
+                className="px-4 py-2 text-sm font-medium bg-emerald-50 text-emerald-700"
+              >
+                Single site
+              </button>
+            </div>
             <h4 className="text-sm font-semibold text-gray-900 mb-3">Sites</h4>
             <div className="space-y-1">
               {orgUnitAttributes.map((ou) => (
@@ -1857,7 +1862,7 @@ function AssignmentsTab({
           <div className="flex-1 pl-6">
             {selectedOrgUnit ? (
               <div>
-                <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center justify-between">
                   <h4 className="text-lg font-semibold text-gray-900">
                     {
                       orgUnitAttributes.find((ou) => ou.orgUnit.id === selectedOrgUnit)

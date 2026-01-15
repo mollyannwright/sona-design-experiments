@@ -392,38 +392,28 @@ function AssignmentsWireframe() {
 
   return (
     <div>
-      {/* Header */}
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex border border-slate-300 rounded-lg overflow-hidden">
-          <button
-            onClick={() => setViewMode('bulk')}
-            className={`px-4 py-2 text-sm font-medium font-[Chalkboard] ${
-              viewMode === 'bulk'
-                ? 'bg-slate-100 text-slate-700'
-                : 'bg-white text-slate-400'
-            }`}
-          >
-            Bulk view
-          </button>
-          <button
-            onClick={() => setViewMode('single')}
-            className={`px-4 py-2 text-sm font-medium border-l border-slate-300 font-[Chalkboard] ${
-              viewMode === 'single'
-                ? 'bg-slate-100 text-slate-700'
-                : 'bg-white text-slate-400'
-            }`}
-          >
-            Single site
-          </button>
-        </div>
-        {viewMode === 'bulk' && (
-          <div className="px-4 py-2 bg-slate-100 border border-slate-300 rounded text-slate-400 text-sm font-[Chalkboard]">
-            + Assign ruleset
-          </div>
-        )}
-      </div>
-
       {viewMode === 'bulk' ? (
+        <>
+          {/* Header */}
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex border border-slate-300 rounded-lg overflow-hidden">
+              <button
+                onClick={() => setViewMode('bulk')}
+                className="px-4 py-2 text-sm font-medium font-[Chalkboard] bg-slate-100 text-slate-700"
+              >
+                Bulk view
+              </button>
+              <button
+                onClick={() => setViewMode('single')}
+                className="px-4 py-2 text-sm font-medium border-l border-slate-300 font-[Chalkboard] bg-white text-slate-400"
+              >
+                Single site
+              </button>
+            </div>
+            <div className="px-4 py-2 bg-slate-100 border border-slate-300 rounded text-slate-400 text-sm font-[Chalkboard]">
+              + Assign ruleset
+            </div>
+          </div>
         /* Bulk View - Table */
         <div className="bg-white border border-slate-300 rounded overflow-hidden">
           {/* Table Header */}
@@ -465,11 +455,26 @@ function AssignmentsWireframe() {
             </div>
           ))}
         </div>
+      </>
       ) : (
         /* Single Site View - Timeline */
         <div className="flex">
           {/* Site List Sidebar */}
           <div className="w-64 flex-shrink-0 pr-6 border-r border-slate-300">
+            <div className="flex border border-slate-300 rounded-lg overflow-hidden mb-3">
+              <button
+                onClick={() => setViewMode('bulk')}
+                className="px-4 py-2 text-sm font-medium font-[Chalkboard] bg-white text-slate-400"
+              >
+                Bulk view
+              </button>
+              <button
+                onClick={() => setViewMode('single')}
+                className="px-4 py-2 text-sm font-medium border-l border-slate-300 font-[Chalkboard] bg-slate-100 text-slate-700"
+              >
+                Single site
+              </button>
+            </div>
             <div className="text-sm font-semibold text-slate-700 mb-3 font-[Chalkboard]">Sites</div>
             <div className="space-y-1">
               {[1, 2, 3, 4, 5].map((i) => (
@@ -490,7 +495,7 @@ function AssignmentsWireframe() {
 
           {/* Assignment Timeline */}
           <div className="flex-1 pl-6">
-            <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center justify-between">
               <h4 className="text-lg font-semibold text-slate-700 font-[Chalkboard]">
                 Site Name {selectedSite}
               </h4>
