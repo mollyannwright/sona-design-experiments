@@ -15,7 +15,7 @@ import type {
   Rule,
   RulesetAssignment,
   OrgUnitWithAssignments,
-} from '../types/labourRules';
+} from './labourRules';
 
 // ==============================================
 // ATTRIBUTES

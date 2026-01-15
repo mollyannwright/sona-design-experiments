@@ -8,6 +8,27 @@ alwaysApply: false
 
 This skill enables rapid creation of interactive UI prototypes and experiments using the SonaUI design system. All prototypes are built with React + Vite + Tailwind CSS for easy online hosting and sharing.
 
+## Quick Commands
+
+**When user asks to "create a link" or "deploy this prototype":**
+
+```bash
+# Deploy and get shareable URL
+cd "/Users/molly/Documents/UI Experiments"
+vercel --prod
+
+# Or check existing deployments
+vercel ls
+
+# Get production URL
+vercel inspect
+```
+
+**Repository:** `https://github.com/mollyannwright/sona-design-experiments`  
+**Production URL:** `https://sona-design-experiments.vercel.app` (after first deployment)
+
+---
+
 ## Resource Locations
 
 ### Design System Sources (Priority Order)
@@ -523,20 +544,129 @@ npm run build
 # Output in dist/ folder
 ```
 
-### Quick Deploy Options
+---
 
-1. **Vercel** (Recommended)
+## Vercel Deployment (Primary Method)
+
+**Use this skill to create shareable links when users ask you to deploy or share prototypes.**
+
+### Initial Setup (One-Time)
+
+1. **Install Vercel CLI** (if not already installed):
    ```bash
-   npx vercel
+   npm install -g vercel
    ```
 
-2. **Netlify Drop**
+2. **Login to Vercel**:
+   ```bash
+   vercel login
+   ```
+   - Opens browser for authentication
+   - Use your GitHub account (recommended) or email
+
+3. **Connect GitHub Repository**:
+   - Go to [vercel.com](https://vercel.com)
+   - Click "Add New..." → "Project"
+   - Import `mollyannwright/sona-design-experiments`
+   - Vercel will auto-detect Vite settings
+   - Click "Deploy"
+
+### Automatic Deployments
+
+Once connected, **every push to GitHub automatically deploys**:
+- **Production URL**: `https://sona-design-experiments.vercel.app` (or your custom domain)
+- **Preview URLs**: Each branch/PR gets its own unique URL
+- **Instant updates**: Changes go live in ~30 seconds
+
+### Manual Deployment via CLI
+
+```bash
+cd "/Users/molly/Documents/UI Experiments"
+vercel
+```
+
+Follow prompts:
+- **Set up and deploy?** → Yes
+- **Which scope?** → Your account
+- **Link to existing project?** → Yes (select `sona-design-experiments`)
+- **Override settings?** → No (uses defaults)
+
+### Getting Deployment URLs
+
+**When user asks to "create a link" or "deploy this prototype":**
+
+1. **Check if already deployed**:
+   ```bash
+   vercel ls
+   ```
+   Shows all deployments with URLs
+
+2. **Deploy current state**:
+   ```bash
+   vercel --prod
+   ```
+   Returns production URL immediately
+
+3. **Get latest deployment URL**:
+   ```bash
+   vercel inspect
+   ```
+   Shows production URL and recent deployments
+
+### Vercel Configuration
+
+The project uses Vercel's **automatic detection** for Vite projects. No `vercel.json` needed, but you can customize:
+
+```json
+// vercel.json (optional)
+{
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "framework": "vite"
+}
+```
+
+### Deployment Workflow
+
+**Standard flow when user requests deployment:**
+
+1. **Ensure code is committed and pushed**:
+   ```bash
+   git add .
+   git commit -m "Update prototype"
+   git push
+   ```
+   → Auto-deploys via GitHub integration
+
+2. **Or deploy directly**:
+   ```bash
+   vercel --prod
+   ```
+   → Returns shareable URL immediately
+
+3. **Share the URL**:
+   - Production: `https://sona-design-experiments.vercel.app`
+   - Preview: `https://sona-design-experiments-[hash].vercel.app`
+
+### Free Tier Limits
+
+- ✅ Unlimited deployments
+- ✅ 100GB bandwidth/month
+- ✅ Automatic HTTPS
+- ✅ Global CDN
+- ✅ Preview deployments for every branch
+- ⚠️ Personal/non-commercial use only
+
+### Alternative Deploy Options
+
+1. **Netlify Drop**
    - Build locally: `npm run build`
    - Drag `dist/` folder to netlify.com/drop
 
-3. **GitHub Pages**
+2. **GitHub Pages**
    - Push to GitHub
    - Enable Pages in repo settings
+   - Requires `gh-pages` branch setup
 
 ---
 
@@ -567,10 +697,18 @@ npm run build
 - Note which patterns were extracted from examples
 - Highlight any deviations from standard Sona
 
-### 6. Iterate
+### 6. Deploy & Share (when requested)
+- When user asks to "create a link" or "deploy":
+  - Run `vercel --prod` to deploy
+  - Share the returned URL
+  - Or push to GitHub for automatic deployment
+- Provide the shareable URL for stakeholder review
+
+### 7. Iterate
 - Be ready to modify based on feedback
 - Keep changes isolated for easy updates
 - Maintain design system consistency
+- Re-deploy after updates when user requests
 
 ---
 

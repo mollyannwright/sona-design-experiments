@@ -1,6 +1,7 @@
 import { Routes, Route, Link } from 'react-router-dom'
 import { TableView } from './components/TableView'
-import { LabourRules } from './components/LabourRules'
+import { LabourRules } from '../prototype-outputs/labour-rules-configuration/LabourRules.tsx'
+import { FloatingNav } from './components/FloatingNav'
 
 function Home() {
   return (
@@ -33,15 +34,18 @@ function Home() {
 
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/labour-rules" element={<LabourRules />} />
-      <Route path="/table" element={
-        <div className="h-screen">
-          <TableView onBack={() => window.history.back()} />
-        </div>
-      } />
-    </Routes>
+    <>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/labour-rules" element={<LabourRules />} />
+        <Route path="/table" element={
+          <div className="h-screen">
+            <TableView onBack={() => window.history.back()} />
+          </div>
+        } />
+      </Routes>
+      <FloatingNav />
+    </>
   )
 }
 

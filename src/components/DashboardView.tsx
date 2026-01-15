@@ -3,10 +3,8 @@ import {
   Calendar, 
   Clock, 
   MessageSquare, 
-  User, 
   ChevronRight, 
   Briefcase,
-  AlertCircle,
   Menu,
   Bell,
   Users

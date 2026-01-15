@@ -11,7 +11,7 @@
  */
 
 import { useState, useRef, useEffect } from 'react';
-import { SonaLayout } from './shared/SonaLayout';
+import { SonaLayout } from '../../src/components/shared/SonaLayout';
 import type {
   LabourRulesTab,
   Attribute,
@@ -20,19 +20,18 @@ import type {
   Rule,
   RulesetAssignment,
   OrgUnitWithAttributes,
-} from '../types/labourRules';
+} from './labourRules';
 import {
   attributes as initialAttributes,
   orgUnitAttributes as initialOrgUnitAttributes,
   rulesets as initialRulesets,
   rules as initialRules,
   assignments as initialAssignments,
-  sites,
   availableRoles,
   getAttributeSuggestions,
   parseFormulaAttributes,
   validateFormula,
-} from '../data/labourRulesData';
+} from './labourRulesData';
 
 // ==============================================
 // MAIN COMPONENT
@@ -824,7 +823,7 @@ interface RulesetsTabProps {
 function RulesetsTab({
   rulesets,
   setRulesets,
-  rules,
+  rules: _rules,
   setRules,
   attributes,
 }: RulesetsTabProps) {
@@ -1520,7 +1519,7 @@ function FormulaInput({
   value,
   onChange,
   placeholder,
-  attributes,
+  attributes: _attributes,
 }: FormulaInputProps) {
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [suggestions, setSuggestions] = useState<Attribute[]>([]);
