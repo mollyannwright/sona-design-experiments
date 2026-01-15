@@ -1642,6 +1642,13 @@ function AssignmentsTab({
   const [showAssignModal, setShowAssignModal] = useState(false);
   const [viewMode, setViewMode] = useState<'bulk' | 'single'>('bulk');
 
+  // Set first site as default when switching to single view
+  useEffect(() => {
+    if (viewMode === 'single' && !selectedOrgUnit && orgUnitAttributes.length > 0) {
+      setSelectedOrgUnit(orgUnitAttributes[0].orgUnit.id);
+    }
+  }, [viewMode, orgUnitAttributes, selectedOrgUnit]);
+
   const getAssignmentsForOrgUnit = (orgUnitId: string) => {
     return assignments.filter((a) => a.orgUnitId === orgUnitId);
   };
@@ -1694,38 +1701,38 @@ function AssignmentsTab({
   return (
     <div>
       {/* Header */}
-      <div className="flex items-center justify-between mb-6">
-        <div className="flex items-center gap-4">
-          <div className="flex border border-gray-200 rounded-lg overflow-hidden">
-            <button
-              onClick={() => setViewMode('bulk')}
-              className={`px-4 py-2 text-sm font-medium ${
-                viewMode === 'bulk'
-                  ? 'bg-emerald-50 text-emerald-700'
-                  : 'bg-white text-gray-600 hover:bg-gray-50'
-              }`}
-            >
-              Bulk view
-            </button>
-            <button
-              onClick={() => setViewMode('single')}
-              className={`px-4 py-2 text-sm font-medium ${
-                viewMode === 'single'
-                  ? 'bg-emerald-50 text-emerald-700'
-                  : 'bg-white text-gray-600 hover:bg-gray-50'
-              }`}
-            >
-              Single site
-            </button>
-          </div>
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex border border-gray-200 rounded-lg overflow-hidden">
+          <button
+            onClick={() => setViewMode('bulk')}
+            className={`px-4 py-2 text-sm font-medium ${
+              viewMode === 'bulk'
+                ? 'bg-emerald-50 text-emerald-700'
+                : 'bg-white text-gray-600 hover:bg-gray-50'
+            }`}
+          >
+            Bulk view
+          </button>
+          <button
+            onClick={() => setViewMode('single')}
+            className={`px-4 py-2 text-sm font-medium ${
+              viewMode === 'single'
+                ? 'bg-emerald-50 text-emerald-700'
+                : 'bg-white text-gray-600 hover:bg-gray-50'
+            }`}
+          >
+            Single site
+          </button>
         </div>
-        <button
-          onClick={() => setShowAssignModal(true)}
-          className="ui-button ui-button--primary"
-        >
-          <PlusIcon className="mr-2" />
-          Assign ruleset
-        </button>
+        {viewMode === 'bulk' && (
+          <button
+            onClick={() => setShowAssignModal(true)}
+            className="ui-button ui-button--primary"
+          >
+            <PlusIcon className="mr-2" />
+            Assign ruleset
+          </button>
+        )}
       </div>
 
       {viewMode === 'bulk' ? (
@@ -1825,9 +1832,9 @@ function AssignmentsTab({
         </div>
       ) : (
         // Single Site View - Timeline
-        <div className="grid grid-cols-4 gap-6">
+        <div className="flex">
           {/* Site List */}
-          <div className="col-span-1">
+          <div className="w-64 flex-shrink-0 pr-6 border-r border-gray-200">
             <h4 className="text-sm font-semibold text-gray-900 mb-3">Sites</h4>
             <div className="space-y-1">
               {orgUnitAttributes.map((ou) => (
@@ -1847,15 +1854,24 @@ function AssignmentsTab({
           </div>
 
           {/* Assignment Timeline */}
-          <div className="col-span-3">
+          <div className="flex-1 pl-6">
             {selectedOrgUnit ? (
               <div>
-                <h4 className="text-lg font-semibold text-gray-900 mb-4">
-                  {
-                    orgUnitAttributes.find((ou) => ou.orgUnit.id === selectedOrgUnit)
-                      ?.orgUnit.name
-                  }
-                </h4>
+                <div className="flex items-center justify-between mb-4">
+                  <h4 className="text-lg font-semibold text-gray-900">
+                    {
+                      orgUnitAttributes.find((ou) => ou.orgUnit.id === selectedOrgUnit)
+                        ?.orgUnit.name
+                    }
+                  </h4>
+                  <button
+                    onClick={() => setShowAssignModal(true)}
+                    className="ui-button ui-button--primary"
+                  >
+                    <PlusIcon className="mr-2" />
+                    Assign ruleset
+                  </button>
+                </div>
                 
                 <div className="space-y-3">
                   {getAssignmentsForOrgUnit(selectedOrgUnit).length > 0 ? (
