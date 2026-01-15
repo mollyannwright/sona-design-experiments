@@ -8,7 +8,7 @@ import { ChevronRightIcon } from './components/shared/Icon'
 function Home() {
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-      <div className="text-center w-full max-w-2xl px-4">
+      <div className="text-center">
         <h1 className="text-4xl font-bold text-gray-900 mb-4">
           UI Experiments
         </h1>
@@ -17,7 +17,7 @@ function Home() {
         </p>
         <div className="flex flex-col gap-8 items-center">
           {/* Most Recent Section */}
-          <div className="w-full">
+          <div className="w-64">
             <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4 text-left">
               Most recent
             </h2>
@@ -31,7 +31,7 @@ function Home() {
           </div>
 
           {/* All Other Prototypes Section */}
-          <div className="w-full">
+          <div className="w-64">
             <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4 text-left">
               All other prototypes
             </h2>
