@@ -37,7 +37,7 @@ export function Icon({ name, className = '', size = 'md' }: IconProps) {
 
     const loadSvg = async () => {
       try {
-        const response = await fetch(`/sonaui-design-system/icons/${name}.svg`);
+        const response = await fetch(`/icons/${name}.svg`);
         if (!response.ok) throw new Error('Icon not found');
         const text = await response.text();
         // Remove the outer svg wrapper and get inner content
@@ -48,7 +48,7 @@ export function Icon({ name, className = '', size = 'md' }: IconProps) {
         setSvgContent(cleanedSvg);
       } catch {
         setError(true);
-        console.warn(`Icon "${name}" not found in /sonaui-design-system/icons/`);
+        console.warn(`Icon "${name}" not found in /icons/`);
       }
     };
 
