@@ -244,12 +244,12 @@ function RulesetsWireframe() {
   const [selectedRuleset, setSelectedRuleset] = useState<number>(1); // Default to first ruleset
 
   return (
-    <div className="flex gap-6">
+    <div className="flex">
       {/* Left Sidebar - Rulesets List */}
-      <div className="w-80 flex-shrink-0">
+      <div className="w-80 flex-shrink-0 pr-6 border-r border-slate-300">
         <div className="flex items-center justify-between mb-4">
           <div className="text-sm font-semibold text-slate-700 font-[Chalkboard]">Rulesets</div>
-          <div className="text-sm text-slate-400 font-[Chalkboard]">+ New ruleset</div>
+          <div className="text-sm text-slate-400 font-[Chalkboard]">+ New</div>
         </div>
 
         {/* Ruleset Cards */}
@@ -286,7 +286,7 @@ function RulesetsWireframe() {
       </div>
 
       {/* Right Side - Rules Detail */}
-      <div className="flex-1">
+      <div className="flex-1 pl-6">
         <div className="flex items-center justify-between mb-4">
           <div>
             <h3 className="text-lg font-semibold text-slate-700 mb-1 font-[Chalkboard]">

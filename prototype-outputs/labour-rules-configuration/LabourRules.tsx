@@ -984,16 +984,16 @@ function RulesetsTab({
   }, [rulesets]);
 
   return (
-    <div className="flex gap-6">
+    <div className="flex">
       {/* Rulesets List */}
-      <div className="w-80 flex-shrink-0">
+      <div className="w-80 flex-shrink-0 pr-6 border-r border-gray-200">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-sm font-semibold text-gray-900">Rulesets</h3>
           <button
             onClick={handleCreateRuleset}
             className="text-sm text-emerald-600 hover:text-emerald-700 font-medium"
           >
-            + New ruleset
+            + New
           </button>
         </div>
         <div className="space-y-2">
@@ -1051,7 +1051,7 @@ function RulesetsTab({
       </div>
 
       {/* Rules Detail */}
-      <div className="flex-1">
+      <div className="flex-1 pl-6">
         {selectedRuleset ? (
           <div>
             <div className="flex items-center justify-between mb-4">
