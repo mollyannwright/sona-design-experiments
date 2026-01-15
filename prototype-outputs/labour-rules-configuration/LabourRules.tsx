@@ -967,15 +967,21 @@ function RulesetsTab({
     );
   };
 
-  // Update selectedRuleset when rulesets change
+  // Set first ruleset as default when component mounts or rulesets change
   useEffect(() => {
-    if (selectedRuleset) {
+    if (!selectedRuleset && rulesets.length > 0) {
+      setSelectedRuleset(rulesets[0]);
+    } else if (selectedRuleset) {
+      // Update selectedRuleset when rulesets change
       const updated = rulesets.find((rs) => rs.id === selectedRuleset.id);
       if (updated) {
         setSelectedRuleset(updated);
+      } else if (rulesets.length > 0) {
+        // If selected ruleset was deleted, select first one
+        setSelectedRuleset(rulesets[0]);
       }
     }
-  }, [rulesets, selectedRuleset]);
+  }, [rulesets]);
 
   return (
     <div className="flex gap-6">

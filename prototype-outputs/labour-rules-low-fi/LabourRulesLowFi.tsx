@@ -241,6 +241,8 @@ function OrgUnitAttributesWireframe() {
 // ==============================================
 
 function RulesetsWireframe() {
+  const [selectedRuleset, setSelectedRuleset] = useState<number>(1); // Default to first ruleset
+
   return (
     <div className="flex gap-6">
       {/* Left Sidebar - Rulesets List */}
@@ -255,8 +257,9 @@ function RulesetsWireframe() {
           {[1, 2, 3].map((i) => (
             <div
               key={i}
-              className={`p-4 rounded-lg border ${
-                i === 1
+              onClick={() => setSelectedRuleset(i)}
+              className={`p-4 rounded-lg border cursor-pointer ${
+                selectedRuleset === i
                   ? 'border-slate-700 bg-slate-50'
                   : 'border-slate-300 bg-white'
               }`}
@@ -287,7 +290,7 @@ function RulesetsWireframe() {
         <div className="flex items-center justify-between mb-4">
           <div>
             <h3 className="text-lg font-semibold text-slate-700 mb-1 font-[Chalkboard]">
-              Ruleset Name 1
+              Ruleset Name {selectedRuleset}
             </h3>
             <SquiggleText height={14} className="w-64" rows={1} />
           </div>
