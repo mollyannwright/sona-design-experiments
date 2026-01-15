@@ -1722,7 +1722,7 @@ function AssignmentsTab({
   return (
     <div className="flex">
       {/* Site List */}
-      <div className="w-64 flex-shrink-0 pr-6 border-r border-gray-200 -ml-6">
+      <div className="w-80 flex-shrink-0 pr-6 border-r border-gray-200 -ml-6">
         {/* Status Filter */}
         <div className="mb-3 pl-4">
           <label className="block text-xs font-medium text-gray-600 mb-1.5">Filter sites</label>

@@ -409,7 +409,7 @@ function AssignmentsWireframe() {
   return (
     <div className="flex">
       {/* Site List Sidebar */}
-      <div className="w-64 flex-shrink-0 pr-6 border-r border-slate-300 -ml-6">
+      <div className="w-80 flex-shrink-0 pr-6 border-r border-slate-300 -ml-6">
         {/* Status Filter */}
         <div className="mb-3 pl-4">
           <div className="text-xs font-medium text-slate-600 mb-1.5 font-[Chalkboard]">Filter sites</div>
