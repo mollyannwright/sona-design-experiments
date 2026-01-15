@@ -1,7 +1,9 @@
 import { Routes, Route, Link } from 'react-router-dom'
 import { TableView } from './components/TableView'
 import { LabourRules } from '../prototype-outputs/labour-rules-configuration/LabourRules.tsx'
+import { LabourRulesLowFi } from '../prototype-outputs/labour-rules-low-fi/LabourRulesLowFi.tsx'
 import { FloatingNav } from './components/FloatingNav'
+import { PWSConfig } from './components/PWSConfig'
 
 function Home() {
   return (
@@ -15,10 +17,22 @@ function Home() {
         </p>
         <div className="flex flex-col gap-3 items-center">
           <Link 
-            to="/labour-rules" 
+            to="/pws-config" 
             className="w-64 px-4 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-medium rounded-lg transition-colors"
           >
+            PWS Config Prototype
+          </Link>
+          <Link 
+            to="/labour-rules" 
+            className="w-64 px-4 py-3 bg-white hover:bg-gray-50 text-gray-700 font-medium rounded-lg border border-gray-200 transition-colors"
+          >
             Labour Rules Prototype
+          </Link>
+          <Link 
+            to="/labour-rules-low-fi" 
+            className="w-64 px-4 py-3 bg-white hover:bg-gray-50 text-gray-700 font-medium rounded-lg border border-gray-200 transition-colors"
+          >
+            Labour Rules Low-Fi Wireframe
           </Link>
           <Link 
             to="/table" 
@@ -37,7 +51,9 @@ function App() {
     <>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/pws-config" element={<PWSConfig />} />
         <Route path="/labour-rules" element={<LabourRules />} />
+        <Route path="/labour-rules-low-fi" element={<LabourRulesLowFi />} />
         <Route path="/table" element={
           <div className="h-screen">
             <TableView onBack={() => window.history.back()} />

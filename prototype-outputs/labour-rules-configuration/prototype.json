@@ -1,0 +1,6 @@
+{
+  "name": "Labour Rules",
+  "description": "Configuration prototype",
+  "route": "/labour-rules",
+  "componentPath": "LabourRules.tsx"
+}

@@ -1,0 +1,767 @@
+﻿Voyage Care: PWS Management & Commissioned Hours — Internal Scope
+
+
+SCOPE DOCUMENT
+
+
+Voyage Care
+PWS Management & Commissioned Hours
+
+
+Document type
+	Internal scope document
+	Version
+	1.0
+	Date
+	January 2026
+	Status
+	Draft for review
+	Customer
+	Voyage Care
+	Product area
+	Registered Care / Scheduling
+	________________
+
+
+1. Executive summary
+This document defines the complete scope for PWS (People We Support) management and commissioned hours functionality within Sona for the Voyage Care implementation. These capabilities form the foundation for Voyage's registered care delivery model.
+1.1 The problem
+Voyage currently manages care hours and PWS details in spreadsheets maintained by finance teams, separate from their rostering solution. This creates:
+* Manual data entry burden and reconciliation overhead
+* Risk of misalignment between planned care and commissioned hours
+* Inability to proactively monitor ratio compliance
+* Limited visibility into safe staffing levels during scheduling
+* Difficulty tracking actual delivery against commissioned requirements
+1.2 The solution
+Move all PWS configuration and commissioned hours data into Sona, providing integrated care planning, scheduling, and compliance monitoring within a single platform.
+1.3 Scope summary
+This document covers three integrated deliverables:
+1. PWS Enhancements Part 1 — Foundational data structures and configuration capabilities
+2. Commissioned Hours Enhancements — Ratio management and shared care calculations
+3. PWS Weekly View — Operational roster interface with enhanced metrics and visibility
+1.4 Critical dependencies
+* Dynamics CRM integration (Community phase) — will eventually provide PWS data feed
+* Until integration: Manual data entry via enhanced Sona configuration screens
+* Weekly View roster platform (modern technology foundation)
+________________
+
+
+2. Background & context
+2.1 Business context
+Voyage delivers care to individuals (PWS) under commissioning arrangements with local authorities and other funding bodies. Each PWS has specific care requirements defined in care packages, including allocated hours and required staffing ratios.
+Currently, this critical information exists outside the rostering system, forcing care managers to cross-reference multiple sources when planning schedules.
+2.2 Current state pain points
+* Care package details maintained in finance spreadsheets
+* Schedulers lack visibility of commissioned hours during roster planning
+* No system-level tracking of ratio requirements
+* Care needs documented separately from scheduling
+* Manual processes to verify staffing meets commissioned requirements
+2.3 Expected business impact
+* Single source of truth for PWS care requirements
+* Proactive compliance monitoring during schedule creation
+* Reduced administrative overhead (eliminate spreadsheet reconciliation)
+* Improved audit trail for regulatory compliance
+* Foundation for accurate cost-per-PWS reporting
+________________
+
+
+3. Objectives
+3.1 Primary objectives
+* Enable storage and management of all PWS commissioned hours data within Sona
+* Provide automated ratio calculation and compliance monitoring
+* Deliver a modern, PWS-centric roster interface for care managers
+* Track hours consumption against commissioned budgets in real time
+3.2 Secondary objectives
+* Establish data structures that support future Dynamics CRM integration
+* Enable care needs matching between PWS requirements and employee skills
+* Provide comprehensive reporting and data export capabilities
+* Support template-based scheduling for operational efficiency
+________________
+
+
+4. Scope overview
+4.1 In scope
+4.1.1 PWS Enhancements Part 1 (Data foundation)
+* Enhanced PWS configuration screen with commissioned hours structure
+* Service-level configuration (capacity, target ratio, controlling ratio)
+* PWS-level ratio configuration
+* Care needs specification using skills/attributes framework
+* Occupancy management (in/out of service tracking)
+* PWS ID codes for cost reporting
+* Bulk operations and CSV import for data migration
+4.1.2 Commissioned Hours Enhancements (Calculation engine)
+* Controlling ratio calculation algorithm
+* Staff hours required calculation based on controlling ratio
+* Time-based ratio variations (day vs night)
+* Multiple distribution methods for shared hours
+* Shift-level PWS coverage specification
+* Hours consumption tracking against budgets
+* Ratio compliance validation and alerting
+4.1.3 PWS Weekly View (Operational interface)
+* Migration to modern weekly view platform
+* Service metrics panel with ratio status and hours consumption
+* PWS breakdown view with shift visibility
+* Drag-and-drop shift scheduling with real-time validation
+* Employee skill matching interface
+* Shift creation workflow with PWS coverage selection
+* Alert and warning displays
+* Template integration for recurring patterns
+* Open shifts functionality
+* Absence and sickness management
+________________
+4.2 Out of scope (this phase)
+Two in red outline are part of discussions but potentially the first out of scope items
+
+
+Item
+	Notes
+	Dynamics CRM integration
+	Will be delivered as part of Community phase. Until then, manual data entry.
+	Hour banking (full functionality)
+	Data model included but operational functionality deferred.
+	Care Needs
+	PWS settings against needs of service provided
+	Nourish integration
+	Future integration to link care documentation with scheduling.
+	Employee self-assignment
+	Mobile app enhancement for employees to claim open shifts. Future phase.
+	Community care routing
+	Shift run/routing functionality is Community-specific.
+	Payroll integration enhancements
+	Cost-per-PWS calculation depends on payroll rate integration.
+	________________
+
+
+5. Detailed requirements: Part 1 — PWS Enhancements
+This section covers the two distinct configuration levels required for PWS management:
+Level 1: Service/Location Configuration — Settings that apply to an entire care home or service
+Level 2: PWS Configuration — Settings specific to each individual person we support
+5.1 Service/location configuration
+Each service (org unit representing a care home or location) requires configuration that governs how care is delivered across all PWS at that location.
+5.1.1 Service settings
+Field name
+	Data type
+	Description
+	Example
+	Service Capacity
+	Integer
+	Maximum number of PWS the service can accommodate
+	12
+	Target Ratio
+	Ratio (1:X)
+	Aspirational staffing ratio the service aims to achieve
+	1:6
+	Controlling Ratio
+	Ratio (1:X)
+	Auto-calculated from PWS — most restrictive ratio drives this
+	1:4
+	Day Period Start
+	Time
+	When day care period begins
+	07:00
+	Night Period Start
+	Time
+	When night care period begins
+	22:00
+	Distribution Method
+	Enum
+	How shared hours are allocated across PWS (Equal / Percentage / Ratio-weighted)
+	Equal
+	5.1.2 How controlling ratio works
+The controlling ratio is automatically calculated by the system — it is not manually set. The system:
+* Looks at all PWS currently 'In Service' at the location
+* Identifies each PWS's individual ratio requirement
+* Sets the controlling ratio to the most restrictive (lowest number)
+* Recalculates automatically when PWS are added, removed, or their ratio changes
+Example: If a service has 5 PWS at 1:6 and 1 PWS at 1:4, the controlling ratio is 1:4. That one PWS 'controls' the staffing requirement for the whole service during shared care.
+5.1.3 Service validation rules
+Field
+	Validation
+	Service Capacity
+	Must be positive integer. Warning displayed if current PWS count exceeds capacity.
+	Target Ratio
+	Format 1:X where X is positive integer. Allowed values configurable (e.g. 1:1, 1:2, 1:4, 1:6, 1:8, 1:10).
+	Day/Night boundaries
+	Night start must be after day start. No overlapping periods.
+	________________
+
+
+5.2 PWS configuration
+Each PWS (Person We Support) requires their own configuration defining their care package, needs, and status.
+5.2.1 Core PWS fields
+Field name
+	Data type
+	Description
+	Example
+	PWS Name
+	String
+	Full name of the person
+	David Thompson
+	PWS ID Code
+	String (50)
+	Unique identifier for reporting and finance
+	VYG-PWS-047
+	Primary Service
+	Service Link
+	The service/location where this PWS resides
+	Maple House
+	Individual Ratio
+	Ratio (1:X)
+	This PWS's specific shared care ratio requirement
+	1:4
+	Occupancy Status
+	Enum
+	Current status: In Service / Out of Service
+	In Service
+	Admission Date
+	Date
+	When the PWS was admitted to the service
+	01/03/2024
+	5.2.2 Commissioned hours
+Each PWS has a care package defining their weekly commissioned hours. These hours are broken down by type:
+Hour type
+	Hours/week
+	Ratio
+	Description
+	1:1 Care
+	Decimal
+	N/A (always 1:1)
+	Dedicated individual care — one staff member exclusively with this PWS
+	2:1 Care
+	Decimal
+	N/A (always 2:1)
+	Two staff members supporting this one PWS (complex needs)
+	Shared Care Day
+	Decimal
+	Uses individual ratio
+	Day-time care shared with other PWS at this service
+	Shared Care Night
+	Decimal
+	Uses individual ratio
+	Night-time care shared with other PWS at this service
+	Waking Night
+	Decimal
+	Uses individual ratio
+	Night hours where staff must remain awake
+	Sleeping Night
+	Decimal
+	Uses individual ratio
+	Night hours where staff sleeps on-site but available if needed
+	Note: The 'Individual Ratio' set on the PWS applies to all shared care hour types. This ratio feeds into the service's controlling ratio calculation.
+5.2.3 Care needs
+Each PWS can have care needs specified, which map to required employee skills:
+* Care needs use the existing Skills/Attributes framework
+* Each care need links to a required employee skill
+* When scheduling, system checks if assigned employee has the required skills
+* Visual warnings shown when employee lacks skills required by the PWS
+PWS care need
+	Required employee skill
+	Requires hoist
+	Hoist Trained
+	Diabetic
+	Diabetes Care
+	Complex medication
+	Medication Administration Level 3
+	Behavioural support required
+	Positive Behaviour Support
+	PEG feeding
+	PEG Feed Trained
+	5.2.4 PWS validation rules
+Field
+	Validation
+	PWS ID Code
+	Must be unique across organisation. Required field.
+	Individual Ratio
+	Format 1:X where X is positive integer. Must be from allowed list.
+	Commissioned Hours
+	Cannot be negative. Warning if total exceeds 168 hours/week.
+	Primary Service
+	Must link to valid service. PWS counts against that service's capacity.
+	________________
+
+
+5.3 Occupancy management
+PWS may be temporarily absent from their service (hospital admission, respite care, holiday). The system needs to track this because:
+* Absent PWS should not drive scheduling demand
+* Their ratio should not affect the controlling ratio calculation
+* Hours consumption should pause during absence
+* Audit trail needed for billing and compliance
+5.3.1 Occupancy record structure
+Field
+	Type
+	Description
+	PWS
+	Reference
+	Link to PWS record
+	Out of Service Date
+	Date
+	When PWS left the service
+	Expected Return Date
+	Date (optional)
+	When PWS is expected back
+	Reason
+	Enum
+	Hospital / Respite / Holiday / Family Visit / Other
+	Notes
+	Text
+	Additional context
+	5.3.2 Occupancy status behaviour
+* PWS defaults to 'In Service' status
+* Creating an occupancy record with a date range sets status to 'Out of Service'
+* System excludes 'Out of Service' PWS from controlling ratio calculation
+* System excludes their hours from scheduling demand
+* When return date passes, status automatically reverts to 'In Service'
+* Historical records maintained for audit and billing reconciliation
+5.4 Configuration hierarchy summary
+The relationship between service and PWS configuration:
+Level
+	What you configure
+	What system calculates
+	Service
+	Capacity, target ratio, day/night times, distribution method
+	Controlling ratio (from PWS), total commissioned hours, current occupancy
+	PWS
+	Individual ratio, commissioned hours by type, care needs, occupancy periods
+	Hours consumed, skill match status, whether they 'control' the ratio
+	________________
+5.5 Bulk operations
+* CSV import for initial PWS data migration
+* Bulk update individual ratios across multiple PWS
+* Copy commissioned hours structure from one PWS to another
+* Bulk update occupancy status (e.g. mark multiple PWS as returned)
+________________
+
+
+6. Detailed requirements: Part 2 — Commissioned Hours
+6.1 The ratio challenge
+Voyage's commissioned care hours include 'shared care' where multiple PWS receive care simultaneously. The complexity arises because:
+* Different PWS have different needs — some require closer supervision (1:4) while others can share care more widely (1:6)
+* Controlling ratio rule — when PWS with different ratios receive shared care together, the most restrictive ratio applies
+* Service-wide impact — one PWS with higher needs can change the entire service's staffing requirement
+* Hour allocation complexity — shared hours must be distributed across PWS, but distribution methods may vary
+6.2 Controlling ratio calculation
+6.2.1 Algorithm
+For each service:
+* Identify all PWS with shared care hours
+* Extract individual ratio for each PWS
+* Determine most restrictive ratio (lowest number on right side)
+* Set as Controlling Ratio for service
+* Flag which PWS drive the controlling ratio
+6.2.2 Example scenarios
+Scenario
+	PWS ratios
+	Controlling
+	Reason
+	All same
+	1:6, 1:6, 1:6
+	1:6
+	No more restrictive ratio
+	Mixed
+	1:6, 1:4, 1:6
+	1:4
+	1:4 is more restrictive
+	Very mixed
+	1:8, 1:6, 1:2, 1:4
+	1:2
+	1:2 is most restrictive
+	6.3 Staff hours calculation
+6.3.1 Formula
+Staff Hours Required = Sum of (PWS Shared Hours) ÷ Controlling Ratio
+6.3.2 Worked examples
+Scenario 1: All PWS at 1:6
+* PWS 1: 100 hours @ 1:6
+* PWS 2: 100 hours @ 1:6
+* PWS 3: 100 hours @ 1:6
+* Total PWS hours: 300, Controlling ratio: 1:6
+Staff hours needed: 300 ÷ 6 = 50 hours
+Scenario 2: Mixed ratios (controlling 1:4)
+* PWS 1: 100 hours @ 1:6
+* PWS 2: 100 hours @ 1:6
+* PWS 3: 100 hours @ 1:6
+* PWS 4: 100 hours @ 1:4 (controls)
+* Total PWS hours: 400, Controlling ratio: 1:4
+Staff hours needed: 400 ÷ 4 = 100 hours
+6.4 Time-based ratio variations
+Ratios may differ between day and night, and night-time may involve sleeping staff.
+Hour type
+	Time period
+	Ratio
+	Staff status
+	Notes
+	Shared Day
+	07:00-22:00
+	1:6
+	Awake
+	Day care
+	Shared Night
+	22:00-07:00
+	1:8
+	Waking
+	Staff awake all night
+	Shared Night
+	22:00-07:00
+	1:10
+	Sleeping
+	Staff sleeps, counts when woken
+	System determines controlling ratio separately for each time period.
+6.5 Shared hours distribution methods
+6.5.1 Method 1: Equal distribution
+All PWS receive equal share of total hours.
+Example: Total 240 hours/week, 4 PWS = 60 hours each
+When to use: All PWS have similar needs and support requirements.
+6.5.2 Method 2: Percentage-based distribution
+Each PWS receives a defined percentage of total hours.
+Example: PWS 1: 25% (60h), PWS 2: 25% (60h), PWS 3: 30% (72h), PWS 4: 20% (48h)
+When to use: PWS have different levels of need requiring proportional allocation.
+6.5.3 Method 3: Ratio-weighted distribution
+Hours distributed based on individual ratio requirements (more restrictive ratio = more hours).
+When to use: PWS with higher care needs should receive proportionally more shared care time.
+6.6 Shift-level PWS coverage
+Each shift can specify which PWS are covered, enabling:
+* Accurate hours consumption tracking per PWS
+* Ratio calculation based on actual PWS present
+* Care needs validation against assigned employee skills
+* Override capability for non-standard situations
+6.7 Hours consumption tracking
+For each PWS, track consumption against commissioned budget:
+* Weekly view shows hours scheduled vs commissioned by type
+* Visual indicators: Green (<80%), Amber (80-100%), Red (>100% over-allocated)
+* Real-time update as shifts are created/modified
+________________
+
+
+7. Detailed requirements: Part 3 — PWS Weekly View
+7.1 Technology migration
+Rebuild PWS view on modern weekly view roster platform (same technology as standard weekly view).
+7.1.1 Feature parity requirements
+Bring forward all modern weekly view capabilities:
+* Drag-and-drop shift scheduling
+* Drag-and-drop shift reassignment between staff
+* Absence and sickness management
+* Open shifts functionality
+* Advanced edit functions (bulk operations)
+* Real-time save and update
+* Undo/redo capability
+* Filter and search functions
+7.2 View modes
+7.2.1 Primary view: Service-based with PWS breakdown
+Shows service at top with metrics panel, then individual PWS rows with their scheduled shifts across the week. Each PWS row displays:
+* PWS name and individual ratio
+* Commissioned hours summary
+* Visual indication if PWS drives controlling ratio
+* Out of service status where applicable
+* Shifts scheduled per day with hours breakdown
+7.2.2 Individual PWS drill-down
+Clicking on a PWS row expands to show detailed shift information including:
+* Shift times and types
+* Assigned employee
+* Other PWS covered by the shift
+* Ratio compliance status
+* Skill match status
+* Hours consumed from budget
+
+7.3 Service metrics panel
+Always visible panel at top of roster view showing:
+Metric
+	Description
+	Ratio Status
+	Within Safe Limits / Outside Safe Limits / Understaffed
+	Target Ratio
+	Organisational goal for the service
+	Controlling Ratio
+	Actual requirement based on PWS (identifies which PWS drives it)
+	Current Staffing
+	Ratio achieved based on scheduled shifts
+	Commissioned Hours
+	Total for the week across all hour types
+	Scheduled Hours
+	Total scheduled with percentage and variance
+	PWS Status
+	Count in service vs out of service
+	Care Needs Compliance
+	Whether all shifts have appropriately skilled staff
+	7.4 Drag-and-drop with validation
+PWS-specific validations during drag operations:
+Moving shift to different PWS
+   * Check shift type compatible with target PWS's commissioned hours
+   * Check target PWS has remaining hour budget
+   * Warn if target PWS has different ratio requirement
+   * Allow user to add staff, cancel, or override with reason
+Moving shift to different day
+   * Check employee available on new day
+   * Auto-remove PWS who are out of service on that day
+   * Recalculate ratio requirement based on remaining PWS
+Reassigning to different employee
+   * Check new employee availability
+   * Validate skills against PWS care needs
+   * Show warning if employee lacks required skills, allow override
+7.5 Shift creation workflow
+Enhanced shift creation dialog includes:
+   * Date, start/end time selection
+   * Shift type selection
+   * PWS coverage checkboxes with ratio and hours status for each
+   * Calculated requirements panel (controlling ratio, staff required)
+   * Employee selection with skill matching
+   * Care needs required summary
+   * Hours impact preview per PWS
+   * Template save/apply options
+7.6 Employee skill matching interface
+When 'Show Compatible Employees' clicked, display employees sorted by match quality:
+Match status
+	Display
+	Perfect match
+	Employee has all required skills, available, has hours remaining. [Assign] button.
+	Partial match
+	Employee has some skills, missing others. Shows which skills missing. [Assign with Override] button.
+	No match
+	Employee lacks all required skills or unavailable. Cannot assign.
+	7.7 Alert system
+7.7.1 Alert types
+Level
+	Alert type
+	Example
+	Critical (Red)
+	Understaffing
+	Service understaffed. Required: 2 employees. Scheduled: 1.
+	Warning (Amber)
+	Ratio compliance
+	Shift does not meet required 1:4 ratio. Current: 1:5.
+	Warning (Amber)
+	Over-allocated hours
+	Sarah's shared care hours exceeded by 2 hours.
+	Warning (Amber)
+	Skill mismatch
+	Employee lacks required skill: Diabetes Care.
+	Info (Blue)
+	Overstaffing
+	Service has excess staff. Required: 1, Scheduled: 2.
+	7.8 Template management
+7.8.1 Template structure
+   * Template name
+   * Shift type and duration
+   * PWS coverage (which PWS included)
+   * Ratio applied
+   * Assigned staff (optional)
+   * Day of week / recurrence pattern (optional)
+7.8.2 Template application
+When applying templates, system:
+   * Pre-fills shifts with template settings
+   * Auto-adjusts for out-of-service PWS
+   * Recalculates ratios based on actual PWS present
+   * Allows modification before saving
+   * Validates all constraints and shows warnings
+________________
+
+
+8. Cross-deliverable integration
+8.1 Data flow architecture
+The three deliverables form a layered architecture:
+Layer
+	Components
+	Layer 1: Data
+	PWS Enhancements Part 1 — Admin interface for service/PWS configuration, commissioned hours, care needs, occupancy
+	Layer 2: Calculation
+	Commissioned Hours Enhancements — Controlling ratio, staff hours, distribution, consumption tracking, compliance validation
+	Layer 3: Interface
+	PWS Weekly View — Shift creation, drag-and-drop, metrics display, alerts, templates
+	Layer 4: Reporting
+	Pivot reporting, pre-built reports, data exports
+	8.2 Critical dependencies
+Must be completed in order:
+PWS Enhancements Part 1 (Foundation) → Enables data entry and storage
+Commissioned Hours Enhancements (Logic) → Enables operational calculations
+PWS Weekly View (Interface) → Enables operational use
+Reporting Enhancements (Analytics) → Enables performance monitoring
+________________
+
+
+9. Future integrations
+9.1 Dynamics CRM (Community phase)
+When Dynamics integration delivers, it will replace manual data entry with automated feed.
+Data flow TO Sona
+   * PWS master data (identifiers, details, status)
+   * Commissioned hours (types, amounts, dates)
+   * Occupancy changes (out of service dates, reasons)
+   * Care needs updates and ratio requirements
+Data flow FROM Sona
+   * Confirmed shifts with PWS coverage
+   * Hours consumption by PWS and type
+   * Ratio compliance status
+   * Variance analysis
+Configuration change: Admin interface becomes 'view-only' for Dynamics-sourced data with manual override capability for exceptions.
+9.2 Nourish care documentation
+Future integration to link care needs to care documentation:
+   * Care plan in Nourish → Care needs in Sona
+   * Shift completion in Sona → Care documentation prompt in Nourish
+   * Quality metrics from Nourish → Display in Sona metrics
+9.3 Payroll integration
+PWS Weekly View confirmed shifts can feed to payroll with:
+   * Shift type → Pay rate category
+   * Duration → Hours worked
+   * PWS coverage → Cost allocation
+   * Service → Cost centre
+________________
+
+
+10. Assumptions
+   * Modern weekly view platform is stable and available for PWS view migration
+   * Existing Skills/Attributes framework can be extended for PWS care needs
+   * Voyage will provide current spreadsheet data for migration and validation
+   * Voyage finance team available for UAT of configuration interfaces
+   * Voyage care managers available for UAT of PWS weekly view
+   * Ratio requirements and distribution methods are consistent across Voyage services
+   * Dynamics integration architecture is defined before Phase 1 completion
+   * No major changes to commissioned hours structure during development
+________________
+
+
+11. Risks & mitigations
+Risk
+	Impact
+	Mitigation
+	Ratio calculation complexity leads to errors
+	High
+	Extensive testing with real scenarios. User validation. Manual override with documentation.
+	Data migration from spreadsheets incomplete/inaccurate
+	High
+	CSV import with validation. Parallel running period. Finance team sign-off.
+	User adoption resistance
+	Medium
+	Super user training first. Pilot service approach. Show clear efficiency gains.
+	Performance issues with large services
+	Medium
+	Load testing with realistic data volumes. Optimise queries before go-live.
+	Dynamics integration requirements change
+	Medium
+	Design data model with integration in mind. Document integration points.
+	Edge cases in shared care scenarios
+	Medium
+	Document all scenarios upfront. Validate with Voyage operations team.
+	________________
+
+
+12. Implementation roadmap
+12.1 Development phases
+Phase 1: PWS Enhancements Part 1 (Months 1-2)
+Month 1: Database schema, admin UI, service configuration, commissioned hours structure
+Month 2: Care needs framework, occupancy management, bulk operations, testing
+Phase 2: Commissioned Hours Enhancements (Months 2-4)
+Months 2-3: Ratio calculation engine, controlling ratio algorithm, distribution methods, hours tracking
+Month 4: Shift-level override, compliance validation, alert system, integration testing
+Phase 3: PWS Weekly View (Months 4-6)
+Months 4-5: Platform migration, service metrics panel, PWS breakdown view, basic drag-and-drop
+Months 5-6: Advanced validation, shift creation workflow, skill matching, templates, UAT
+12.2 Milestones
+Milestone
+	Target
+	Gate criteria
+	Data foundation complete
+	End Month 2
+	All PWS data from spreadsheet can be entered
+	Calculation engine validated
+	End Month 4
+	Controlling ratio correct in all test scenarios
+	Operational interface ready
+	End Month 6
+	UAT complete, training materials ready
+	________________
+
+
+13. Success criteria
+13.1 Functional success
+   * All PWS data from finance spreadsheet can be entered into Sona
+   * System automatically calculates controlling ratio for each service
+   * Staff hours required accurately calculated based on controlling ratio
+   * Real-time alerts for ratio compliance and hour allocation
+   * Hours consumption tracked against commissioned budgets
+13.2 User experience success
+   * Care managers can update PWS configuration without support tickets
+   * Schedulers have clear visibility of ratio requirements during planning
+   * Immediate feedback when shifts don't meet requirements
+   * Templates reduce repetitive data entry
+13.3 Operational success
+   * Eliminate manual ratio calculations currently done in spreadsheets
+   * Proactive ratio compliance (catch issues before schedules finalised)
+   * Accurate tracking of commissioned vs delivered hours
+   * Improved audit trail for regulatory compliance
+   * Foundation for accurate billing when integrated with Dynamics
+13.4 Data quality success
+   * Unique PWS ID codes across organisation
+   * Complete commissioned hours for all active PWS
+   * Accurate ratio configuration validated against current practice
+   * Audit trail of all configuration changes
+________________
+
+
+Appendix A: Glossary
+Term
+	Definition
+	PWS
+	People We Support — individuals receiving care from Voyage
+	Commissioned Hours
+	Hours of care allocated to a PWS by commissioning body (local authority, etc.)
+	Controlling Ratio
+	Most restrictive staffing ratio required across all PWS in a service during shared care
+	Target Ratio
+	Organisational goal for staffing ratio (may differ from controlling ratio)
+	Shared Care
+	Care delivered to multiple PWS simultaneously by the same staff member(s)
+	1:1 Care
+	Dedicated care where one staff member supports one PWS exclusively
+	2:1 Care
+	Two staff members supporting one PWS (for complex needs)
+	Waking Night
+	Night shift where staff remain awake throughout
+	Sleeping Night
+	Night shift where staff sleeps but is available if needed
+	Care Needs
+	Specific support requirements for a PWS (e.g. hoist trained, diabetes care)
+	Occupancy Status
+	Whether a PWS is currently in service or temporarily absent
+	Service
+	A care location/facility (org unit) where PWS reside and receive care
+	________________
+
+
+Appendix B: Example scenarios
+Scenario 1: New PWS admission
+Step 1: Finance enters PWS details
+   * Name: David Thompson
+   * Service: Oak Grove House
+   * PWS ID: VYG-PWS-047
+   * Admission Date: March 1, 2026
+Step 2: Configure commissioned hours
+   * 1:1 Care: 21 hours/week
+   * Shared Care: 84 hours/week @ 1:6 ratio
+   * Waking Night: 14 hours/week @ 1:8 ratio
+Step 3: Specify care needs
+   * Mobility: Wheelchair user, requires hoist
+   * Medical: Epilepsy monitoring
+   * Communication: Non-verbal, uses picture cards
+Step 4: Care manager plans schedule
+   * Opens PWS weekly view
+   * System shows David's commissioned hours
+   * Creates shifts with appropriate PWS coverage
+   * System validates: Employees must have Hoist + Epilepsy skills
+   * Assigns skilled employees to David's shifts
+Scenario 2: Ratio complexity in mixed service
+Willowbrook Service has 6 PWS:
+   * Anna: 100h shared @ 1:8 (low needs)
+   * Ben: 100h shared @ 1:6 (moderate needs)
+   * Clara: 100h shared @ 1:6 (moderate needs)
+   * David: 100h shared @ 1:4 (higher needs — behavioural support)
+   * Emma: 100h shared @ 1:6 (moderate needs)
+   * Frank: 100h shared @ 1:8 (low needs)
+System calculations
+   * Target Ratio: 1:6 (organisational goal)
+   * Controlling Ratio: 1:4 (driven by David's needs)
+   * Total PWS shared hours: 600 hours
+   * Staff hours required: 600 ÷ 4 = 150 staff hours
+If David were not in service:
+   * Controlling ratio would become 1:6 (Ben, Clara, Emma)
+   * Staff hours required: 500 ÷ 6 = 83.33 staff hours
+   * Significant difference: 66.67 fewer staff hours needed
+
+
+— End of document —
+INTERNAL — Page  of

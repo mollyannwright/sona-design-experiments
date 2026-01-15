@@ -60,6 +60,46 @@ vercel inspect
 
 All prototypes are created in: `/Users/molly/Documents/UI Experiments/`
 
+**IMPORTANT**: All production prototypes should be placed in `prototype-outputs/[prototype-name]/` folder structure.
+
+### Prototype Registry System
+
+**FloatingNav automatically discovers prototypes** from `prototype-outputs/` via the registry file.
+
+**When creating a new prototype:**
+
+1. **Create folder structure**:
+   ```
+   prototype-outputs/[prototype-name]/
+   ├── [PrototypeName].tsx       # Main component
+   ├── [prototypeName]Data.ts    # Mock data (optional)
+   ├── [prototypeName].ts        # Types (optional)
+   └── README.md                  # Documentation (optional)
+   ```
+
+2. **Add to prototype registry** (`src/prototypes.ts`):
+   ```typescript
+   export const prototypes: Prototype[] = [
+     // ... existing prototypes
+     {
+       route: '/your-route',
+       name: 'Your Prototype Name',
+       description: 'Brief description'
+     }
+   ];
+   ```
+
+3. **Add route in App.tsx**:
+   ```tsx
+   import { YourPrototype } from '../prototype-outputs/your-prototype/YourPrototype.tsx'
+   
+   <Route path="/your-route" element={<YourPrototype />} />
+   ```
+
+4. **FloatingNav will automatically show it** - no additional changes needed!
+
+**Legacy prototypes** (in `src/components/`) can be added to `legacyPrototypes` array in `prototypes.ts` for backward compatibility, but new prototypes should go in `prototype-outputs/`.
+
 ---
 
 ## Design System Quick Reference
@@ -211,11 +251,74 @@ When users provide prototype requirements, identify and clarify:
 ## Creation Strategy
 
 ### For Wireframes (Low-Fidelity)
+- **Only use grey-scale** - No color, only shades of gray (`bg-slate-100`, `border-slate-300`, `text-slate-400`, `text-slate-600`, etc.). Avoid any colored elements (no emerald, blue, red, etc.)
+- **Use chalkboard font** - Apply handwriting-style font for a sketchy, wireframe feel:
+  - Use `font-[Chalkboard]` for macOS (system font)
+  - Or use Google Fonts: `font-['Kalam']` or `font-['Caveat']` (add to index.css if needed)
+  - **Apply to ALL text elements**: headings, sub-headings, labels, buttons, table text, body text
+  - Every text element should have `font-[Chalkboard]` class
+- **Use squiggle lines ONLY for big paragraphs of text**:
+  - **Keep actual text for**: headers, sub-headers, table cells, labels, buttons, counts, short text
+  - **Use squiggle lines for**: description paragraphs, long explanatory text blocks
+  - Squiggle lines should NOT have borders or containers - just the wavy line pattern
 - Simple gray boxes with `bg-slate-100` and `border-slate-300`
 - Placeholder text using `text-slate-400`
 - Focus on layout, hierarchy, component placement
 - Include annotations as comments or labels
 - Minimal styling to emphasize structure
+
+**Squiggle line component (for paragraph blocks only):**
+```tsx
+// Squiggle line component - creates wavy, hand-drawn style lines
+function SquiggleText({ height = 16, className = '', rows = 1 }) {
+  const totalHeight = height * rows;
+  const rowHeight = height;
+  const amplitude = height * 0.15;
+  
+  const pathStrings = Array.from({ length: rows }, (_, i) => {
+    const y = rowHeight * (i + 0.5);
+    // Create wavy pattern with multiple peaks and valleys
+    return `M0,${y} C4,${y - amplitude} 8,${y - amplitude} 12,${y} C16,${y + amplitude} 20,${y + amplitude} 24,${y} C28,${y - amplitude} 32,${y - amplitude} 36,${y} C40,${y + amplitude} 44,${y + amplitude} 48,${y} C52,${y - amplitude} 56,${y - amplitude} 60,${y} C64,${y + amplitude} 68,${y + amplitude} 72,${y} C76,${y - amplitude} 80,${y - amplitude} 84,${y} C88,${y + amplitude} 92,${y + amplitude} 96,${y} L100,${y}`;
+  });
+  
+  const paths = pathStrings.join(' ');
+  const svgContent = `<svg width="100" height="${totalHeight}" xmlns="http://www.w3.org/2000/svg"><path d="${paths}" stroke="#000000" stroke-width="1.2" fill="none"/></svg>`;
+  const encodedSvg = encodeURIComponent(svgContent);
+  
+  return (
+    <div
+      className={className}
+      style={{
+        height: `${totalHeight}px`,
+        backgroundImage: `url("data:image/svg+xml,${encodedSvg}")`,
+        backgroundRepeat: 'repeat-x',
+        backgroundPosition: '0 50%'
+      }}
+    />
+  );
+}
+
+// Usage - only for paragraph blocks
+<SquiggleText height={14} className="w-full" rows={2} />
+```
+
+**Example with chalkboard font (apply to ALL text):**
+```tsx
+// Headers and sub-headers - use actual text
+<h1 className="text-h2 text-slate-900 font-[Chalkboard]">Page Title</h1>
+<p className="text-body text-slate-400 font-[Chalkboard]">Page description</p>
+
+// Buttons - use actual text
+<button className="px-4 py-2 bg-slate-100 border border-slate-300 rounded text-slate-400 text-sm font-[Chalkboard]">
+  Add item
+</button>
+
+// Table cells - use actual text
+<td className="text-sm text-slate-600 font-[Chalkboard]">Cell content</td>
+
+// Paragraph blocks - use squiggle lines
+<SquiggleText height={14} className="w-full" rows={2} />
+```
 
 ### For Mockups (High-Fidelity)
 - Full Sona color palette from design tokens
@@ -687,9 +790,10 @@ The project uses Vercel's **automatic detection** for Vite projects. No `vercel.
 - List key components and patterns to be used
 
 ### 4. Build
-- Create React component in `src/components/`
-- Set up mock data in `src/data/`
-- Add route in `App.tsx` if multi-page
+- Create React component in `prototype-outputs/[prototype-name]/`
+- Set up mock data in same folder (or `src/data/` if shared)
+- Add route in `App.tsx`
+- **Add entry to `src/prototypes.ts` registry** - FloatingNav will auto-discover it
 - Apply Sona design patterns consistently
 
 ### 5. Explain

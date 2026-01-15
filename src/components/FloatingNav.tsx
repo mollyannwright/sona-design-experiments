@@ -1,31 +1,13 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Icon } from './shared/Icon';
-
-interface Experiment {
-  path: string;
-  name: string;
-  description?: string;
-}
-
-const experiments: Experiment[] = [
-  {
-    path: '/labour-rules',
-    name: 'Labour Rules',
-    description: 'Configuration prototype'
-  },
-  {
-    path: '/table',
-    name: 'Table Demo',
-    description: 'Data table with sorting & pagination'
-  }
-];
+import { allPrototypes } from '../prototypes';
 
 export function FloatingNav() {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
 
-  const currentExperiment = experiments.find(exp => exp.path === location.pathname);
+  const currentExperiment = allPrototypes.find(exp => exp.route === location.pathname);
 
   return (
     <div className="fixed bottom-6 right-6 z-50">
@@ -62,12 +44,12 @@ export function FloatingNav() {
 
           {/* Experiment List */}
           <div className="py-2 max-h-96 overflow-y-auto">
-            {experiments.map((experiment) => {
-              const isActive = location.pathname === experiment.path;
+            {allPrototypes.map((prototype) => {
+              const isActive = location.pathname === prototype.route;
               return (
                 <Link
-                  key={experiment.path}
-                  to={experiment.path}
+                  key={prototype.route}
+                  to={prototype.route}
                   onClick={() => setIsOpen(false)}
                   className={`
                     block px-4 py-3 mx-2 my-1 rounded-lg
@@ -82,15 +64,15 @@ export function FloatingNav() {
                     <div className="flex-1">
                       <div className="flex items-center gap-2">
                         <span className={`text-sm font-medium ${isActive ? 'text-emerald-700' : 'text-gray-900'}`}>
-                          {experiment.name}
+                          {prototype.name}
                         </span>
                         {isActive && (
                           <span className="w-2 h-2 rounded-full bg-emerald-600"></span>
                         )}
                       </div>
-                      {experiment.description && (
+                      {prototype.description && (
                         <p className="text-xs text-gray-500 mt-1">
-                          {experiment.description}
+                          {prototype.description}
                         </p>
                       )}
                     </div>
