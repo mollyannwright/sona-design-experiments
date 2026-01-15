@@ -17,38 +17,38 @@ function Home() {
         </p>
         <div className="flex flex-col gap-8 items-center">
           {/* Most Recent Section */}
-          <div className="w-64">
+          <div className="w-[280px]">
             <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4 text-left">
               Most recent
             </h2>
             <Link 
               to="/pws-config" 
-              className="w-full flex items-center justify-between px-4 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-medium rounded-lg transition-colors group"
+              className="w-full flex items-center justify-between px-4 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-medium rounded-lg transition-colors group text-left"
             >
-              <span>PWS Config Prototype</span>
-              <ChevronRightIcon size="sm" className="text-white group-hover:translate-x-1 transition-transform" />
+              <span className="flex-1 whitespace-nowrap">PWS Config Prototype</span>
+              <ChevronRightIcon size="sm" className="text-white group-hover:translate-x-1 transition-transform flex-shrink-0 ml-2" />
             </Link>
           </div>
 
           {/* All Other Prototypes Section */}
-          <div className="w-64">
+          <div className="w-[280px]">
             <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4 text-left">
               All other prototypes
             </h2>
             <div className="flex flex-col gap-3">
               <Link 
                 to="/labour-rules" 
-                className="w-full flex items-center justify-between px-4 py-3 bg-white hover:bg-gray-50 text-gray-700 font-medium rounded-lg border border-gray-200 transition-colors group"
+                className="w-full flex items-center justify-between px-4 py-3 bg-white hover:bg-gray-50 text-gray-700 font-medium rounded-lg border border-gray-200 transition-colors group text-left"
               >
-                <span>Labour Rules Prototype</span>
-                <ChevronRightIcon size="sm" className="text-gray-500 group-hover:translate-x-1 transition-transform" />
+                <span className="flex-1 whitespace-nowrap">Labour Rules Prototype</span>
+                <ChevronRightIcon size="sm" className="text-gray-500 group-hover:translate-x-1 transition-transform flex-shrink-0 ml-2" />
               </Link>
               <Link 
                 to="/labour-rules-low-fi" 
-                className="w-full flex items-center justify-between px-4 py-3 bg-white hover:bg-gray-50 text-gray-700 font-medium rounded-lg border border-gray-200 transition-colors group"
+                className="w-full flex items-center justify-between px-4 py-3 bg-white hover:bg-gray-50 text-gray-700 font-medium rounded-lg border border-gray-200 transition-colors group text-left"
               >
-                <span>Labour Rules Low-Fi Wireframe</span>
-                <ChevronRightIcon size="sm" className="text-gray-500 group-hover:translate-x-1 transition-transform" />
+                <span className="flex-1 whitespace-nowrap">Labour Rules Low-Fi Wireframe</span>
+                <ChevronRightIcon size="sm" className="text-gray-500 group-hover:translate-x-1 transition-transform flex-shrink-0 ml-2" />
               </Link>
             </div>
           </div>
