@@ -986,7 +986,7 @@ function RulesetsTab({
   return (
     <div className="flex">
       {/* Rulesets List */}
-      <div className="w-80 flex-shrink-0 pr-6 border-r border-gray-200">
+      <div className="w-80 flex-shrink-0 pr-6 border-r border-gray-200 -ml-6">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-sm font-semibold text-gray-900 pl-4">Rulesets</h3>
           <button
@@ -996,7 +996,7 @@ function RulesetsTab({
             + New
           </button>
         </div>
-        <div className="border-t border-b border-gray-200 bg-white -ml-0 -mr-6">
+        <div className="border-t border-b border-gray-200 bg-white -mr-6">
           {rulesets.map((ruleset) => (
             <div
               key={ruleset.id}
@@ -1828,7 +1828,7 @@ function AssignmentsTab({
         // Single Site View - Timeline
         <div className="flex">
           {/* Site List */}
-          <div className="w-64 flex-shrink-0 pr-6 border-r border-gray-200">
+          <div className="w-64 flex-shrink-0 pr-6 border-r border-gray-200 -ml-6">
             <div className="flex border border-gray-200 rounded-lg overflow-hidden mb-3">
               <button
                 onClick={() => setViewMode('bulk')}
@@ -1844,7 +1844,7 @@ function AssignmentsTab({
               </button>
             </div>
             <h4 className="text-sm font-semibold text-gray-900 mb-3 pl-4">Sites</h4>
-            <div className="border-t border-b border-gray-200 bg-white -ml-0 -mr-6">
+            <div className="border-t border-b border-gray-200 bg-white -mr-6">
               {orgUnitAttributes.map((ou) => (
                 <button
                   key={ou.orgUnit.id}
