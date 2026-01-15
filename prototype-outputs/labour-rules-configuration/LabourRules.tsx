@@ -996,7 +996,7 @@ function RulesetsTab({
             + New
           </button>
         </div>
-        <div className="border-t border-b border-gray-200 bg-white -mx-0">
+        <div className="border-t border-b border-gray-200 bg-white -mr-6">
           {rulesets.map((ruleset) => (
             <div
               key={ruleset.id}

@@ -253,7 +253,7 @@ function RulesetsWireframe() {
         </div>
 
         {/* Ruleset Rows */}
-        <div className="border-t border-b border-slate-300 bg-white -mx-0">
+        <div className="border-t border-b border-slate-300 bg-white -mr-6">
           {[1, 2, 3].map((i) => (
             <div
               key={i}
