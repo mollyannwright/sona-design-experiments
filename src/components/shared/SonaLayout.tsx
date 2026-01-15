@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { Icon } from './Icon';
 
 /**
  * SonaLayout - Standard page layout with sidebar navigation
@@ -19,7 +20,7 @@ import { Link, useLocation } from 'react-router-dom';
 interface NavItem {
   label: string;
   path: string;
-  icon: string; // Emoji icon to match side-navigation.html
+  icon: string; // Icon name from sonaui-design-system/icons/
   badge?: number; // Notification count
 }
 
@@ -43,29 +44,29 @@ const defaultNavigation: NavSection[] = [
   {
     title: 'Business Wide',
     items: [
-      { label: 'Home', path: '/', icon: '🏠' },
-      { label: 'Roster', path: '/roster', icon: '📋' },
-      { label: 'Revenues & Forecasts', path: '/revenues', icon: '💰' },
-      { label: 'Employee Management', path: '/employees', icon: '👥' },
-      { label: 'Agentic Workforce', path: '/agentic', icon: '🎯' },
-      { label: 'Tasks', path: '/tasks', icon: '✅', badge: 3 },
-      { label: 'Inbox', path: '/inbox', icon: '📧' },
-      { label: 'Vacation', path: '/vacation', icon: '🏖️' },
-      { label: 'Retention', path: '/retention', icon: '🎯' },
-      { label: 'Payroll', path: '/payroll', icon: '💼' },
-      { label: 'Insights', path: '/insights', icon: '📊' },
-      { label: 'Feed', path: '/feed', icon: '📰' },
-      { label: 'Chat', path: '/chat', icon: '💬', badge: 1 },
-      { label: 'Admin', path: '/admin', icon: '⚙️' },
+      { label: 'Home', path: '/', icon: 'Home' },
+      { label: 'Roster', path: '/roster', icon: 'Calendar' },
+      { label: 'Revenues & Forecasts', path: '/revenues', icon: 'Currency Dollar' },
+      { label: 'Employee Management', path: '/employees', icon: 'Users' },
+      { label: 'Agentic Workforce', path: '/agentic', icon: 'Lightning bolt' },
+      { label: 'Tasks', path: '/tasks', icon: 'Tasks', badge: 3 },
+      { label: 'Inbox', path: '/inbox', icon: 'Mail' },
+      { label: 'Vacation', path: '/vacation', icon: 'Holiday' },
+      { label: 'Retention', path: '/retention', icon: 'Heart' },
+      { label: 'Payroll', path: '/payroll', icon: 'Wallet' },
+      { label: 'Insights', path: '/insights', icon: 'Chart bar' },
+      { label: 'Feed', path: '/feed', icon: 'Newspaper' },
+      { label: 'Chat', path: '/chat', icon: 'Chat', badge: 1 },
+      { label: 'Admin', path: '/admin', icon: 'Cog' },
     ],
   },
   {
     title: 'People We Support',
     items: [
-      { label: 'Select a location...', path: '/locations', icon: '📍' },
-      { label: "What's new in Sona", path: '/whats-new', icon: '🆕' },
-      { label: 'Support', path: '/support', icon: '❓' },
-      { label: 'Settings', path: '/settings', icon: '⚙️' },
+      { label: 'Select a location...', path: '/locations', icon: 'Location marker' },
+      { label: "What's new in Sona", path: '/whats-new', icon: 'Sparkle' },
+      { label: 'Support', path: '/support', icon: 'Support' },
+      { label: 'Settings', path: '/settings', icon: 'Cog' },
     ],
   },
 ];
@@ -90,8 +91,8 @@ export function SonaLayout({
             Sona.
           </Link>
           {/* Hamburger menu for mobile */}
-          <button className="text-lg text-gray-500 hover:text-gray-700 lg:hidden">
-            ☰
+          <button className="text-gray-500 hover:text-gray-700 lg:hidden">
+            <Icon name="Sidebar expand" size="md" />
           </button>
         </div>
 
@@ -118,7 +119,9 @@ export function SonaLayout({
                     }`}
                   >
                     {/* Icon - 20px width with 12px right margin */}
-                    <span className="w-5 mr-3 text-center">{item.icon}</span>
+                    <span className="w-5 mr-3 flex-shrink-0">
+                      <Icon name={item.icon} size="md" />
+                    </span>
                     
                     {/* Label */}
                     {item.label}
@@ -182,8 +185,8 @@ export function SonaSidebar({
       {/* Logo Header */}
       <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
         <span className="text-2xl font-semibold text-emerald-500">Sona.</span>
-        <button className="text-lg text-gray-500 hover:text-gray-700 lg:hidden">
-          ☰
+        <button className="text-gray-500 hover:text-gray-700 lg:hidden">
+          <Icon name="Sidebar expand" size="md" />
         </button>
       </div>
 
@@ -206,7 +209,9 @@ export function SonaSidebar({
                       : 'text-gray-700 hover:bg-gray-100'
                   }`}
                 >
-                  <span className="w-5 mr-3 text-center">{item.icon}</span>
+                  <span className="w-5 mr-3 flex-shrink-0">
+                    <Icon name={item.icon} size="md" />
+                  </span>
                   {item.label}
                   {item.badge && (
                     <span className="ml-auto bg-red-500 text-white text-[11px] font-semibold px-1.5 py-0.5 rounded-full min-w-[16px] text-center">

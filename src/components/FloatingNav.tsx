@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { LayoutGrid, X } from 'lucide-react';
+import { Icon } from './shared/Icon';
 
 interface Experiment {
   path: string;
@@ -45,9 +45,9 @@ export function FloatingNav() {
         aria-label="Toggle navigation"
       >
         {isOpen ? (
-          <X className="w-6 h-6" />
+          <Icon name="X" size="lg" />
         ) : (
-          <LayoutGrid className="w-6 h-6" />
+          <Icon name="Grid" size="lg" />
         )}
       </button>
 
@@ -105,9 +105,10 @@ export function FloatingNav() {
             <Link
               to="/"
               onClick={() => setIsOpen(false)}
-              className="text-xs text-gray-600 hover:text-gray-900 transition-colors"
+              className="text-xs text-gray-600 hover:text-gray-900 transition-colors flex items-center gap-1"
             >
-              ← Back to Home
+              <Icon name="Arrow left" size="sm" />
+              Back to Home
             </Link>
           </div>
         </div>
