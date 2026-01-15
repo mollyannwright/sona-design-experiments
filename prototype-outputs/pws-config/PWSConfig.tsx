@@ -952,8 +952,10 @@ const OutOfServiceModal = ({
               const formatDateTime = (dateStr: string, timeStr: string): string => {
                 if (!dateStr || !timeStr) return '';
                 const [year, month, day] = dateStr.split('-');
+                if (!year || !month || !day) return '';
                 const formattedDate = `${day}/${month}/${year}`;
                 const [hours, minutes] = timeStr.split(':');
+                if (!hours || !minutes) return '';
                 const hour24 = parseInt(hours, 10);
                 const hour12 = hour24 === 0 ? 12 : hour24 > 12 ? hour24 - 12 : hour24;
                 const ampm = hour24 >= 12 ? 'PM' : 'AM';
@@ -961,9 +963,18 @@ const OutOfServiceModal = ({
                 return `${formattedDate} @ ${formattedTime}`;
               };
 
+              const outOfServiceDate = formatDateTime(formData.fromDate, formData.fromTime);
+              const expectedReturnDate = formatDateTime(formData.toDate, formData.toTime);
+
+              // Only submit if dates are provided
+              if (!outOfServiceDate || !expectedReturnDate) {
+                alert('Please fill in all date and time fields');
+                return;
+              }
+
               onSubmit({
-                outOfServiceDate: formatDateTime(formData.fromDate, formData.fromTime),
-                expectedReturnDate: formatDateTime(formData.toDate, formData.toTime),
+                outOfServiceDate,
+                expectedReturnDate,
                 reason: formData.reason,
                 notes: formData.notes || '--',
                 hourDistribution: 'Auto',
@@ -1728,10 +1739,16 @@ export const PWSConfig = () => {
   };
 
   const handleOutOfServiceSubmit = (data: Partial<OutOfServiceRecord>) => {
+    // Ensure dates are provided
+    if (!data.outOfServiceDate || !data.expectedReturnDate) {
+      console.error('Out of service dates are required');
+      return;
+    }
+
     const newRecord: OutOfServiceRecord = {
       id: `oos-${Date.now()}`,
-      outOfServiceDate: data.outOfServiceDate || '',
-      expectedReturnDate: data.expectedReturnDate || '',
+      outOfServiceDate: data.outOfServiceDate,
+      expectedReturnDate: data.expectedReturnDate,
       reason: data.reason || 'Other',
       impactOnHours: data.impactOnHours || -10,
       notes: data.notes || '--',
@@ -1817,21 +1834,6 @@ export const PWSConfig = () => {
               </nav>
             </div>
 
-            {/* Action Banner */}
-            <div className="px-6 py-4 bg-white border-b border-gray-200">
-              <div className="flex items-center justify-between">
-                <p className="text-sm text-gray-600">
-                  Add a new care package to make changes to the care details and commissioned hours
-                </p>
-                <button
-                  onClick={() => setShowAddPackage(true)}
-                  className="flex items-center gap-2 px-4 py-2 text-emerald-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 text-sm font-medium shadow-sm"
-                >
-                  <PlusIcon />
-                  Add new
-                </button>
-              </div>
-            </div>
           </div>
 
           {/* Content */}
