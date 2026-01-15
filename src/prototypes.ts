@@ -39,21 +39,8 @@ export const prototypes: Prototype[] = [
 ];
 
 /**
- * Legacy prototypes (not in prototype-outputs/)
- * These are kept for backward compatibility
- */
-export const legacyPrototypes: Prototype[] = [
-  {
-    route: '/table',
-    name: 'Table Demo',
-    description: 'Data table with sorting & pagination'
-  }
-];
-
-/**
  * All prototypes combined
  */
 export const allPrototypes: Prototype[] = [
-  ...prototypes,
-  ...legacyPrototypes
+  ...prototypes
 ];
