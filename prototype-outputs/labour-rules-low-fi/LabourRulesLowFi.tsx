@@ -253,7 +253,7 @@ function RulesetsWireframe() {
         </div>
 
         {/* Ruleset Rows */}
-        <div className="border border-slate-300 rounded-lg overflow-hidden bg-white">
+        <div className="border-t border-b border-slate-300 bg-white -mx-0">
           {[1, 2, 3].map((i) => (
             <div
               key={i}
@@ -480,7 +480,7 @@ function AssignmentsWireframe() {
               </button>
             </div>
             <div className="text-sm font-semibold text-slate-700 mb-3 font-[Chalkboard]">Sites</div>
-            <div className="border border-slate-300 rounded-lg overflow-hidden bg-white">
+            <div className="border-t border-b border-slate-300 bg-white -mr-6">
               {[1, 2, 3, 4, 5].map((i) => (
                 <div
                   key={i}

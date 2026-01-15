@@ -996,7 +996,7 @@ function RulesetsTab({
             + New
           </button>
         </div>
-        <div className="border border-gray-200 rounded-lg overflow-hidden bg-white">
+        <div className="border-t border-b border-gray-200 bg-white -mx-0">
           {rulesets.map((ruleset) => (
             <div
               key={ruleset.id}
@@ -1844,7 +1844,7 @@ function AssignmentsTab({
               </button>
             </div>
             <h4 className="text-sm font-semibold text-gray-900 mb-3">Sites</h4>
-            <div className="border border-gray-200 rounded-lg overflow-hidden bg-white">
+            <div className="border-t border-b border-gray-200 bg-white -mr-6">
               {orgUnitAttributes.map((ou) => (
                 <button
                   key={ou.orgUnit.id}
