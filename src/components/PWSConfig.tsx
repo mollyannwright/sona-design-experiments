@@ -367,7 +367,7 @@ const OverviewTab = ({ pws }: { pws: PWS }) => {
               e.stopPropagation();
               // Handle view in roster
             }}
-            className="flex items-center gap-1 text-sm text-gray-600 hover:text-gray-900"
+            className="flex items-center gap-1 px-4 py-2 bg-white hover:bg-slate-50 text-emerald-700 text-sm font-medium rounded-lg border border-slate-200 transition-colors"
           >
             View in roster
             <ChevronRightIcon />
