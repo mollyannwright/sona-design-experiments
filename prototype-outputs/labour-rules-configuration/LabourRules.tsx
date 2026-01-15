@@ -996,27 +996,35 @@ function RulesetsTab({
             + New
           </button>
         </div>
-        <div className="space-y-2">
+        <div className="border border-gray-200 rounded-lg overflow-hidden bg-white">
           {rulesets.map((ruleset) => (
             <div
               key={ruleset.id}
-              className={`p-4 rounded-lg border cursor-pointer transition-colors ${
+              className={`px-4 py-3 cursor-pointer transition-colors border-b border-gray-100 last:border-b-0 ${
                 selectedRuleset?.id === ruleset.id
-                  ? 'border-emerald-500 bg-emerald-50'
-                  : 'border-gray-200 hover:border-gray-300 bg-white'
+                  ? 'bg-emerald-50'
+                  : 'hover:bg-gray-50'
               }`}
               onClick={() => setSelectedRuleset(ruleset)}
             >
               <div className="flex items-start justify-between">
                 <div className="flex-1 min-w-0">
-                  <h4 className="font-medium text-sm text-gray-900 truncate">
+                  <h4 className={`font-medium text-sm truncate ${
+                    selectedRuleset?.id === ruleset.id
+                      ? 'text-emerald-700'
+                      : 'text-gray-900'
+                  }`}>
                     {ruleset.name}
                   </h4>
                   {ruleset.description && (
-                    <p className="text-xs text-gray-500 mt-1 line-clamp-2">
+                    <p className="text-xs text-gray-500 mt-0.5 line-clamp-1">
                       {ruleset.description}
                     </p>
                   )}
+                  <div className="flex items-center gap-4 mt-1.5 text-xs text-gray-500">
+                    <span>{ruleset.rules.length} rules</span>
+                    <span>{ruleset.assignedSiteCount} sites</span>
+                  </div>
                 </div>
                 <div className="ml-2 flex gap-1">
                   <button
@@ -1040,10 +1048,6 @@ function RulesetsTab({
                     <EditIcon size="sm" />
                   </button>
                 </div>
-              </div>
-              <div className="flex items-center gap-4 mt-3 text-xs text-gray-500">
-                <span>{ruleset.rules.length} rules</span>
-                <span>{ruleset.assignedSiteCount} sites</span>
               </div>
             </div>
           ))}
@@ -1840,12 +1844,12 @@ function AssignmentsTab({
               </button>
             </div>
             <h4 className="text-sm font-semibold text-gray-900 mb-3">Sites</h4>
-            <div className="space-y-1">
+            <div className="border border-gray-200 rounded-lg overflow-hidden bg-white">
               {orgUnitAttributes.map((ou) => (
                 <button
                   key={ou.orgUnit.id}
                   onClick={() => setSelectedOrgUnit(ou.orgUnit.id)}
-                  className={`w-full text-left px-3 py-2 rounded-lg text-sm ${
+                  className={`w-full text-left px-4 py-3 text-sm border-b border-gray-100 last:border-b-0 transition-colors ${
                     selectedOrgUnit === ou.orgUnit.id
                       ? 'bg-emerald-50 text-emerald-700 font-medium'
                       : 'text-gray-700 hover:bg-gray-50'

@@ -252,33 +252,37 @@ function RulesetsWireframe() {
           <div className="text-sm text-slate-400 font-[Chalkboard]">+ New</div>
         </div>
 
-        {/* Ruleset Cards */}
-        <div className="space-y-2">
+        {/* Ruleset Rows */}
+        <div className="border border-slate-300 rounded-lg overflow-hidden bg-white">
           {[1, 2, 3].map((i) => (
             <div
               key={i}
               onClick={() => setSelectedRuleset(i)}
-              className={`p-4 rounded-lg border cursor-pointer ${
+              className={`px-4 py-3 cursor-pointer border-b border-slate-100 last:border-b-0 ${
                 selectedRuleset === i
-                  ? 'border-slate-700 bg-slate-50'
-                  : 'border-slate-300 bg-white'
+                  ? 'bg-slate-100'
+                  : 'hover:bg-slate-50'
               }`}
             >
-              <div className="flex items-start justify-between mb-2">
+              <div className="flex items-start justify-between">
                 <div className="flex-1">
-                  <div className="text-sm font-medium text-slate-700 mb-1 font-[Chalkboard]">
+                  <div className={`text-sm font-medium mb-0.5 font-[Chalkboard] ${
+                    selectedRuleset === i
+                      ? 'text-slate-700'
+                      : 'text-slate-600'
+                  }`}>
                     Ruleset Name {i}
                   </div>
-                  <SquiggleText height={14} className="w-full" rows={2} />
+                  <SquiggleText height={10} className="w-full" rows={1} />
+                  <div className="flex items-center gap-4 text-xs text-slate-400 mt-1.5 font-[Chalkboard]">
+                    <span>5 rules</span>
+                    <span>3 sites</span>
+                  </div>
                 </div>
-                <div className="flex gap-1">
+                <div className="ml-2 flex gap-1">
                   <div className="w-5 h-5 bg-slate-100 border border-slate-300 rounded"></div>
                   <div className="w-5 h-5 bg-slate-100 border border-slate-300 rounded"></div>
                 </div>
-              </div>
-              <div className="flex items-center gap-4 text-xs text-slate-400 mt-3 font-[Chalkboard]">
-                <span>5 rules</span>
-                <span>3 sites</span>
               </div>
             </div>
           ))}
@@ -476,12 +480,12 @@ function AssignmentsWireframe() {
               </button>
             </div>
             <div className="text-sm font-semibold text-slate-700 mb-3 font-[Chalkboard]">Sites</div>
-            <div className="space-y-1">
+            <div className="border border-slate-300 rounded-lg overflow-hidden bg-white">
               {[1, 2, 3, 4, 5].map((i) => (
                 <div
                   key={i}
                   onClick={() => setSelectedSite(i)}
-                  className={`px-3 py-2 rounded-lg text-sm font-[Chalkboard] cursor-pointer ${
+                  className={`px-4 py-3 text-sm font-[Chalkboard] cursor-pointer border-b border-slate-100 last:border-b-0 transition-colors ${
                     selectedSite === i
                       ? 'bg-slate-100 text-slate-700 font-medium'
                       : 'text-slate-400 hover:bg-slate-50'
