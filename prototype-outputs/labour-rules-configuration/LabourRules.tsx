@@ -1727,7 +1727,7 @@ function AssignmentsTab({
         
         {/* Status Filter */}
         <div className="mb-3 pl-4">
-          <label className="block text-xs text-gray-500 mb-1">Filter sites</label>
+          <label className="block text-xs font-medium text-gray-600 mb-1.5">Filter sites</label>
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
