@@ -1726,7 +1726,6 @@ function AssignmentsTab({
               Assign ruleset
             </button>
           </div>
-        // Bulk View - Site rows with assignment lists
         <div className="sonaui-tablewrapper--default">
           <table className="sonaui-table sonaui-table--default">
             <thead>
