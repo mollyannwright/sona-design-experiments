@@ -501,15 +501,24 @@ const OverviewTab = ({ pws }: { pws: PWS }) => {
 const CarePackageTab = ({
   pws,
   onViewPackage,
+  onAddNew,
 }: {
   pws: PWS;
   onViewPackage: (pkg: CarePackage) => void;
+  onAddNew: () => void;
 }) => {
   return (
     <div className="bg-white rounded-lg border border-gray-200">
       {/* Section Header */}
-      <div className="px-6 py-5">
+      <div className="px-6 py-5 flex items-center justify-between">
         <h3 className="text-base font-medium text-gray-900">Care package records</h3>
+        <button
+          onClick={onAddNew}
+          className="flex items-center gap-2 px-4 py-2 text-emerald-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 text-sm font-medium shadow-sm"
+        >
+          <PlusIcon />
+          Add new
+        </button>
       </div>
 
       {/* Table with padding */}
@@ -723,12 +732,43 @@ const CarePackageDetail = ({
 };
 
 // Occupancy Tab Component
-const OccupancyTab = ({ pws }: { pws: PWS }) => {
+const OccupancyTab = ({ 
+  pws, 
+  onLogOutOfService, 
+  onLogBackInService 
+}: { 
+  pws: PWS;
+  onLogOutOfService: () => void;
+  onLogBackInService: () => void;
+}) => {
   return (
     <div className="bg-white rounded-lg border border-gray-200">
       {/* Section Header */}
       <div className="px-6 py-5">
-        <h3 className="text-base font-medium text-gray-900">Out of service records</h3>
+        <div className="flex items-center justify-between mb-2">
+          <h3 className="text-base font-medium text-gray-900">Out of service records</h3>
+          <button
+            onClick={() => {
+              if (pws.status === 'In service') {
+                onLogOutOfService();
+              } else {
+                onLogBackInService();
+              }
+            }}
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors shadow-sm ${
+              pws.status === 'In service'
+                ? 'text-emerald-700 bg-white border border-gray-200 hover:bg-gray-50'
+                : 'bg-red-600 text-white hover:bg-red-700 border border-red-600'
+            }`}
+          >
+            {pws.status === 'In service' ? 'Log out of service' : 'Log back in service'}
+          </button>
+        </div>
+        {pws.status === 'Out of service' && pws.expectedReturn && (
+          <p className="text-sm text-gray-600">
+            Expected back: {pws.expectedReturn}
+          </p>
+        )}
       </div>
 
       {/* Table with padding */}
@@ -1845,59 +1885,6 @@ export const PWSConfig = () => {
             </nav>
           </div>
 
-          {/* Action Banner - Care Package Tab */}
-          {activeTab === 'care-package' && (
-            <div className="px-6 py-4 bg-white border-b border-gray-200">
-              <div className="flex items-center justify-between">
-                <p className="text-sm text-gray-600">
-                  Add a new care package to make changes to the care details and commissioned hours
-                </p>
-                <button
-                  onClick={() => setShowAddPackage(true)}
-                  className="flex items-center gap-2 px-4 py-2 text-emerald-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 text-sm font-medium shadow-sm"
-                >
-                  <PlusIcon />
-                  Add new
-                </button>
-              </div>
-            </div>
-          )}
-
-          {/* Action Banner - Occupancy Tab */}
-          {activeTab === 'occupancy' && (
-            <div className="px-6 py-4 bg-white border-b border-gray-200">
-              <div className="flex items-center justify-between">
-                <p className="text-sm text-gray-700">
-                  {pws.status === 'In service' ? (
-                    <>Current status: <span className="text-gray-900">{pws.status}</span></>
-                  ) : (
-                    <>
-                      Current status: <span className="text-red-600 font-medium">{pws.status}</span>
-                      {pws.expectedReturn && (
-                        <span className="text-gray-500"> (Expected return: {pws.expectedReturn})</span>
-                      )}
-                    </>
-                  )}
-                </p>
-                <button
-                  onClick={() => {
-                    if (pws.status === 'In service') {
-                      setShowOutOfServiceModal(true);
-                    } else {
-                      handleLogBackInService();
-                    }
-                  }}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors shadow-sm ${
-                    pws.status === 'In service'
-                      ? 'text-emerald-700 bg-white border border-gray-200 hover:bg-gray-50'
-                      : 'bg-red-600 text-white hover:bg-red-700 border border-red-600'
-                  }`}
-                >
-                  {pws.status === 'In service' ? 'Log out of service' : 'Log back in service'}
-                </button>
-              </div>
-            </div>
-          )}
         </div>
 
         {/* Content */}
@@ -1907,9 +1894,16 @@ export const PWSConfig = () => {
             <CarePackageTab
               pws={pws}
               onViewPackage={setSelectedPackage}
+              onAddNew={() => setShowAddPackage(true)}
             />
           )}
-          {activeTab === 'occupancy' && <OccupancyTab pws={pws} />}
+          {activeTab === 'occupancy' && (
+            <OccupancyTab 
+              pws={pws}
+              onLogOutOfService={() => setShowOutOfServiceModal(true)}
+              onLogBackInService={handleLogBackInService}
+            />
+          )}
         </div>
 
         {/* Out of Service Modal */}
