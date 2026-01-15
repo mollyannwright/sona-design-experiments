@@ -338,13 +338,13 @@ function RulesetsWireframe() {
                     <div>
                       <span className="text-slate-400">Start: </span>
                       <span className="text-slate-700 font-mono text-xs">
-                        #{opening_time} - 1.hour
+                        {'#{opening_time} - 1.hour'}
                       </span>
                     </div>
                     <div>
                       <span className="text-slate-400">End: </span>
                       <span className="text-slate-700 font-mono text-xs">
-                        #{closing_time}
+                        {'#{closing_time}'}
                       </span>
                     </div>
                     <div>
