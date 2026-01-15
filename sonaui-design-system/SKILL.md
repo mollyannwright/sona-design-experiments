@@ -69,19 +69,38 @@ Many icons have variants:
 - **Solid**: `Chat-solid.svg`, `Bell-solid.svg`, `Calendar-solid.svg`
 - **Size variants**: `Chevron down.svg`, `Chevron down small.svg`, `Chevron down micro.svg`
 
-### Usage in React/HTML
+### Icon Styling
+
+All icons use `currentColor` for stroke/fill, so they inherit text color from CSS:
+```tsx
+// Icon will be gray
+<SearchIcon className="text-gray-500" />
+
+// Icon will be red on hover
+<TrashIcon className="text-gray-400 hover:text-red-600" />
+```
+
+### Usage in React (Recommended)
+
+Use the Icon component from `src/components/shared/Icon.tsx`:
 
 ```tsx
-// Import as React component (recommended)
-import { ReactComponent as SearchIcon } from '@/sonaui-design-system/icons/Search.svg';
+import { 
+  SearchIcon, 
+  EditIcon, 
+  TrashIcon, 
+  PlusIcon,
+  Icon  // For any icon by name
+} from '@/components/shared/Icon';
 
-// Or use as img src
-<img src="/sonaui-design-system/icons/Search.svg" alt="Search" className="w-5 h-5" />
+// Named exports for common icons
+<SearchIcon size="sm" className="text-gray-500" />
+<EditIcon size="md" />
+<TrashIcon className="text-red-600" />
 
-// Inline SVG for color control
-<svg className="w-5 h-5 text-gray-500">
-  {/* paste SVG content */}
-</svg>
+// Generic Icon component for any icon
+<Icon name="Calendar" size="lg" />
+<Icon name="Chevron down small" className="text-gray-400" />
 ```
 
 ### Icon Sizing

@@ -12,6 +12,18 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { SonaLayout } from '../../src/components/shared/SonaLayout';
+import { 
+  SearchIcon, 
+  EditIcon, 
+  TrashIcon, 
+  PlusIcon, 
+  DuplicateIcon, 
+  DownloadIcon, 
+  UploadIcon,
+  ExclamationTriangleIcon,
+  InformationCircleIcon,
+  ChevronDownIcon,
+} from '../../src/components/shared/Icon';
 import type {
   LabourRulesTab,
   Attribute,
@@ -61,11 +73,11 @@ export function LabourRules() {
       headerActions={
         <div className="flex gap-3">
           <button className="ui-button ui-button--secondary">
-            <span className="mr-2">↓</span>
+            <DownloadIcon className="mr-2" />
             Download CSV
           </button>
           <button className="ui-button ui-button--secondary">
-            <span className="mr-2">↑</span>
+            <UploadIcon className="mr-2" />
             Upload CSV
           </button>
         </div>
@@ -204,7 +216,7 @@ function AttributesTab({ attributes, setAttributes }: AttributesTabProps) {
               className="w-64 px-4 py-2 pl-10 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
             />
             <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
-              🔍
+              <SearchIcon size="sm" />
             </span>
           </div>
           <span className="text-sm text-gray-500">
@@ -215,7 +227,7 @@ function AttributesTab({ attributes, setAttributes }: AttributesTabProps) {
           onClick={handleAddAttribute}
           className="ui-button ui-button--primary"
         >
-          <span className="mr-2">+</span>
+          <PlusIcon className="mr-2" />
           Add attribute
         </button>
       </div>
@@ -273,7 +285,7 @@ function AttributesTab({ attributes, setAttributes }: AttributesTabProps) {
                       className="p-1.5 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded"
                       title="Edit"
                     >
-                      ✏️
+                      <EditIcon size="sm" />
                     </button>
                     <button
                       onClick={() => handleDeleteAttribute(attr.id)}
@@ -285,7 +297,7 @@ function AttributesTab({ attributes, setAttributes }: AttributesTabProps) {
                       title={attr.rulesetCount > 0 ? 'Cannot delete - in use' : 'Delete'}
                       disabled={attr.rulesetCount > 0}
                     >
-                      🗑️
+                      <TrashIcon size="sm" />
                     </button>
                   </div>
                 </td>
@@ -558,7 +570,7 @@ function OrgUnitAttributesTab({
               className="ui-button ui-button--secondary"
             >
               Columns ({visibleColumns.length})
-              <span className="ml-2">▼</span>
+              <ChevronDownIcon className="ml-2" size="sm" />
             </button>
             {showColumnSelector && (
               <div className="absolute right-0 mt-2 w-64 bg-white border border-gray-200 rounded-lg shadow-lg z-10 max-h-80 overflow-y-auto">
@@ -655,7 +667,7 @@ function OrgUnitAttributesTab({
                           className="ml-2 text-amber-500"
                           title={`Missing: ${ou.missingRequired.join(', ')}`}
                         >
-                          ⚠️
+                          <ExclamationTriangleIcon size="sm" />
                         </span>
                       )}
                     </div>
@@ -723,7 +735,7 @@ function OrgUnitAttributesTab({
           <span>Missing required value</span>
         </div>
         <div className="flex items-center gap-2">
-          <span>⚠️</span>
+          <ExclamationTriangleIcon size="sm" className="text-amber-500" />
           <span>Site has missing attributes</span>
         </div>
       </div>
@@ -1009,7 +1021,7 @@ function RulesetsTab({
                     className="p-1 text-gray-400 hover:text-gray-600"
                     title="Clone"
                   >
-                    📋
+                    <DuplicateIcon size="sm" />
                   </button>
                   <button
                     onClick={(e) => {
@@ -1019,7 +1031,7 @@ function RulesetsTab({
                     className="p-1 text-gray-400 hover:text-gray-600"
                     title="Edit"
                   >
-                    ✏️
+                    <EditIcon size="sm" />
                   </button>
                 </div>
               </div>
@@ -1051,7 +1063,7 @@ function RulesetsTab({
                 onClick={handleCreateRule}
                 className="ui-button ui-button--primary"
               >
-                <span className="mr-2">+</span>
+                <PlusIcon className="mr-2" />
                 Add rule
               </button>
             </div>
@@ -1203,14 +1215,14 @@ function RuleCard({ rule, onEdit, onDelete }: RuleCardProps) {
             className="p-1.5 text-gray-400 hover:text-gray-600"
             title="Edit"
           >
-            ✏️
+            <EditIcon size="sm" />
           </button>
           <button
             onClick={onDelete}
             className="p-1.5 text-gray-400 hover:text-red-600"
             title="Delete"
           >
-            🗑️
+            <TrashIcon size="sm" />
           </button>
         </div>
       </div>
@@ -1440,7 +1452,7 @@ function RuleModal({ rule, attributes, onSave, onClose }: RuleModalProps) {
             {/* Time Fields with Formula Editor */}
             <div className="space-y-4">
               <div className="flex items-center gap-2 text-sm text-gray-500">
-                <span className="text-blue-500">ℹ️</span>
+                <InformationCircleIcon size="sm" className="text-blue-500" />
                 <span>
                   Use <code className="bg-gray-100 px-1 rounded">{'#{attribute_name}'}</code> to reference attributes.
                   Example: <code className="bg-gray-100 px-1 rounded">{'#{opening_time_monday} - 1.hour'}</code>
@@ -1705,7 +1717,7 @@ function AssignmentsTab({
           onClick={() => setShowAssignModal(true)}
           className="ui-button ui-button--primary"
         >
-          <span className="mr-2">+</span>
+          <PlusIcon className="mr-2" />
           Assign ruleset
         </button>
       </div>
@@ -1741,7 +1753,7 @@ function AssignmentsTab({
                         <span className="font-medium">{ou.orgUnit.name}</span>
                         {hasMissing && (
                           <span className="ml-2 text-amber-500" title="Missing attributes">
-                            ⚠️
+                            <ExclamationTriangleIcon size="sm" />
                           </span>
                         )}
                       </div>
@@ -1873,7 +1885,7 @@ function AssignmentsTab({
                             className="p-1.5 text-gray-400 hover:text-red-600"
                             title="Remove assignment"
                           >
-                            🗑️
+                            <TrashIcon size="sm" />
                           </button>
                         </div>
                       </div>

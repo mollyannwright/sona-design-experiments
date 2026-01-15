@@ -1,6 +1,6 @@
 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M8.73328 14.1333H17.3333C16.1458 14.1333 15.1833 13.1708 15.1833 11.9833V8.4" stroke="#64748B" stroke-width="1.29" stroke-miterlimit="10" stroke-linecap="square"/>
-<path d="M14.6229 5.3771C13.788 3.76675 12.106 2.66666 10.1667 2.66666C7.39603 2.66666 5.15 4.9127 5.15 7.68333V11.9833C5.15 13.1708 4.18752 14.1333 3 14.1333H5.86666" stroke="#64748B" stroke-width="1.29" stroke-miterlimit="10"/>
-<path d="M8.93176 17C9.17973 17.4264 9.63696 17.7166 10.1666 17.7166C10.6962 17.7166 11.1527 17.4264 11.4014 17H8.93176Z" fill="#64748B" stroke="#64748B" stroke-width="1.29" stroke-miterlimit="10" stroke-linecap="square"/>
-<path d="M17.3333 2.66666L3 17" stroke="#64748B" stroke-width="1.29" stroke-miterlimit="10" stroke-linecap="square"/>
+<path d="M8.73328 14.1333H17.3333C16.1458 14.1333 15.1833 13.1708 15.1833 11.9833V8.4" stroke="currentColor" stroke-width="1.29" stroke-miterlimit="10" stroke-linecap="square"/>
+<path d="M14.6229 5.3771C13.788 3.76675 12.106 2.66666 10.1667 2.66666C7.39603 2.66666 5.15 4.9127 5.15 7.68333V11.9833C5.15 13.1708 4.18752 14.1333 3 14.1333H5.86666" stroke="currentColor" stroke-width="1.29" stroke-miterlimit="10"/>
+<path d="M8.93176 17C9.17973 17.4264 9.63696 17.7166 10.1666 17.7166C10.6962 17.7166 11.1527 17.4264 11.4014 17H8.93176Z" fill="currentColor" stroke="currentColor" stroke-width="1.29" stroke-miterlimit="10" stroke-linecap="square"/>
+<path d="M17.3333 2.66666L3 17" stroke="currentColor" stroke-width="1.29" stroke-miterlimit="10" stroke-linecap="square"/>
 </svg>

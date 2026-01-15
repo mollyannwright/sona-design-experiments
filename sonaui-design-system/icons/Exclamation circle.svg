@@ -1,8 +1,8 @@
 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g clip-path="url(#clip0_3642_1182)">
-<path d="M10 18.0556C14.449 18.0556 18.0556 14.449 18.0556 10C18.0556 5.55105 14.449 1.94446 10 1.94446C5.55105 1.94446 1.94446 5.55105 1.94446 10C1.94446 14.449 5.55105 18.0556 10 18.0556Z" stroke="#64748B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M10 6.38892V9.72225" stroke="#64748B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M10 14.2434C9.38669 14.2434 8.88892 13.7445 8.88892 13.1323C8.88892 12.5201 9.38669 12.0212 10 12.0212C10.6134 12.0212 11.1111 12.5201 11.1111 13.1323C11.1111 13.7445 10.6134 14.2434 10 14.2434Z" fill="#64748B"/>
+<path d="M10 18.0556C14.449 18.0556 18.0556 14.449 18.0556 10C18.0556 5.55105 14.449 1.94446 10 1.94446C5.55105 1.94446 1.94446 5.55105 1.94446 10C1.94446 14.449 5.55105 18.0556 10 18.0556Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M10 6.38892V9.72225" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M10 14.2434C9.38669 14.2434 8.88892 13.7445 8.88892 13.1323C8.88892 12.5201 9.38669 12.0212 10 12.0212C10.6134 12.0212 11.1111 12.5201 11.1111 13.1323C11.1111 13.7445 10.6134 14.2434 10 14.2434Z" fill="currentColor"/>
 </g>
 <defs>
 <clipPath id="clip0_3642_1182">
