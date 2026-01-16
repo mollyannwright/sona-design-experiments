@@ -142,6 +142,7 @@ export function LabourRules() {
               setRules={setRules}
               attributes={attributes}
               assignments={assignments}
+              initialSelectedRulesetId={null}
             />
           )}
           {activeTab === 'assignments' && (
@@ -150,6 +151,14 @@ export function LabourRules() {
               setAssignments={setAssignments}
               rulesets={rulesets}
               orgUnitAttributes={orgUnitAttributes}
+              onViewRuleset={(rulesetId) => {
+                setActiveTab('rulesets');
+                // Use a ref or state to pass the ruleset ID
+                setTimeout(() => {
+                  const event = new CustomEvent('selectRuleset', { detail: { rulesetId } });
+                  window.dispatchEvent(event);
+                }, 100);
+              }}
             />
           )}
         </div>
@@ -1135,6 +1144,7 @@ interface RulesetsTabProps {
   setRules: React.Dispatch<React.SetStateAction<Rule[]>>;
   attributes: Attribute[];
   assignments: RulesetAssignment[];
+  initialSelectedRulesetId?: string | null;
 }
 
 function RulesetsTab({
@@ -1144,8 +1154,37 @@ function RulesetsTab({
   setRules,
   attributes,
   assignments,
+  initialSelectedRulesetId,
 }: RulesetsTabProps) {
   const [selectedRuleset, setSelectedRuleset] = useState<Ruleset | null>(null);
+
+  // Listen for navigation events from other tabs
+  useEffect(() => {
+    const handleSelectRuleset = (event: CustomEvent<{ rulesetId: string }>) => {
+      const ruleset = rulesets.find((rs) => rs.id === event.detail.rulesetId);
+      if (ruleset) {
+        setSelectedRuleset(ruleset);
+      }
+    };
+
+    window.addEventListener('selectRuleset', handleSelectRuleset as EventListener);
+    return () => {
+      window.removeEventListener('selectRuleset', handleSelectRuleset as EventListener);
+    };
+  }, [rulesets]);
+
+  // Handle initial selected ruleset
+  useEffect(() => {
+    if (initialSelectedRulesetId) {
+      const ruleset = rulesets.find((rs) => rs.id === initialSelectedRulesetId);
+      if (ruleset) {
+        setSelectedRuleset(ruleset);
+      }
+    } else {
+      // Reset selection when tab changes and no initial ID
+      setSelectedRuleset(null);
+    }
+  }, [initialSelectedRulesetId, rulesets]);
   const [showRulesetModal, setShowRulesetModal] = useState(false);
   const [editingRuleset, setEditingRuleset] = useState<Ruleset | null>(null);
   const [showRuleModal, setShowRuleModal] = useState(false);
@@ -1851,6 +1890,7 @@ interface AssignmentsTabProps {
   setAssignments: React.Dispatch<React.SetStateAction<RulesetAssignment[]>>;
   rulesets: Ruleset[];
   orgUnitAttributes: OrgUnitWithAttributes[];
+  onViewRuleset: (rulesetId: string) => void;
 }
 
 function AssignmentsTab({
@@ -1858,10 +1898,10 @@ function AssignmentsTab({
   setAssignments,
   rulesets,
   orgUnitAttributes,
+  onViewRuleset,
 }: AssignmentsTabProps) {
-  const [selectedAssignment, setSelectedAssignment] = useState<RulesetAssignment | null>(null);
+  const [selectedLocation, setSelectedLocation] = useState<OrgUnitWithAttributes | null>(null);
   const [showAssignModal, setShowAssignModal] = useState(false);
-  const [statusFilter, setStatusFilter] = useState<string>('all');
 
   const getStatusBadge = (status: string) => {
     switch (status) {
@@ -1878,9 +1918,6 @@ function AssignmentsTab({
 
   const handleRemoveAssignment = (assignmentId: string) => {
     setAssignments((prev) => prev.filter((a) => a.id !== assignmentId));
-    if (selectedAssignment?.id === assignmentId) {
-      setSelectedAssignment(null);
-    }
   };
 
   const handleAddAssignment = (data: {
@@ -1911,91 +1948,133 @@ function AssignmentsTab({
     setShowAssignModal(false);
   };
 
-  // Filter assignments based on status
-  const getFilteredAssignments = () => {
-    if (statusFilter === 'all') return assignments;
-    return assignments.filter((a) => a.status === statusFilter);
+  // Get assignments for a location
+  const getAssignmentsForLocation = (orgUnitId: string) => {
+    return assignments.filter((a) => a.orgUnitId === orgUnitId);
   };
 
-  // If an assignment is selected, show detail view
-  if (selectedAssignment) {
+  // Get number of attributes for a location
+  const getAttributeCount = (orgUnit: OrgUnitWithAttributes) => {
+    return Object.keys(orgUnit.attributes).length;
+  };
+
+  // If a location is selected, show detail view
+  if (selectedLocation) {
+    const locationAssignments = getAssignmentsForLocation(selectedLocation.orgUnit.id);
+    
     return (
       <div className="space-y-6">
         {/* Back Button */}
         <button
-          onClick={() => setSelectedAssignment(null)}
+          onClick={() => setSelectedLocation(null)}
           className="flex items-center gap-1 text-sm text-emerald-600 hover:text-emerald-700"
         >
           <ChevronLeftIcon size="sm" />
-          Back to assignments
+          Back to locations
         </button>
 
-        {/* Assignment Detail Card */}
+        {/* Location Detail Card */}
         <div className="bg-white rounded border border-gray-200" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
           {/* Header */}
           <div className="px-6 py-5 border-b border-gray-200">
             <div className="flex items-center justify-between">
-              <div>
-                <h2 className="text-xl font-semibold text-gray-900">{selectedAssignment.rulesetName}</h2>
-                <p className="text-sm text-gray-500 mt-1">{selectedAssignment.orgUnitName}</p>
-              </div>
-              <div className="flex items-center gap-3">
-                {getStatusBadge(selectedAssignment.status)}
-                <button
-                  onClick={() => handleRemoveAssignment(selectedAssignment.id)}
-                  className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded transition-colors"
-                  title="Remove assignment"
-                >
-                  <TrashIcon size="sm" />
-                </button>
-              </div>
+              <h2 className="text-xl font-semibold text-gray-900">{selectedLocation.orgUnit.name}</h2>
+              <button
+                onClick={() => setShowAssignModal(true)}
+                className="ui-button ui-button--primary"
+              >
+                <PlusIcon className="mr-2" />
+                Assign ruleset
+              </button>
             </div>
           </div>
 
-          {/* Details Grid */}
-          <div className="px-6 py-6">
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
-              <div>
-                <div className="text-xs text-gray-500 mb-1">Effective From</div>
-                <div className="text-sm font-medium text-gray-900">{selectedAssignment.effectiveFrom}</div>
-              </div>
-              <div>
-                <div className="text-xs text-gray-500 mb-1">Effective Until</div>
-                <div className="text-sm font-medium text-gray-900">
-                  {selectedAssignment.effectiveUntil || (
-                    <span className="text-blue-600">Indefinite</span>
-                  )}
-                </div>
-              </div>
-              <div>
-                <div className="text-xs text-gray-500 mb-1">Created At</div>
-                <div className="text-sm font-medium text-gray-900">{selectedAssignment.createdAt}</div>
+          {/* Rulesets Sections */}
+          {locationAssignments.length > 0 ? (
+            <div className="divide-y divide-gray-200">
+              {locationAssignments.map((assignment) => {
+                const ruleset = rulesets.find((rs) => rs.id === assignment.rulesetId);
+                return (
+                  <div key={assignment.id} className="px-6 py-5">
+                    <div className="flex items-start justify-between">
+                      <div className="flex-1">
+                        <div className="flex items-center gap-3 mb-3">
+                          <h3 className="text-base font-semibold text-gray-900">
+                            {assignment.rulesetName}
+                          </h3>
+                          {getStatusBadge(assignment.status)}
+                        </div>
+                        
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+                          <div>
+                            <div className="text-xs text-gray-500 mb-1">No. of Rules</div>
+                            <div className="text-sm font-medium text-gray-900">
+                              {ruleset?.rules.length || 0}
+                            </div>
+                          </div>
+                          <div>
+                            <div className="text-xs text-gray-500 mb-1">Effective From</div>
+                            <div className="text-sm font-medium text-gray-900">
+                              {assignment.effectiveFrom}
+                            </div>
+                          </div>
+                          <div>
+                            <div className="text-xs text-gray-500 mb-1">Effective Until</div>
+                            <div className="text-sm font-medium text-gray-900">
+                              {assignment.effectiveUntil || (
+                                <span className="text-blue-600">Indefinite</span>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div className="flex items-center gap-2 ml-4">
+                        <button
+                          onClick={() => onViewRuleset(assignment.rulesetId)}
+                          className="px-3 py-1.5 text-sm text-emerald-600 hover:text-emerald-700 hover:bg-emerald-50 rounded transition-colors"
+                        >
+                          View ruleset
+                        </button>
+                        <button
+                          onClick={() => handleRemoveAssignment(assignment.id)}
+                          className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded transition-colors"
+                          title="Remove assignment"
+                        >
+                          <TrashIcon size="sm" />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="px-6 py-12">
+              <div className="text-center py-12 bg-gray-50 rounded-lg">
+                <p className="text-gray-500 text-sm">
+                  No ruleset assignments for this location.
+                </p>
+                <button
+                  onClick={() => setShowAssignModal(true)}
+                  className="mt-4 text-sm text-emerald-600 hover:text-emerald-700 font-medium transition-colors"
+                >
+                  + Assign a ruleset
+                </button>
               </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
     );
   }
 
-  // Table view - show all assignments
+  // Table view - show all locations
   return (
     <div className="bg-white rounded border border-gray-200" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
       {/* Section Header */}
       <div className="px-6 py-5 flex items-center justify-between border-b border-gray-200">
-        <div className="flex items-center gap-4">
-          <p className="text-sm text-gray-700">Manage ruleset assignments to locations</p>
-          <select
-            value={statusFilter}
-            onChange={(e) => setStatusFilter(e.target.value)}
-            className="px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
-          >
-            <option value="all">All statuses</option>
-            <option value="active">Active</option>
-            <option value="scheduled">Scheduled</option>
-            <option value="expired">Expired</option>
-          </select>
-        </div>
+        <p className="text-sm text-gray-700">Manage ruleset assignments to locations</p>
         <button
           onClick={() => setShowAssignModal(true)}
           className="flex items-center gap-2 px-4 py-2 text-emerald-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 text-sm font-medium shadow-sm"
@@ -2010,35 +2089,27 @@ function AssignmentsTab({
         <table className="w-full border-collapse">
           <thead>
             <tr className="bg-gray-100">
-              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Site</th>
-              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Ruleset</th>
-              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Status</th>
-              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Effective From</th>
-              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Effective Until</th>
-              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Created At</th>
+              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Site Name</th>
+              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">No. of Rulesets</th>
+              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">No. of Attributes</th>
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-100">
-            {getFilteredAssignments().map((assignment) => (
-              <tr
-                key={assignment.id}
-                className="hover:bg-gray-50 transition-colors cursor-pointer"
-                onClick={() => setSelectedAssignment(assignment)}
-              >
-                <td className="px-6 py-4 text-sm font-medium text-gray-900">{assignment.orgUnitName}</td>
-                <td className="px-6 py-4 text-sm text-gray-700">{assignment.rulesetName}</td>
-                <td className="px-6 py-4">
-                  {getStatusBadge(assignment.status)}
-                </td>
-                <td className="px-6 py-4 text-sm text-gray-700">{assignment.effectiveFrom}</td>
-                <td className="px-6 py-4 text-sm text-gray-700">
-                  {assignment.effectiveUntil || (
-                    <span className="text-blue-600 font-medium">Indefinite</span>
-                  )}
-                </td>
-                <td className="px-6 py-4 text-sm text-gray-700">{assignment.createdAt}</td>
-              </tr>
-            ))}
+            {orgUnitAttributes.map((ou) => {
+              const rulesetCount = getAssignmentsForLocation(ou.orgUnit.id).length;
+              const attributeCount = getAttributeCount(ou);
+              return (
+                <tr
+                  key={ou.orgUnit.id}
+                  className="hover:bg-gray-50 transition-colors cursor-pointer"
+                  onClick={() => setSelectedLocation(ou)}
+                >
+                  <td className="px-6 py-4 text-sm font-medium text-gray-900">{ou.orgUnit.name}</td>
+                  <td className="px-6 py-4 text-sm text-gray-700">{rulesetCount}</td>
+                  <td className="px-6 py-4 text-sm text-gray-700">{attributeCount}</td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>
