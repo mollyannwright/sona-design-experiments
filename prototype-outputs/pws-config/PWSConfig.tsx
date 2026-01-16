@@ -1613,11 +1613,13 @@ export const PWSConfig = () => {
               </div>
 
               {/* PWS Header */}
-              <div className="flex items-center gap-3">
-                <h1 className="text-2xl font-semibold text-gray-900">{pws.name}</h1>
-                <StatusBadge status={pws.status} />
-                <button className="p-1 text-gray-400 hover:text-gray-600">
-                  <Icon name="Dots vertical" size="md" />
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <h1 className="text-2xl font-semibold text-gray-900">{pws.name}</h1>
+                  <StatusBadge status={pws.status} />
+                </div>
+                <button className="px-4 py-2 text-emerald-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 text-sm font-medium shadow-sm">
+                  Edit profile
                 </button>
               </div>
             </div>
@@ -1669,11 +1671,13 @@ export const PWSConfig = () => {
             </div>
 
             {/* PWS Header */}
-            <div className="flex items-center gap-3">
-              <h1 className="text-2xl font-semibold text-gray-900">{pws.name}</h1>
-              <StatusBadge status={pws.status} />
-              <button className="p-1 text-gray-400 hover:text-gray-600">
-                <Icon name="Dots vertical" size="md" />
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <h1 className="text-2xl font-semibold text-gray-900">{pws.name}</h1>
+                <StatusBadge status={pws.status} />
+              </div>
+              <button className="px-4 py-2 text-emerald-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 text-sm font-medium shadow-sm">
+                Edit profile
               </button>
             </div>
           </div>
