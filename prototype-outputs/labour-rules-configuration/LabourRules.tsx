@@ -1021,7 +1021,7 @@ function RulesetsTab({
       <div className="flex-1 pl-6 pr-6 overflow-y-auto min-w-0">
         {selectedRuleset ? (
           <>
-            <div className="px-6 pt-4">
+            <div className="-mx-6 px-6 pt-4">
               <div className="flex items-center justify-between mb-4">
                 <div>
                   <h3 className="text-lg font-semibold text-gray-900">
