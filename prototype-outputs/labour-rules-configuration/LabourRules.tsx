@@ -997,7 +997,7 @@ function RulesetsTab({
       <div className="flex flex-1 min-h-0">
         {/* Rulesets List */}
         <div className="w-80 flex-shrink-0 pr-6 border-r border-gray-200 flex flex-col min-h-0">
-          <div className="flex items-center justify-between mb-4 flex-shrink-0 px-4">
+          <div className="flex items-center justify-between mb-4 flex-shrink-0 px-4 pt-4">
             <h3 className="text-sm font-semibold text-gray-900">Rulesets</h3>
             <button
               onClick={handleCreateRuleset}
@@ -1006,7 +1006,7 @@ function RulesetsTab({
               + New
             </button>
           </div>
-          <div className="border-t border-b border-gray-200 bg-white flex-1 overflow-y-auto min-h-0 pt-4">
+          <div className="border-t border-b border-gray-200 bg-white flex-1 overflow-y-auto min-h-0">
           {rulesets.map((ruleset) => (
             <div
               key={ruleset.id}
@@ -1067,7 +1067,7 @@ function RulesetsTab({
       {/* Rules Detail */}
       <div className="flex-1 pl-6 overflow-y-auto min-w-0">
         {selectedRuleset ? (
-          <div className="px-6 pt-6">
+          <div className="px-6">
             <div className="flex items-center justify-between mb-4">
               <div>
                 <h3 className="text-lg font-semibold text-gray-900">
@@ -1736,7 +1736,7 @@ function AssignmentsTab({
         {/* Site List */}
         <div className="w-80 flex-shrink-0 pr-6 border-r border-gray-200 flex flex-col min-h-0">
           {/* Status Filter */}
-          <div className="mb-3 px-4 flex-shrink-0">
+          <div className="mb-3 px-4 flex-shrink-0 pt-4">
             <label className="block text-xs font-medium text-gray-600 mb-1.5">Filter sites</label>
             <select
               value={statusFilter}
@@ -1750,7 +1750,7 @@ function AssignmentsTab({
               <option value="scheduled">Scheduled</option>
             </select>
           </div>
-          <div className="border-t border-b border-gray-200 bg-white flex-1 overflow-y-auto min-h-0 pt-4">
+          <div className="border-t border-b border-gray-200 bg-white flex-1 overflow-y-auto min-h-0">
           {getFilteredSites().map((ou) => {
             const siteAssignments = getAssignmentsForOrgUnit(ou.orgUnit.id);
             const activeAssignments = siteAssignments.filter((a) => a.status === 'active');
@@ -1795,7 +1795,7 @@ function AssignmentsTab({
       {/* Assignment Timeline */}
       <div className="flex-1 pl-6 overflow-y-auto min-w-0">
         {selectedOrgUnit ? (
-          <div className="px-6 pt-6">
+          <div className="px-6">
             <div className="flex items-center justify-between">
               <h4 className="text-lg font-semibold text-gray-900">
                 {
