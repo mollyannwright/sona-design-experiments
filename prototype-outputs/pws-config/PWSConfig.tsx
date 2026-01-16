@@ -1776,7 +1776,7 @@ export const PWSConfig = () => {
             {/* Main Header */}
             <div className="px-6 pt-4 pb-6 border-b border-gray-200">
               {/* Breadcrumb */}
-              <div className="text-sm text-gray-600 font-medium mb-2">
+              <div className="text-sm text-gray-500 font-medium mb-2">
                 <span className="hover:underline cursor-pointer">All people we support</span> /
               </div>
 
@@ -1842,7 +1842,7 @@ export const PWSConfig = () => {
           {/* Main Header */}
           <div className="px-6 pt-4 pb-6 border-b border-gray-200">
             {/* Breadcrumb */}
-            <div className="text-sm text-gray-600 font-medium mb-2">
+            <div className="text-sm text-gray-500 font-medium mb-2">
               <span className="hover:underline cursor-pointer">All people we support</span> /
             </div>
 
