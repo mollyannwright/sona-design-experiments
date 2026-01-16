@@ -575,7 +575,7 @@ const OccupancyTab = ({
           </button>
         </div>
         {pws.status === 'Out of service' && pws.expectedReturn && (
-          <p className="text-sm text-gray-600 mt-3">
+          <p className="text-sm text-gray-600 mt-2">
             Expected back: {pws.expectedReturn}
           </p>
         )}

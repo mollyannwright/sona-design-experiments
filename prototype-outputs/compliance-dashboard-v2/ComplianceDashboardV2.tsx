@@ -114,7 +114,7 @@ function ComplianceDashboardV2() {
         <div className="px-6 pb-6 pt-6">
           {/* Overview Stats */}
           <div className="grid grid-cols-4 gap-4 mb-6">
-        <div className="bg-white p-5 rounded-lg border border-slate-200">
+        <div className="bg-white p-5 rounded" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
           <div className="flex items-center justify-between mb-2">
             <span className="text-sm font-medium text-slate-500">Total employees</span>
             <Icon name="User" size="sm" className="text-slate-400" />
@@ -123,7 +123,7 @@ function ComplianceDashboardV2() {
           <div className="text-xs text-slate-500">Active employees</div>
         </div>
 
-        <div className="bg-white p-5 rounded-lg border border-slate-200">
+        <div className="bg-white p-5 rounded" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
           <div className="flex items-center justify-between mb-2">
             <span className="text-sm font-medium text-slate-500">Right to work</span>
             <CheckIcon size="sm" className="text-emerald-600" />
@@ -135,7 +135,7 @@ function ComplianceDashboardV2() {
           </div>
         </div>
 
-        <div className="bg-white p-5 rounded-lg border border-slate-200">
+        <div className="bg-white p-5 rounded" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
           <div className="flex items-center justify-between mb-2">
             <span className="text-sm font-medium text-slate-500">Policy compliance</span>
             <Icon name="Document" size="sm" className="text-indigo-600" />
@@ -147,7 +147,7 @@ function ComplianceDashboardV2() {
           </div>
         </div>
 
-        <div className="bg-white p-5 rounded-lg border border-slate-200">
+        <div className="bg-white p-5 rounded" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
           <div className="flex items-center justify-between mb-2">
             <span className="text-sm font-medium text-slate-500">Action required</span>
             <ExclamationTriangleIcon size="sm" className="text-red-600" />
