@@ -15,165 +15,18 @@ import {
   type CommissionedHour,
   type Shift,
 } from './pwsConfigData';
-
-// Icons
-const HomeIcon = () => (
-  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-  </svg>
-);
-
-const UsersIcon = () => (
-  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-  </svg>
-);
-
-const BuildingIcon = () => (
-  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-  </svg>
-);
-
-const CalendarIcon = () => (
-  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-  </svg>
-);
-
-const RosterIcon = () => (
-  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-  </svg>
-);
-
-const DollarIcon = () => (
-  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-  </svg>
-);
-
-const ChartIcon = () => (
-  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-  </svg>
-);
-
-const GlobeIcon = () => (
-  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-  </svg>
-);
-
-const CheckIcon = () => (
-  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-  </svg>
-);
-
-const InboxIcon = () => (
-  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
-  </svg>
-);
-
-const VacationIcon = () => (
-  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-  </svg>
-);
-
-const PayrollIcon = () => (
-  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
-  </svg>
-);
-
-const InsightsIcon = () => (
-  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-  </svg>
-);
-
-const FeedIcon = () => (
-  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 5c7.18 0 13 5.82 13 13M6 11a7 7 0 017 7m-6 0a1 1 0 11-2 0 1 1 0 012 0z" />
-  </svg>
-);
-
-const ChatIcon = () => (
-  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-  </svg>
-);
-
-const AdminIcon = () => (
-  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-  </svg>
-);
-
-const LocationIcon = () => (
-  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-  </svg>
-);
-
-const ChevronLeftIcon = () => (
-  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-  </svg>
-);
-
-const ChevronRightIcon = () => (
-  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-  </svg>
-);
-
-const MenuIcon = () => (
-  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-  </svg>
-);
-
-const DotsIcon = () => (
-  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-    <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
-  </svg>
-);
-
-const PlusIcon = () => (
-  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-  </svg>
-);
-
-const TrashIcon = () => (
-  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-  </svg>
-);
-
-const XIcon = () => (
-  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-  </svg>
-);
-
-const InfoIcon = () => (
-  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-  </svg>
-);
-
-const WarningIcon = () => (
-  <svg className="w-5 h-5 text-amber-500" fill="currentColor" viewBox="0 0 20 20">
-    <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-  </svg>
-);
+import {
+  Icon,
+  PlusIcon,
+  TrashIcon,
+  XIcon,
+  CheckIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  ChevronDownIcon,
+  InformationCircleIcon,
+  ExclamationTriangleIcon,
+} from '../../src/components/shared/Icon';
 
 // Sidebar Component
 const Sidebar = () => {
@@ -181,33 +34,33 @@ const Sidebar = () => {
     {
       title: 'Admin',
       items: [
-        { icon: <UsersIcon />, label: 'People we support', active: true },
-        { icon: <BuildingIcon />, label: 'Services', active: false },
+        { icon: <Icon name="Users" size="md" />, label: 'People we support', active: true },
+        { icon: <Icon name="Office building" size="md" />, label: 'Services', active: false },
       ],
     },
     {
       title: 'Business Wide',
       items: [
-        { icon: <HomeIcon />, label: 'Home', active: false },
-        { icon: <RosterIcon />, label: 'Roster', active: false },
-        { icon: <DollarIcon />, label: 'Revenues & Forecasts', active: false },
-        { icon: <ChartIcon />, label: 'Employee Management', active: false },
-        { icon: <GlobeIcon />, label: 'Agentic Workforce', active: false },
-        { icon: <CheckIcon />, label: 'Tasks', active: false, badge: 3 },
-        { icon: <InboxIcon />, label: 'Inbox', active: false },
-        { icon: <VacationIcon />, label: 'Vacation', active: false },
-        { icon: <UsersIcon />, label: 'Retention', active: false },
-        { icon: <PayrollIcon />, label: 'Payroll', active: false },
-        { icon: <InsightsIcon />, label: 'Insights', active: false },
-        { icon: <FeedIcon />, label: 'Feed', active: false },
-        { icon: <ChatIcon />, label: 'Chat', active: false, badge: 1 },
-        { icon: <AdminIcon />, label: 'Admin', active: false },
+        { icon: <Icon name="Home" size="md" />, label: 'Home', active: false },
+        { icon: <Icon name="Document" size="md" />, label: 'Roster', active: false },
+        { icon: <Icon name="Currency Dollar" size="md" />, label: 'Revenues & Forecasts', active: false },
+        { icon: <Icon name="Chart bar" size="md" />, label: 'Employee Management', active: false },
+        { icon: <Icon name="Lightning bolt" size="md" />, label: 'Agentic Workforce', active: false },
+        { icon: <CheckIcon size="md" />, label: 'Tasks', active: false, badge: 3 },
+        { icon: <Icon name="Mail" size="md" />, label: 'Inbox', active: false },
+        { icon: <Icon name="Holiday" size="md" />, label: 'Vacation', active: false },
+        { icon: <Icon name="Users" size="md" />, label: 'Retention', active: false },
+        { icon: <Icon name="Money" size="md" />, label: 'Payroll', active: false },
+        { icon: <Icon name="Chart bar" size="md" />, label: 'Insights', active: false },
+        { icon: <Icon name="Newspaper" size="md" />, label: 'Feed', active: false },
+        { icon: <Icon name="Chat" size="md" />, label: 'Chat', active: false, badge: 1 },
+        { icon: <Icon name="Cog" size="md" />, label: 'Admin', active: false },
       ],
     },
     {
       title: 'People We Support',
       items: [
-        { icon: <LocationIcon />, label: 'Select a location...', active: false },
+        { icon: <Icon name="Location marker" size="md" />, label: 'Select a location...', active: false },
       ],
     },
   ];
@@ -218,7 +71,7 @@ const Sidebar = () => {
       <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
         <span className="text-2xl font-medium text-emerald-500">Sona.</span>
         <button className="text-gray-500 hover:text-gray-700">
-          <MenuIcon />
+          <Icon name="Sidebar collapse" size="md" />
         </button>
       </div>
 
@@ -287,187 +140,17 @@ const MetricCard = ({
   <div className={`bg-white p-5 rounded-lg border ${isWarning ? 'border-amber-200 bg-amber-50' : 'border-gray-200'}`}>
     <div className="text-sm text-gray-500 mb-2">{label}</div>
     <div className={`text-3xl font-semibold flex items-center gap-2 ${isWarning ? 'text-amber-600' : valueColor}`}>
-      {isWarning && <WarningIcon />}
+      {isWarning && <ExclamationTriangleIcon className="text-amber-500" size="md" />}
       {value}
     </div>
   </div>
 );
 
-// Chevron Down Icon
-const ChevronDownIcon = ({ className }: { className?: string }) => (
-  <svg className={className || "w-5 h-5"} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-  </svg>
-);
-
-// User Icon for shift blocks
-const UserIconSmall = ({ className }: { className?: string }) => (
-  <svg className={className || "w-4 h-4"} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-  </svg>
-);
-
-// Users Icon for shared care
-const UsersIconSmall = () => (
-  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-  </svg>
-);
-
-// Check Icon
-const CheckIconSmall = () => (
-  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-  </svg>
-);
-
-// X Icon
-const XIconSmall = () => (
-  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-  </svg>
-);
 
 // Overview Tab Component
 const OverviewTab = ({ pws }: { pws: PWS }) => {
-  const [dateRange] = useState('Jan 5 - Jan 11');
-  const [isShiftsOpen, setIsShiftsOpen] = useState(false);
-
-  const days = ['Mon 6', 'Tue 7', 'Wed 8', 'Thu 9', 'Fri 10', 'Sat 11', 'Sun 12'];
-  const shiftsByDay = pws.weeklyShifts?.reduce((acc, shift) => {
-    if (!acc[shift.day]) acc[shift.day] = [];
-    acc[shift.day].push(shift);
-    return acc;
-  }, {} as Record<string, Shift[]>) || {};
-
   return (
     <div className="space-y-6">
-      {/* Week Selector Accordion */}
-      <div className="bg-white rounded border border-gray-200">
-        {/* Accordion Header */}
-        <button
-          onClick={() => setIsShiftsOpen(!isShiftsOpen)}
-          className="w-full flex items-center justify-between px-4 py-4 hover:bg-gray-50 transition-colors"
-        >
-          <div className="flex items-center gap-3">
-            <div className={`transition-transform ${isShiftsOpen ? 'rotate-180' : ''}`}>
-              <ChevronDownIcon className="w-5 h-5 text-gray-900" />
-            </div>
-            <span className="text-sm font-medium text-gray-900">This week's shifts</span>
-            <button 
-              onClick={(e) => e.stopPropagation()}
-              className="flex items-center gap-2 px-3 py-1.5 border border-gray-200 rounded text-sm"
-            >
-              {dateRange}
-              <CalendarIcon />
-            </button>
-          </div>
-          <button 
-            onClick={(e) => {
-              e.stopPropagation();
-              // Handle view in roster
-            }}
-            className="flex items-center gap-1 px-4 py-2 bg-white hover:bg-slate-50 text-emerald-700 text-sm font-medium rounded-lg border border-slate-200 transition-colors"
-          >
-            View in roster
-            <ChevronRightIcon />
-          </button>
-        </button>
-
-        {/* Accordion Content - Weekly Schedule */}
-        {isShiftsOpen && (
-          <div className="border-t border-gray-200 p-4">
-            <div className="grid grid-cols-7 gap-0 border border-gray-200 rounded overflow-hidden">
-              {days.map((day) => {
-                const isToday = day === 'Thu 9';
-                const dayShifts = shiftsByDay[day] || [];
-                
-                return (
-                  <div 
-                    key={day} 
-                    className={`flex flex-col gap-3 p-3 border-r border-gray-200 last:border-r-0 ${isToday ? 'bg-blue-50' : ''}`}
-                  >
-                    {/* Day Header */}
-                    <div className="text-center mb-2 min-h-[30px] flex items-center justify-center">
-                      {isToday ? (
-                        <span className="text-sm font-semibold text-white bg-indigo-600 px-4 py-1 rounded-full">
-                          {day}
-                        </span>
-                      ) : (
-                        <span className="text-sm font-semibold text-gray-900">{day}</span>
-                      )}
-                    </div>
-
-                    {/* Shift Blocks */}
-                    <div className="flex flex-col gap-3">
-                      {dayShifts.map((shift) => (
-                        <div
-                          key={shift.id}
-                          className={`rounded-md p-2 flex flex-col gap-1 ${
-                            shift.isCompliant
-                              ? 'bg-blue-600 text-white'
-                              : 'bg-white border-2 border-red-600 text-blue-600'
-                          }`}
-                        >
-                          {/* Shift Header */}
-                          <div className="flex items-start justify-between mb-1">
-                            <div>
-                              <div className={`text-xs font-semibold ${shift.isCompliant ? 'text-white' : 'text-blue-600'}`}>
-                                {shift.startTime}-{shift.endTime}
-                              </div>
-                              <div className={`text-[11px] ${shift.isCompliant ? 'text-white' : 'text-blue-600'}`}>
-                                {shift.duration}
-                              </div>
-                            </div>
-                            <div className={`flex items-center gap-1 ${shift.isCompliant ? 'text-white' : 'text-red-600'}`}>
-                              {shift.isCompliant ? (
-                                <div className="w-3.5 h-3.5 rounded-full bg-white/20 flex items-center justify-center">
-                                  <CheckIconSmall />
-                                </div>
-                              ) : (
-                                <div className="w-3.5 h-3.5 rounded-full bg-red-600 flex items-center justify-center text-white">
-                                  <XIconSmall />
-                                </div>
-                              )}
-                              {shift.careType.includes('Shared') && (
-                                <UsersIconSmall />
-                              )}
-                            </div>
-                          </div>
-
-                          {/* Care Type */}
-                          <div className={`text-[11px] font-medium ${shift.isCompliant ? 'text-white' : 'text-blue-600'}`}>
-                            {shift.careType}
-                          </div>
-
-                          {/* Employee */}
-                          <div className="flex items-center gap-1.5 mt-1">
-                            <div className={`w-5 h-5 rounded-full flex items-center justify-center ${
-                              shift.isCompliant ? 'bg-white/20' : 'bg-gray-200'
-                            }`}>
-                              <UserIconSmall className={`w-4 h-4 ${shift.isCompliant ? 'text-white' : 'text-gray-500'}`} />
-                            </div>
-                            <div className={`text-[10px] ${shift.isCompliant ? 'text-white' : 'text-blue-600'}`}>
-                              {shift.employeeName}
-                            </div>
-                          </div>
-
-                          {/* Non-compliant label */}
-                          {!shift.isCompliant && (
-                            <div className="text-[10px] text-red-600 font-medium mt-1">
-                              Non-compliant
-                            </div>
-                          )}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        )}
-      </div>
 
       {/* Metrics Cards - Row 1 */}
       <div className="grid grid-cols-5 gap-4">
@@ -725,6 +408,136 @@ const CarePackageDetail = ({
             <p>Created by: {pkg.createdBy} on {pkg.createdAt}</p>
             {pkg.reasonForChange && <p>Reason for change: {pkg.reasonForChange}</p>}
           </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// Schedule Tab Component
+const ScheduleTab = ({ pws }: { pws: PWS }) => {
+  const [dateRange] = useState('Jan 5 - Jan 11');
+
+  const days = ['Mon 6', 'Tue 7', 'Wed 8', 'Thu 9', 'Fri 10', 'Sat 11', 'Sun 12'];
+  const shiftsByDay = pws.weeklyShifts?.reduce((acc, shift) => {
+    if (!acc[shift.day]) acc[shift.day] = [];
+    acc[shift.day].push(shift);
+    return acc;
+  }, {} as Record<string, Shift[]>) || {};
+
+  return (
+    <div className="bg-white rounded-lg border border-gray-200">
+      {/* Section Header */}
+      <div className="px-6 py-5 flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <h3 className="text-base font-medium text-gray-900">This week's shifts</h3>
+          <button 
+            className="flex items-center gap-2 px-3 py-1.5 border border-gray-200 rounded text-sm"
+          >
+            {dateRange}
+            <Icon name="Calendar" size="sm" />
+          </button>
+        </div>
+        <button 
+          onClick={() => {
+            // Handle view in roster
+          }}
+          className="flex items-center gap-1 px-4 py-2 bg-white hover:bg-slate-50 text-emerald-700 text-sm font-medium rounded-lg border border-slate-200 transition-colors"
+        >
+          View in roster
+          <ChevronRightIcon />
+        </button>
+      </div>
+
+      {/* Weekly Schedule */}
+      <div className="px-6 pb-6">
+        <div className="grid grid-cols-7 gap-0 border border-gray-200 rounded overflow-hidden">
+          {days.map((day) => {
+            const isToday = day === 'Thu 9';
+            const dayShifts = shiftsByDay[day] || [];
+            
+            return (
+              <div 
+                key={day} 
+                className={`flex flex-col gap-3 p-3 border-r border-gray-200 last:border-r-0 ${isToday ? 'bg-blue-50' : ''}`}
+              >
+                {/* Day Header */}
+                <div className="text-center mb-2 min-h-[30px] flex items-center justify-center">
+                  {isToday ? (
+                    <span className="text-sm font-semibold text-white bg-indigo-600 px-4 py-1 rounded-full">
+                      {day}
+                    </span>
+                  ) : (
+                    <span className="text-sm font-semibold text-gray-900">{day}</span>
+                  )}
+                </div>
+
+                {/* Shift Blocks */}
+                <div className="flex flex-col gap-3">
+                  {dayShifts.map((shift) => (
+                    <div
+                      key={shift.id}
+                      className={`rounded-md p-2 flex flex-col gap-1 ${
+                        shift.isCompliant
+                          ? 'bg-blue-600 text-white'
+                          : 'bg-white border-2 border-red-600 text-blue-600'
+                      }`}
+                    >
+                      {/* Shift Header */}
+                      <div className="flex items-start justify-between mb-1">
+                        <div>
+                          <div className={`text-xs font-semibold ${shift.isCompliant ? 'text-white' : 'text-blue-600'}`}>
+                            {shift.startTime}-{shift.endTime}
+                          </div>
+                          <div className={`text-[11px] ${shift.isCompliant ? 'text-white' : 'text-blue-600'}`}>
+                            {shift.duration}
+                          </div>
+                        </div>
+                        <div className={`flex items-center gap-1 ${shift.isCompliant ? 'text-white' : 'text-red-600'}`}>
+                          {shift.isCompliant ? (
+                            <div className="w-3.5 h-3.5 rounded-full bg-white/20 flex items-center justify-center">
+                              <CheckIcon size="sm" className="text-white" />
+                            </div>
+                          ) : (
+                            <div className="w-3.5 h-3.5 rounded-full bg-red-600 flex items-center justify-center text-white">
+                              <XIcon size="sm" className="text-white" />
+                            </div>
+                          )}
+                          {shift.careType.includes('Shared') && (
+                            <Icon name="Users" size="sm" />
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Care Type */}
+                      <div className={`text-[11px] font-medium ${shift.isCompliant ? 'text-white' : 'text-blue-600'}`}>
+                        {shift.careType}
+                      </div>
+
+                      {/* Employee */}
+                      <div className="flex items-center gap-1.5 mt-1">
+                        <div className={`w-5 h-5 rounded-full flex items-center justify-center ${
+                          shift.isCompliant ? 'bg-white/20' : 'bg-gray-200'
+                        }`}>
+                          <Icon name="User" size="sm" className={shift.isCompliant ? 'text-white' : 'text-gray-500'} />
+                        </div>
+                        <div className={`text-[10px] ${shift.isCompliant ? 'text-white' : 'text-blue-600'}`}>
+                          {shift.employeeName}
+                        </div>
+                      </div>
+
+                      {/* Non-compliant label */}
+                      {!shift.isCompliant && (
+                        <div className="text-[10px] text-red-600 font-medium mt-1">
+                          Non-compliant
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>
@@ -1199,7 +1012,7 @@ const AddCarePackageWizard = ({
 
       {/* Info Banner */}
       <div className="mx-6 mb-6 bg-blue-50 border border-blue-200 rounded-lg p-4 flex items-center gap-3">
-        <InfoIcon />
+        <InformationCircleIcon size="md" />
         <span className="text-sm text-blue-700">
           Current active care package details have been pre-filled below. Review and update any fields as needed.
         </span>
@@ -1273,7 +1086,7 @@ const AddCarePackageWizard = ({
 
             {validationError && (
               <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 flex items-center gap-2">
-                <WarningIcon />
+                <ExclamationTriangleIcon className="text-amber-500" size="md" />
                 <span className="text-sm text-amber-700">{validationError}</span>
               </div>
             )}
@@ -1701,7 +1514,7 @@ const AddCarePackageWizard = ({
 
 // Main PWS Config Component
 export const PWSConfig = () => {
-  const [activeTab, setActiveTab] = useState<'overview' | 'care-package' | 'occupancy'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'care-package' | 'occupancy' | 'schedule'>('overview');
   const [pws, setPws] = useState<PWS>(mockPWS);
   const [selectedPackage, setSelectedPackage] = useState<CarePackage | null>(null);
   const [showAddPackage, setShowAddPackage] = useState(false);
@@ -1711,6 +1524,7 @@ export const PWSConfig = () => {
     { id: 'overview' as const, label: 'Overview' },
     { id: 'care-package' as const, label: 'Care package' },
     { id: 'occupancy' as const, label: 'Occupancy' },
+    { id: 'schedule' as const, label: 'Schedule' },
   ];
 
   const handleAddPackage = (data: Partial<CarePackage>) => {
@@ -1807,7 +1621,7 @@ export const PWSConfig = () => {
                 <h1 className="text-2xl font-semibold text-gray-900">{pws.name}</h1>
                 <StatusBadge status={pws.status} />
                 <button className="p-1 text-gray-400 hover:text-gray-600">
-                  <DotsIcon />
+                  <Icon name="Dots vertical" size="md" />
                 </button>
               </div>
             </div>
@@ -1863,7 +1677,7 @@ export const PWSConfig = () => {
               <h1 className="text-2xl font-semibold text-gray-900">{pws.name}</h1>
               <StatusBadge status={pws.status} />
               <button className="p-1 text-gray-400 hover:text-gray-600">
-                <DotsIcon />
+                <Icon name="Dots vertical" size="md" />
               </button>
             </div>
           </div>
@@ -1906,6 +1720,7 @@ export const PWSConfig = () => {
               onLogBackInService={handleLogBackInService}
             />
           )}
+          {activeTab === 'schedule' && <ScheduleTab pws={pws} />}
         </div>
 
         {/* Out of Service Modal */}
