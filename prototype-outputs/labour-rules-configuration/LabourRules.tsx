@@ -1732,7 +1732,7 @@ function AssignmentsTab({
                     {activeAssignments.map((a) => (
                       <span
                         key={a.id}
-                        className="text-xs bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded"
+                        className="text-xs bg-blue-50 text-blue-700 px-2 py-0.5 rounded"
                       >
                         {a.rulesetName}
                       </span>
