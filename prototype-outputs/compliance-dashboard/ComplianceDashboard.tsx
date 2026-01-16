@@ -146,17 +146,56 @@ function ComplianceDashboard() {
   return (
     <SonaLayout
       navigation={navigation}
-      pageTitle="Compliance dashboard"
-      pageSubtitle="Monitor employee right to work status and policy acknowledgements"
-      headerActions={
-        <button className="px-4 py-2 bg-white hover:bg-slate-50 text-slate-700 font-medium rounded-lg border border-slate-200 transition-colors flex items-center gap-2">
-          <DownloadIcon size="sm" />
-          Export report
-        </button>
-      }
+      showHeader={false}
     >
-      {/* Summary Cards */}
-      <div className="grid grid-cols-4 gap-4 mb-6">
+      <div className="flex flex-col h-full bg-gray-50">
+        {/* Sticky Header */}
+        <div className="sticky top-0 z-10 bg-white">
+          {/* Main Header */}
+          <div className="px-6 py-4 border-b border-gray-200">
+            <div className="flex items-center justify-between">
+              <div>
+                <h1 className="text-2xl font-semibold text-gray-900">Compliance dashboard</h1>
+                <p className="text-sm text-gray-500 mt-1">Monitor employee right to work status and policy acknowledgements</p>
+              </div>
+              <button className="px-4 py-2 bg-white hover:bg-gray-50 text-gray-700 font-medium rounded-lg border border-gray-200 transition-colors flex items-center gap-2">
+                <DownloadIcon size="sm" />
+                Export report
+              </button>
+            </div>
+          </div>
+
+          {/* Tab Navigation */}
+          <div className="border-b border-gray-200">
+            <nav className="flex -mb-px px-6">
+              <button
+                onClick={() => setActiveTab('right-to-work')}
+                className={`px-6 py-4 text-sm font-medium border-b-2 transition-colors ${
+                  activeTab === 'right-to-work'
+                    ? 'border-emerald-600 text-emerald-600'
+                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                }`}
+              >
+                Right to work
+              </button>
+              <button
+                onClick={() => setActiveTab('policies')}
+                className={`px-6 py-4 text-sm font-medium border-b-2 transition-colors ${
+                  activeTab === 'policies'
+                    ? 'border-emerald-600 text-emerald-600'
+                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                }`}
+              >
+                Policy acknowledgements
+              </button>
+            </nav>
+          </div>
+        </div>
+
+        {/* Content */}
+        <div className="p-6 overflow-y-auto">
+          {/* Summary Cards */}
+          <div className="grid grid-cols-4 gap-4 mb-6">
         {/* Right to Work - Compliant */}
         <div className="bg-white p-5 rounded-lg border border-slate-200">
           <div className="flex items-center justify-between mb-2">
@@ -202,37 +241,12 @@ function ComplianceDashboard() {
             {policyStats.acknowledged} of {policyStats.totalRequiredAcknowledgements} acknowledged
           </div>
         </div>
-      </div>
-
-      {/* Tabs */}
-      <div className="bg-white rounded-lg border border-slate-200 mb-6">
-        <div className="border-b border-slate-200">
-          <div className="flex">
-            <button
-              onClick={() => setActiveTab('right-to-work')}
-              className={`px-6 py-3 text-sm font-medium transition-colors ${
-                activeTab === 'right-to-work'
-                  ? 'text-emerald-700 border-b-2 border-emerald-700'
-                  : 'text-slate-600 hover:text-slate-900'
-              }`}
-            >
-              Right to work
-            </button>
-            <button
-              onClick={() => setActiveTab('policies')}
-              className={`px-6 py-3 text-sm font-medium transition-colors ${
-                activeTab === 'policies'
-                  ? 'text-emerald-700 border-b-2 border-emerald-700'
-                  : 'text-slate-600 hover:text-slate-900'
-              }`}
-            >
-              Policy acknowledgements
-            </button>
           </div>
-        </div>
 
-        {/* Filters and Search */}
-        <div className="px-6 py-4 border-b border-slate-200 flex items-center gap-4">
+          {/* Tabs Content */}
+          <div className="bg-white rounded-lg border border-gray-200">
+            {/* Filters and Search */}
+            <div className="px-6 py-4 border-b border-gray-200 flex items-center gap-4">
           <div className="flex-1 relative">
             <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400" size="sm" />
             <input
@@ -495,6 +509,8 @@ function ComplianceDashboard() {
           </div>
         </div>
       )}
+        </div>
+      </div>
     </SonaLayout>
   );
 }
