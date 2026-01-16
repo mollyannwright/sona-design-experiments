@@ -1062,15 +1062,18 @@ function RulesetsTab({
 
             {/* Rules List */}
             {selectedRuleset.rules.length > 0 ? (
-              <div className="space-y-3">
-                {selectedRuleset.rules.map((rule) => (
-                  <RuleCard
-                    key={rule.id}
-                    rule={rule}
-                    onEdit={() => handleEditRule(rule)}
-                    onDelete={() => handleDeleteRule(rule.id)}
-                  />
-                ))}
+              <div className="mt-6">
+                <h4 className="text-sm font-semibold text-gray-900 mb-3">Rules</h4>
+                <div className="space-y-3">
+                  {selectedRuleset.rules.map((rule) => (
+                    <RuleCard
+                      key={rule.id}
+                      rule={rule}
+                      onEdit={() => handleEditRule(rule)}
+                      onDelete={() => handleDeleteRule(rule.id)}
+                    />
+                  ))}
+                </div>
               </div>
             ) : (
               <div className="text-center py-12 bg-gray-50 rounded-lg">
@@ -1123,58 +1126,60 @@ interface RuleCardProps {
 
 function RuleCard({ rule, onEdit, onDelete }: RuleCardProps) {
   return (
-    <div className="p-4 bg-white border border-gray-200 rounded-lg">
+    <div className="bg-white border border-gray-200 rounded p-4 transition-shadow hover:shadow-sm">
       <div className="flex items-start justify-between">
-        <div className="flex-1">
-          <div className="flex items-center gap-2">
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-2 mb-3">
             <h4 className="font-medium text-sm text-gray-900">{rule.name}</h4>
-            <span className="ui-badge ui-badge--info">{rule.type}</span>
+            <span className="text-[10px] px-1.5 py-0.5 font-medium bg-gray-100 text-gray-600 rounded">
+              {rule.type}
+            </span>
             {rule.dayOfWeek && (
-              <span className="text-xs text-gray-500 capitalize">
+              <span className="text-[10px] text-gray-400 font-medium uppercase tracking-wider">
                 {rule.dayOfWeek}
               </span>
             )}
           </div>
           
-          <div className="mt-3 grid grid-cols-2 gap-4 text-sm">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-y-3 gap-x-6">
             {rule.role && (
               <div>
-                <span className="text-gray-500">Role: </span>
-                <span className="text-gray-900">{rule.role}</span>
+                <div className="text-[10px] text-gray-400 uppercase tracking-wider mb-0.5">Role</div>
+                <div className="text-xs font-medium text-gray-700">{rule.role}</div>
               </div>
             )}
             {rule.startTime && (
               <div>
-                <span className="text-gray-500">Start: </span>
+                <div className="text-[10px] text-gray-400 uppercase tracking-wider mb-0.5">Start</div>
                 <FormulaDisplay formula={rule.startTime} />
               </div>
             )}
             {rule.endTime && (
               <div>
-                <span className="text-gray-500">End: </span>
+                <div className="text-[10px] text-gray-400 uppercase tracking-wider mb-0.5">End</div>
                 <FormulaDisplay formula={rule.endTime} />
               </div>
             )}
             {rule.duration && (
               <div>
-                <span className="text-gray-500">Duration: </span>
+                <div className="text-[10px] text-gray-400 uppercase tracking-wider mb-0.5">Duration</div>
                 <FormulaDisplay formula={rule.duration} />
               </div>
             )}
             {rule.minimumPeopleRequired && (
               <div>
-                <span className="text-gray-500">Minimum people: </span>
+                <div className="text-[10px] text-gray-400 uppercase tracking-wider mb-0.5">Min. People</div>
                 <FormulaDisplay formula={rule.minimumPeopleRequired} />
               </div>
             )}
           </div>
 
           {rule.requiredAttributes.length > 0 && (
-            <div className="mt-3 flex flex-wrap gap-1">
+            <div className="mt-4 pt-3 border-t border-gray-50 flex flex-wrap gap-1.5">
               {rule.requiredAttributes.map((attr) => (
                 <code
                   key={attr}
-                  className="text-[10px] bg-gray-100 text-gray-600 px-1.5 py-0.5 rounded"
+                  className="text-[10px] bg-gray-50 text-gray-500 px-1.5 py-0.5 rounded border border-gray-100"
                 >
                   {attr}
                 </code>
@@ -1183,17 +1188,17 @@ function RuleCard({ rule, onEdit, onDelete }: RuleCardProps) {
           )}
         </div>
 
-        <div className="flex gap-2 ml-4">
+        <div className="flex gap-1 ml-4">
           <button
             onClick={onEdit}
-            className="p-1.5 text-gray-400 hover:text-gray-600"
+            className="p-1 text-gray-400 hover:text-emerald-600 transition-colors"
             title="Edit"
           >
             <EditIcon size="sm" />
           </button>
           <button
             onClick={onDelete}
-            className="p-1.5 text-gray-400 hover:text-red-600"
+            className="p-1 text-gray-400 hover:text-red-600 transition-colors"
             title="Delete"
           >
             <TrashIcon size="sm" />
@@ -1209,12 +1214,12 @@ function FormulaDisplay({ formula }: { formula: string }) {
   // Simple syntax highlighting for formulas
   const highlighted = formula.replace(
     /#\{(\w+)\}/g,
-    '<span class="text-emerald-600 font-mono bg-emerald-50 px-1 rounded">#{$1}</span>'
+    '<span class="text-blue-600 font-mono bg-blue-50/50 px-1 rounded border border-blue-100/50">#{$1}</span>'
   );
 
   return (
-    <span
-      className="text-gray-900 font-mono text-xs"
+    <div
+      className="text-gray-900 font-mono text-[11px] leading-relaxed"
       dangerouslySetInnerHTML={{ __html: highlighted }}
     />
   );
@@ -1765,58 +1770,70 @@ function AssignmentsTab({
               </button>
             </div>
             
-            <div className="space-y-3 mt-4">
-              {getAssignmentsForOrgUnit(selectedOrgUnit).length > 0 ? (
-                getAssignmentsForOrgUnit(selectedOrgUnit).map((assignment) => (
-                  <div
-                    key={assignment.id}
-                    className="p-4 bg-white border border-gray-200 rounded-lg"
-                  >
-                    <div className="flex items-start justify-between">
-                      <div>
-                        <div className="flex items-center gap-2">
-                          <h5 className="font-medium text-gray-900">
-                            {assignment.rulesetName}
-                          </h5>
-                          {getStatusBadge(assignment.status)}
+            <div className="mt-6">
+              <h4 className="text-sm font-semibold text-gray-900 mb-3">Assignments</h4>
+              <div className="space-y-3">
+                {getAssignmentsForOrgUnit(selectedOrgUnit).length > 0 ? (
+                  getAssignmentsForOrgUnit(selectedOrgUnit).map((assignment) => (
+                    <div
+                      key={assignment.id}
+                      className="bg-white border border-gray-200 rounded p-4 transition-shadow hover:shadow-sm"
+                    >
+                      <div className="flex items-start justify-between">
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2 mb-2">
+                            <h5 className="font-medium text-sm text-gray-900 truncate">
+                              {assignment.rulesetName}
+                            </h5>
+                            {getStatusBadge(assignment.status)}
+                          </div>
+                          
+                          <div className="grid grid-cols-2 md:grid-cols-3 gap-y-3 gap-x-6">
+                            <div>
+                              <div className="text-[10px] text-gray-400 uppercase tracking-wider mb-0.5">Effective From</div>
+                              <div className="text-xs font-medium text-gray-700">{assignment.effectiveFrom}</div>
+                            </div>
+                            <div>
+                              <div className="text-[10px] text-gray-400 uppercase tracking-wider mb-0.5">Effective Until</div>
+                              <div className="text-xs font-medium text-gray-700">
+                                {assignment.effectiveUntil || (
+                                  <span className="text-blue-600">Indefinite</span>
+                                )}
+                              </div>
+                            </div>
+                            <div>
+                              <div className="text-[10px] text-gray-400 uppercase tracking-wider mb-0.5">Created At</div>
+                              <div className="text-xs font-medium text-gray-700">{assignment.createdAt}</div>
+                            </div>
+                          </div>
                         </div>
-                        <div className="mt-2 text-sm text-gray-500">
-                          <span>From: {assignment.effectiveFrom}</span>
-                          {assignment.effectiveUntil && (
-                            <span className="ml-4">
-                              Until: {assignment.effectiveUntil}
-                            </span>
-                          )}
-                          {!assignment.effectiveUntil && (
-                            <span className="ml-4 text-emerald-600">
-                              Indefinite
-                            </span>
-                          )}
+                        
+                        <div className="flex gap-1 ml-4">
+                          <button
+                            onClick={() => handleRemoveAssignment(assignment.id)}
+                            className="p-1 text-gray-400 hover:text-red-600 transition-colors"
+                            title="Remove assignment"
+                          >
+                            <TrashIcon size="sm" />
+                          </button>
                         </div>
                       </div>
-                      <button
-                        onClick={() => handleRemoveAssignment(assignment.id)}
-                        className="p-1.5 text-gray-400 hover:text-red-600"
-                        title="Remove assignment"
-                      >
-                        <TrashIcon size="sm" />
-                      </button>
                     </div>
+                  ))
+                ) : (
+                  <div className="text-center py-12 bg-gray-50 rounded border border-gray-100 border-dashed">
+                    <p className="text-gray-500 text-sm">
+                      No ruleset assignments for this site.
+                    </p>
+                    <button
+                      onClick={() => setShowAssignModal(true)}
+                      className="mt-4 text-sm text-emerald-600 hover:text-emerald-700 font-medium transition-colors"
+                    >
+                      + Assign a ruleset
+                    </button>
                   </div>
-                ))
-              ) : (
-                <div className="text-center py-12 bg-gray-50 rounded-lg">
-                  <p className="text-gray-500">
-                    No ruleset assignments for this site.
-                  </p>
-                  <button
-                    onClick={() => setShowAssignModal(true)}
-                    className="mt-4 text-sm text-emerald-600 hover:text-emerald-700 font-medium"
-                  >
-                    + Assign a ruleset
-                  </button>
-                </div>
-              )}
+                )}
+              </div>
             </div>
           </div>
         ) : (
