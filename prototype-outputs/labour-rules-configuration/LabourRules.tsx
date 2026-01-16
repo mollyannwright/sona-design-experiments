@@ -515,6 +515,7 @@ function OrgUnitAttributesTab({
     attributeName: string;
   } | null>(null);
   const [showColumnSelector, setShowColumnSelector] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
 
   const displayedAttributes = attributes.filter((a) =>
     visibleColumns.includes(a.name)
@@ -574,16 +575,25 @@ function OrgUnitAttributesTab({
           )}
         </div>
         <div className="flex gap-3">
-          <div className="relative">
+          <div className="relative flex items-center gap-2">
             <button
               onClick={() => setShowColumnSelector(!showColumnSelector)}
               className="ui-button ui-button--secondary"
             >
-              Columns ({visibleColumns.length})
+              Filter attributes ({visibleColumns.length})
               <ChevronDownIcon className="ml-2" size="sm" />
             </button>
+            {visibleColumns.length < attributes.length && (
+              <button
+                onClick={() => setShowEditModal(true)}
+                className="ui-button ui-button--primary"
+              >
+                <EditIcon className="mr-2" size="sm" />
+                Edit
+              </button>
+            )}
             {showColumnSelector && (
-              <div className="absolute right-0 mt-2 w-64 bg-white border border-gray-200 rounded-lg shadow-lg z-10 max-h-80 overflow-y-auto">
+              <div className="absolute right-0 top-full mt-2 w-64 bg-white border border-gray-200 rounded-lg shadow-lg z-10 max-h-80 overflow-y-auto">
                 <div className="p-3 border-b border-gray-200">
                   <p className="text-xs font-semibold text-gray-500 uppercase">
                     Select columns to display
@@ -747,6 +757,31 @@ function OrgUnitAttributesTab({
           <span>Site has missing attributes</span>
         </div>
       </div>
+
+      {/* Edit Attribute Values Modal */}
+      {showEditModal && (
+        <EditAttributeValuesModal
+          attributes={displayedAttributes}
+          orgUnitAttributes={orgUnitAttributes}
+          selectedRows={selectedRows}
+          onSave={(updates) => {
+            // Apply updates to selected locations
+            setOrgUnitAttributes((prev) =>
+              prev.map((ou) => {
+                if (!selectedRows.has(ou.orgUnit.id)) return ou;
+                const updatesForOu = updates[ou.orgUnit.id];
+                if (!updatesForOu) return ou;
+                return {
+                  ...ou,
+                  attributes: { ...ou.attributes, ...updatesForOu },
+                };
+              })
+            );
+            setShowEditModal(false);
+          }}
+          onClose={() => setShowEditModal(false)}
+        />
+      )}
     </div>
   );
 }
@@ -825,6 +860,265 @@ function EditableCell({ type, value, onSave, onCancel }: EditableCellProps) {
       step={type === 'float' ? '0.01' : undefined}
       className="w-full px-2 py-1 text-sm border border-emerald-500 rounded focus:outline-none focus:ring-2 focus:ring-emerald-500"
     />
+  );
+}
+
+// Edit Attribute Values Modal
+interface EditAttributeValuesModalProps {
+  attributes: Attribute[];
+  orgUnitAttributes: OrgUnitWithAttributes[];
+  selectedRows: Set<string>;
+  onSave: (updates: Record<string, Record<string, string | number | boolean | null>>) => void;
+  onClose: () => void;
+}
+
+function EditAttributeValuesModal({
+  attributes,
+  orgUnitAttributes,
+  selectedRows,
+  onSave,
+  onClose,
+}: EditAttributeValuesModalProps) {
+  const [step, setStep] = useState<1 | 2>(1);
+  const [newValues, setNewValues] = useState<Record<string, string | number | boolean | null>>({});
+  const [selectedLocations, setSelectedLocations] = useState<Set<string>>(new Set(selectedRows));
+
+  const selectedOrgUnits = orgUnitAttributes.filter((ou) => selectedLocations.has(ou.orgUnit.id));
+
+  const handleValueChange = (attrName: string, value: string | number | boolean | null) => {
+    setNewValues((prev) => ({ ...prev, [attrName]: value }));
+  };
+
+  const handleNext = () => {
+    if (Object.keys(newValues).length === 0) {
+      alert('Please set at least one attribute value');
+      return;
+    }
+    setStep(2);
+  };
+
+  const handleBack = () => {
+    setStep(1);
+  };
+
+  const handleRemoveLocation = (orgUnitId: string) => {
+    setSelectedLocations((prev) => {
+      const next = new Set(prev);
+      next.delete(orgUnitId);
+      return next;
+    });
+  };
+
+  const handleSave = () => {
+    const updates: Record<string, Record<string, string | number | boolean | null>> = {};
+    selectedOrgUnits.forEach((ou) => {
+      updates[ou.orgUnit.id] = { ...newValues };
+    });
+    onSave(updates);
+  };
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div className="bg-white rounded-lg shadow-xl w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col">
+        {/* Header */}
+        <div className="px-6 py-4 border-b border-gray-200">
+          <h3 className="text-lg font-semibold text-gray-900">Edit attribute values</h3>
+        </div>
+
+        {/* Information Banner */}
+        <div className="px-6 py-3 bg-indigo-50 border-b border-indigo-200">
+          <div className="flex items-start gap-2">
+            <InformationCircleIcon className="text-indigo-600 flex-shrink-0 mt-0.5" size="sm" />
+            <p className="text-sm text-gray-700">
+              The values applied to attributes will be applied to all selected locations
+            </p>
+          </div>
+        </div>
+
+        {/* Content */}
+        <div className="flex-1 overflow-y-auto p-6">
+          {step === 1 ? (
+            <div className="space-y-6">
+              {/* Selected Locations */}
+              <div>
+                <h4 className="text-sm font-semibold text-gray-900 mb-3">
+                  Selected locations ({selectedOrgUnits.length})
+                </h4>
+                <div className="flex flex-wrap gap-2">
+                  {selectedOrgUnits.map((ou) => (
+                    <span
+                      key={ou.orgUnit.id}
+                      className="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full"
+                    >
+                      {ou.orgUnit.name}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              {/* Attribute Value Fields */}
+              <div>
+                <h4 className="text-sm font-semibold text-gray-900 mb-4">
+                  Set new values for attributes
+                </h4>
+                <div className="space-y-4">
+                  {attributes.map((attr) => (
+                    <div key={attr.id} className="space-y-2">
+                      <label className="block text-sm font-medium text-gray-700">
+                        {attr.name.replace(/_/g, ' ')}
+                        <span className="ml-2 text-xs text-gray-500 font-normal">
+                          ({attr.type})
+                        </span>
+                      </label>
+                      {attr.type === 'boolean' ? (
+                        <select
+                          value={newValues[attr.name] === undefined ? '' : String(newValues[attr.name])}
+                          onChange={(e) =>
+                            handleValueChange(
+                              attr.name,
+                              e.target.value === '' ? null : e.target.value === 'true'
+                            )
+                          }
+                          className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                        >
+                          <option value="">—</option>
+                          <option value="true">Yes</option>
+                          <option value="false">No</option>
+                        </select>
+                      ) : attr.type === 'integer' || attr.type === 'float' ? (
+                        <input
+                          type="number"
+                          value={newValues[attr.name] === undefined || newValues[attr.name] === null ? '' : String(newValues[attr.name])}
+                          onChange={(e) =>
+                            handleValueChange(
+                              attr.name,
+                              e.target.value === '' ? null : attr.type === 'integer' ? parseInt(e.target.value, 10) : parseFloat(e.target.value)
+                            )
+                          }
+                          step={attr.type === 'float' ? '0.01' : undefined}
+                          className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                        />
+                      ) : attr.type === 'time' ? (
+                        <input
+                          type="time"
+                          value={newValues[attr.name] === undefined || newValues[attr.name] === null ? '' : String(newValues[attr.name])}
+                          onChange={(e) =>
+                            handleValueChange(attr.name, e.target.value === '' ? null : e.target.value)
+                          }
+                          className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                        />
+                      ) : (
+                        <input
+                          type="text"
+                          value={newValues[attr.name] === undefined || newValues[attr.name] === null ? '' : String(newValues[attr.name])}
+                          onChange={(e) =>
+                            handleValueChange(attr.name, e.target.value === '' ? null : e.target.value)
+                          }
+                          className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                        />
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="space-y-6">
+              {/* Confirmation Step */}
+              <div>
+                <h4 className="text-sm font-semibold text-gray-900 mb-4">
+                  Confirm attribute value changes
+                </h4>
+                <div className="space-y-4">
+                  {selectedOrgUnits.map((ou) => (
+                    <div
+                      key={ou.orgUnit.id}
+                      className="border border-gray-200 rounded-lg p-4"
+                    >
+                      <div className="flex items-center justify-between mb-3">
+                        <h5 className="text-sm font-medium text-gray-900">{ou.orgUnit.name}</h5>
+                        <button
+                          onClick={() => handleRemoveLocation(ou.orgUnit.id)}
+                          className="text-xs text-red-600 hover:text-red-700"
+                        >
+                          Remove
+                        </button>
+                      </div>
+                      <div className="space-y-2">
+                        {Object.entries(newValues).map(([attrName, newValue]) => {
+                          const attr = attributes.find((a) => a.name === attrName);
+                          if (!attr) return null;
+                          const oldValue = ou.attributes[attrName];
+                          return (
+                            <div
+                              key={attrName}
+                              className="flex items-center justify-between text-sm py-2 border-b border-gray-100 last:border-0"
+                            >
+                              <div className="flex-1">
+                                <span className="text-gray-600">{attr.name.replace(/_/g, ' ')}:</span>
+                              </div>
+                              <div className="flex items-center gap-2 flex-1 justify-end">
+                                <span className="text-gray-500">
+                                  {oldValue === null || oldValue === undefined
+                                    ? '—'
+                                    : typeof oldValue === 'boolean'
+                                    ? oldValue
+                                      ? 'Yes'
+                                      : 'No'
+                                    : String(oldValue)}
+                                </span>
+                                <span className="text-gray-400">→</span>
+                                <span className="text-gray-900 font-medium">
+                                  {newValue === null || newValue === undefined
+                                    ? '—'
+                                    : typeof newValue === 'boolean'
+                                    ? newValue
+                                      ? 'Yes'
+                                      : 'No'
+                                    : String(newValue)}
+                                </span>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Footer */}
+        <div className="px-6 py-4 border-t border-gray-200 flex items-center justify-between">
+          <button
+            onClick={step === 1 ? onClose : handleBack}
+            className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-lg transition-colors"
+          >
+            {step === 1 ? 'Cancel' : 'Back'}
+          </button>
+          <div className="flex gap-3">
+            {step === 1 ? (
+              <button
+                onClick={handleNext}
+                className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-sm rounded-lg transition-colors"
+              >
+                Next
+              </button>
+            ) : (
+              <button
+                onClick={handleSave}
+                disabled={selectedLocations.size === 0}
+                className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-sm rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                Apply changes
+              </button>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
 
