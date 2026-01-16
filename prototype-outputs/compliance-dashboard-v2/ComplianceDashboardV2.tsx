@@ -7,7 +7,9 @@ import {
   policies,
   getComplianceStats,
   getPolicyComplianceStats,
-} from '../compliance-dashboard/complianceDashboardData';
+  type RightToWorkEmployee,
+  type PolicyAcknowledgement,
+} from './complianceDashboardData';
 
 function ComplianceDashboardV2() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -17,13 +19,13 @@ function ComplianceDashboardV2() {
   const policyStats = getPolicyComplianceStats();
 
   // Get unique employees with combined compliance data
-  const employeesWithCompliance = rightToWorkData.map((employee) => {
+  const employeesWithCompliance = rightToWorkData.map((employee: RightToWorkEmployee) => {
     const requiredPolicies = policies.filter((p) => p.required);
     const employeePolicyAcks = policyAcknowledgements.filter(
-      (a) => a.employeeId === employee.employeeId
+      (a: PolicyAcknowledgement) => a.employeeId === employee.employeeId
     );
-    const acknowledgedCount = employeePolicyAcks.filter((a) => a.acknowledged).length;
-    const pendingCount = employeePolicyAcks.filter((a) => a.status === 'pending').length;
+    const acknowledgedCount = employeePolicyAcks.filter((a: PolicyAcknowledgement) => a.acknowledged).length;
+    const pendingCount = employeePolicyAcks.filter((a: PolicyAcknowledgement) => a.status === 'pending').length;
     const complianceRate = requiredPolicies.length > 0
       ? Math.round((acknowledgedCount / requiredPolicies.length) * 100)
       : 0;
@@ -45,7 +47,7 @@ function ComplianceDashboardV2() {
   });
 
   // Filter employees
-  const filteredEmployees = employeesWithCompliance.filter((employee) => {
+  const filteredEmployees = employeesWithCompliance.filter((employee: RightToWorkEmployee & { policyComplianceRate: number; policyAcknowledgedCount: number; policyPendingCount: number; policyTotalRequired: number; hasActionRequired: boolean }) => {
     const matchesSearch =
       employee.employeeName.toLowerCase().includes(searchQuery.toLowerCase()) ||
       employee.department.toLowerCase().includes(searchQuery.toLowerCase()) ||

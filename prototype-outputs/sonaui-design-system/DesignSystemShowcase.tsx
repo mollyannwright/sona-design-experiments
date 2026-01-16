@@ -3,16 +3,11 @@ import { SonaLayout } from '../../src/components/shared/SonaLayout';
 import {
   SearchIcon,
   EditIcon,
-  TrashIcon,
-  PlusIcon,
   ChevronDownIcon,
   ChevronRightIcon,
   ChevronLeftIcon,
   XIcon,
   CheckIcon,
-  DownloadIcon,
-  UploadIcon,
-  DuplicateIcon,
   ExclamationTriangleIcon,
   InformationCircleIcon,
   Icon,
@@ -32,7 +27,6 @@ type ComponentCategory =
 
 function DesignSystemShowcase() {
   const [activeCategory, setActiveCategory] = useState<ComponentCategory>('buttons-navigation');
-  const [selectedComponent, setSelectedComponent] = useState<string | null>(null);
 
   const categories: { id: ComponentCategory; label: string; icon: string }[] = [
     { id: 'buttons-navigation', label: 'Buttons & Navigation', icon: 'Edit' },
@@ -61,7 +55,6 @@ function DesignSystemShowcase() {
                 key={category.id}
                 onClick={() => {
                   setActiveCategory(category.id);
-                  setSelectedComponent(null);
                 }}
                 className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                   activeCategory === category.id
