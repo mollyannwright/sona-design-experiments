@@ -996,9 +996,9 @@ function RulesetsTab({
     <div className="bg-white rounded border border-gray-200 flex flex-col" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)', maxHeight: 'calc(100vh - 200px)' }}>
       <div className="flex flex-1 min-h-0">
         {/* Rulesets List */}
-        <div className="w-80 flex-shrink-0 pr-6 border-r border-gray-200 -ml-6 flex flex-col min-h-0">
-          <div className="flex items-center justify-between mb-4 flex-shrink-0">
-            <h3 className="text-sm font-semibold text-gray-900 pl-4">Rulesets</h3>
+        <div className="w-80 flex-shrink-0 pr-6 border-r border-gray-200 flex flex-col min-h-0">
+          <div className="flex items-center justify-between mb-4 flex-shrink-0 px-4">
+            <h3 className="text-sm font-semibold text-gray-900">Rulesets</h3>
             <button
               onClick={handleCreateRuleset}
               className="text-sm text-emerald-600 hover:text-emerald-700 font-medium"
@@ -1006,7 +1006,7 @@ function RulesetsTab({
               + New
             </button>
           </div>
-          <div className="border-t border-b border-gray-200 bg-white -mr-6 flex-1 overflow-y-auto min-h-0">
+          <div className="border-t border-b border-gray-200 bg-white flex-1 overflow-y-auto min-h-0">
           {rulesets.map((ruleset) => (
             <div
               key={ruleset.id}
@@ -1734,9 +1734,9 @@ function AssignmentsTab({
     <div className="bg-white rounded border border-gray-200 flex flex-col" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)', maxHeight: 'calc(100vh - 200px)' }}>
       <div className="flex flex-1 min-h-0">
         {/* Site List */}
-        <div className="w-80 flex-shrink-0 pr-6 border-r border-gray-200 -ml-6 flex flex-col min-h-0">
+        <div className="w-80 flex-shrink-0 pr-6 border-r border-gray-200 flex flex-col min-h-0">
           {/* Status Filter */}
-          <div className="mb-3 pl-4 flex-shrink-0">
+          <div className="mb-3 px-4 flex-shrink-0">
             <label className="block text-xs font-medium text-gray-600 mb-1.5">Filter sites</label>
             <select
               value={statusFilter}
@@ -1750,7 +1750,7 @@ function AssignmentsTab({
               <option value="scheduled">Scheduled</option>
             </select>
           </div>
-          <div className="border-t border-b border-gray-200 bg-white -mr-6 flex-1 overflow-y-auto min-h-0">
+          <div className="border-t border-b border-gray-200 bg-white flex-1 overflow-y-auto min-h-0">
           {getFilteredSites().map((ou) => {
             const siteAssignments = getAssignmentsForOrgUnit(ou.orgUnit.id);
             const activeAssignments = siteAssignments.filter((a) => a.status === 'active');
