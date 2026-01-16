@@ -190,7 +190,7 @@ const CarePackageTab = ({
   onAddNew: () => void;
 }) => {
   return (
-    <div className="bg-white rounded-lg border border-gray-200">
+    <div className="bg-white rounded-lg shadow-sm">
       {/* Section Header */}
       <div className="px-6 py-5 flex items-center justify-between border-b border-gray-200">
         <h3 className="text-base font-medium text-gray-900">Care package records</h3>
@@ -276,7 +276,7 @@ const CarePackageDetail = ({
       </button>
 
       {/* Main Card */}
-      <div className="bg-white rounded-lg border border-gray-200">
+      <div className="bg-white rounded-lg shadow-sm">
         {/* Package Header */}
         <div className="px-6 py-5">
           <div className="flex items-center gap-3">
@@ -411,8 +411,9 @@ const CarePackageDetail = ({
   );
 };
 
-// Schedule Tab Component
-const ScheduleTab = ({ pws }: { pws: PWS }) => {
+// Schedule Tab Component (removed - tab is hidden)
+// @ts-ignore - unused component
+const ScheduleTab_UNUSED = ({ pws }: { pws: PWS }) => {
   const [dateRange] = useState('Jan 5 - Jan 11');
 
   const days = ['Mon 6', 'Tue 7', 'Wed 8', 'Thu 9', 'Fri 10', 'Sat 11', 'Sun 12'];
@@ -423,7 +424,7 @@ const ScheduleTab = ({ pws }: { pws: PWS }) => {
   }, {} as Record<string, Shift[]>) || {};
 
   return (
-    <div className="bg-white rounded-lg border border-gray-200">
+    <div className="bg-white rounded-lg shadow-sm">
       {/* Section Header */}
       <div className="px-6 py-5 flex items-center justify-between">
         <div className="flex items-center gap-3">
@@ -540,6 +541,7 @@ const ScheduleTab = ({ pws }: { pws: PWS }) => {
     </div>
   );
 };
+/* eslint-enable */
 
 // Occupancy Tab Component
 const OccupancyTab = ({ 
@@ -552,7 +554,7 @@ const OccupancyTab = ({
   onLogBackInService: () => void;
 }) => {
   return (
-    <div className="bg-white rounded-lg border border-gray-200">
+    <div className="bg-white rounded-lg shadow-sm">
       {/* Section Header */}
       <div className="px-6 py-5 border-b border-gray-200">
         <div className="flex items-center justify-between mb-2">
@@ -1509,7 +1511,7 @@ const AddCarePackageWizard = ({
 
 // Main PWS Config Component
 export const PWSConfig = () => {
-  const [activeTab, setActiveTab] = useState<'overview' | 'care-package' | 'occupancy' | 'schedule'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'care-package' | 'occupancy'>('overview');
   const [pws, setPws] = useState<PWS>(mockPWS);
   const [selectedPackage, setSelectedPackage] = useState<CarePackage | null>(null);
   const [showAddPackage, setShowAddPackage] = useState(false);
@@ -1519,7 +1521,6 @@ export const PWSConfig = () => {
     { id: 'overview' as const, label: 'Overview' },
     { id: 'care-package' as const, label: 'Care package' },
     { id: 'occupancy' as const, label: 'Occupancy' },
-    { id: 'schedule' as const, label: 'Schedule' },
   ];
 
   const handleAddPackage = (data: Partial<CarePackage>) => {
@@ -1715,7 +1716,6 @@ export const PWSConfig = () => {
               onLogBackInService={handleLogBackInService}
             />
           )}
-          {activeTab === 'schedule' && <ScheduleTab pws={pws} />}
         </div>
 
         {/* Out of Service Modal */}

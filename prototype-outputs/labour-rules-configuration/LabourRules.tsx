@@ -214,7 +214,7 @@ function AttributesTab({ attributes, setAttributes }: AttributesTabProps) {
   };
 
   return (
-    <div className="bg-white rounded-lg border border-gray-200">
+    <div className="bg-white rounded-lg shadow-sm">
       {/* Header with search and add button */}
       <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
         <div className="flex items-center gap-4">
@@ -561,7 +561,7 @@ function OrgUnitAttributesTab({
   };
 
   return (
-    <div className="bg-white rounded-lg border border-gray-200">
+    <div className="bg-white rounded-lg shadow-sm">
       {/* Header */}
       <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
         <div className="flex items-center gap-4">
@@ -993,7 +993,7 @@ function RulesetsTab({
   }, [rulesets]);
 
   return (
-    <div className="bg-white rounded-lg border border-gray-200">
+    <div className="bg-white rounded-lg shadow-sm">
       <div className="flex">
         {/* Rulesets List */}
         <div className="w-80 flex-shrink-0 pr-6 border-r border-gray-200 -ml-6">
@@ -1731,7 +1731,7 @@ function AssignmentsTab({
   };
 
   return (
-    <div className="bg-white rounded-lg border border-gray-200">
+    <div className="bg-white rounded-lg shadow-sm">
       <div className="flex">
         {/* Site List */}
         <div className="w-80 flex-shrink-0 pr-6 border-r border-gray-200 -ml-6">

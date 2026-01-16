@@ -244,7 +244,7 @@ function ComplianceDashboard() {
           </div>
 
           {/* Tabs Content */}
-          <div className="bg-white rounded-lg border border-gray-200">
+          <div className="bg-white rounded-lg shadow-sm">
             {/* Filters and Search */}
             <div className="px-6 py-4 border-b border-gray-200 flex items-center gap-4">
               <div className="flex-1 relative">
@@ -453,7 +453,7 @@ function ComplianceDashboard() {
 
           {/* Policy Details Section */}
           {activeTab === 'policies' && (
-            <div className="bg-white rounded-lg border border-gray-200 mt-6">
+            <div className="bg-white rounded-lg shadow-sm mt-6">
               <div className="px-6 py-4 border-b border-gray-200">
                 <h2 className="text-lg font-semibold text-slate-900">Policy details</h2>
               </div>
