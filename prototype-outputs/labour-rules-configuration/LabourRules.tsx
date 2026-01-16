@@ -1002,9 +1002,13 @@ function RulesetsTab({
                       {ruleset.description}
                     </p>
                   )}
-                  <div className="flex items-center gap-4 mt-1.5 text-xs text-gray-500">
-                    <span>{ruleset.rules.length} rules</span>
-                    <span>{ruleset.assignedSiteCount} sites</span>
+                  <div className="flex items-center gap-2 mt-1.5">
+                    <span className="text-xs bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded">
+                      {ruleset.rules.length} rules
+                    </span>
+                    <span className="text-xs bg-purple-50 text-purple-700 px-2 py-0.5 rounded">
+                      {ruleset.assignedSiteCount} sites
+                    </span>
                   </div>
                 </div>
               </div>
@@ -1039,15 +1043,15 @@ function RulesetsTab({
 
             {/* Required Attributes */}
             {selectedRuleset.requiredAttributes.length > 0 && (
-              <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
-                <p className="text-xs font-semibold text-blue-800 mb-2">
+              <div className="mb-4 py-3 border-t border-b border-gray-200">
+                <p className="text-xs font-semibold text-gray-600 mb-2">
                   Required attributes for this ruleset:
                 </p>
                 <div className="flex flex-wrap gap-2">
                   {selectedRuleset.requiredAttributes.map((attr) => (
                     <code
                       key={attr}
-                      className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded"
+                      className="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded"
                     >
                       {attr}
                     </code>
