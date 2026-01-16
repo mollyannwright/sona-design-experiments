@@ -17,7 +17,6 @@ import {
   EditIcon, 
   TrashIcon, 
   PlusIcon, 
-  DuplicateIcon, 
   DownloadIcon, 
   UploadIcon,
   ExclamationTriangleIcon,
@@ -859,34 +858,6 @@ function RulesetsTab({
     setShowRulesetModal(true);
   };
 
-  const handleEditRuleset = (ruleset: Ruleset) => {
-    setEditingRuleset(ruleset);
-    setShowRulesetModal(true);
-  };
-
-  const handleCloneRuleset = (ruleset: Ruleset) => {
-    const clonedRuleset: Ruleset = {
-      ...ruleset,
-      id: `ruleset-${Date.now()}`,
-      name: `${ruleset.name} (copy)`,
-      assignedSiteCount: 0,
-      createdAt: new Date().toISOString().split('T')[0],
-      updatedAt: new Date().toISOString().split('T')[0],
-      rules: [],
-    };
-    
-    // Clone rules
-    const clonedRules = ruleset.rules.map((rule) => ({
-      ...rule,
-      id: `rule-${Date.now()}-${Math.random()}`,
-      rulesetId: clonedRuleset.id,
-    }));
-    
-    clonedRuleset.rules = clonedRules;
-    setRulesets((prev) => [...prev, clonedRuleset]);
-    setRules((prev) => [...prev, ...clonedRules]);
-  };
-
   const handleSaveRuleset = (data: { name: string; description: string }) => {
     if (editingRuleset) {
       setRulesets((prev) =>
@@ -1035,28 +1006,6 @@ function RulesetsTab({
                     <span>{ruleset.rules.length} rules</span>
                     <span>{ruleset.assignedSiteCount} sites</span>
                   </div>
-                </div>
-                <div className="ml-2 flex gap-1">
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleCloneRuleset(ruleset);
-                    }}
-                    className="p-1 text-gray-400 hover:text-gray-600"
-                    title="Clone"
-                  >
-                    <DuplicateIcon size="sm" />
-                  </button>
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleEditRuleset(ruleset);
-                    }}
-                    className="p-1 text-gray-400 hover:text-gray-600"
-                    title="Edit"
-                  >
-                    <EditIcon size="sm" />
-                  </button>
                 </div>
               </div>
             </div>
