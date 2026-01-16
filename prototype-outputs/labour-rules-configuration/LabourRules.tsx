@@ -1722,65 +1722,58 @@ function AssignmentsTab({
               </button>
             </div>
             
-            <div className="mt-6 overflow-x-auto">
+            <div className="mt-6">
               {getAssignmentsForOrgUnit(selectedOrgUnit).length > 0 ? (
-                <table className="w-full border-collapse">
-                  <thead>
-                    <tr className="bg-gray-100">
-                      <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Ruleset</th>
-                      <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Status</th>
-                      <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Effective Dates</th>
-                      <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Created At</th>
-                      <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase w-24">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody className="bg-white divide-y divide-gray-100">
-                    {getAssignmentsForOrgUnit(selectedOrgUnit).map((assignment) => (
-                      <tr key={assignment.id} className="hover:bg-gray-50 transition-colors">
-                        <td className="px-6 py-4">
-                          <div className="text-sm text-gray-900 truncate max-w-[200px]">
-                            {assignment.rulesetName}
+                <div className="grid grid-cols-1 gap-4">
+                  {getAssignmentsForOrgUnit(selectedOrgUnit).map((assignment) => (
+                    <div
+                      key={assignment.id}
+                      className="bg-white border border-gray-200 rounded-lg p-5 hover:shadow-sm transition-shadow"
+                    >
+                      <div className="flex items-start justify-between">
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-3 mb-3">
+                            <h5 className="text-sm font-semibold text-gray-900">
+                              {assignment.rulesetName}
+                            </h5>
+                            {getStatusBadge(assignment.status)}
                           </div>
-                        </td>
-                        <td className="px-6 py-4">
-                          {getStatusBadge(assignment.status)}
-                        </td>
-                        <td className="px-6 py-4">
-                          <div className="flex flex-col gap-1 text-sm text-gray-700">
-                            <div className="flex items-center gap-1.5">
-                              <span className="text-sm text-gray-500 w-12">From:</span>
-                              <span>{assignment.effectiveFrom}</span>
+                          
+                          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                            <div>
+                              <div className="text-xs text-gray-500 mb-1">Effective From</div>
+                              <div className="text-sm text-gray-900">{assignment.effectiveFrom}</div>
                             </div>
-                            <div className="flex items-center gap-1.5">
-                              <span className="text-sm text-gray-500 w-12">To:</span>
-                              <span>
+                            <div>
+                              <div className="text-xs text-gray-500 mb-1">Effective Until</div>
+                              <div className="text-sm text-gray-900">
                                 {assignment.effectiveUntil || (
                                   <span className="text-blue-600 font-medium">Indefinite</span>
                                 )}
-                              </span>
+                              </div>
+                            </div>
+                            <div>
+                              <div className="text-xs text-gray-500 mb-1">Created At</div>
+                              <div className="text-sm text-gray-900">{assignment.createdAt}</div>
                             </div>
                           </div>
-                        </td>
-                        <td className="px-6 py-4 text-sm text-gray-500">
-                          {assignment.createdAt}
-                        </td>
-                        <td className="px-6 py-4">
-                          <div className="flex items-center gap-2">
-                            <button
-                              onClick={() => handleRemoveAssignment(assignment.id)}
-                              className="p-1.5 text-gray-500 hover:text-red-600 hover:bg-red-50 rounded"
-                              title="Remove assignment"
-                            >
-                              <TrashIcon size="sm" />
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+                        </div>
+                        
+                        <div className="ml-4 flex-shrink-0">
+                          <button
+                            onClick={() => handleRemoveAssignment(assignment.id)}
+                            className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded transition-colors"
+                            title="Remove assignment"
+                          >
+                            <TrashIcon size="sm" />
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               ) : (
-                <div className="text-center py-12 bg-gray-50 rounded-lg">
+                <div className="text-center py-12 bg-gray-50 rounded-lg border border-gray-200">
                   <p className="text-gray-500 text-sm">
                     No ruleset assignments for this site.
                   </p>
