@@ -4,6 +4,7 @@ import { LabourRulesLowFi } from '../prototype-outputs/labour-rules-low-fi/Labou
 import { FloatingNav } from './components/FloatingNav'
 import { PWSConfig } from '../prototype-outputs/pws-config/PWSConfig'
 import ComplianceDashboard from '../prototype-outputs/compliance-dashboard/ComplianceDashboard'
+import ComplianceDashboardLowFi from '../prototype-outputs/compliance-dashboard-low-fi/ComplianceDashboardLowFi'
 import { ChevronRightIcon } from './components/shared/Icon'
 
 function Home() {
@@ -45,6 +46,13 @@ function Home() {
                 <ChevronRightIcon size="sm" className="text-gray-500 group-hover:translate-x-1 transition-transform flex-shrink-0 ml-2" />
               </Link>
               <Link 
+                to="/compliance-low-fi" 
+                className="w-full flex items-center justify-between px-4 py-3 bg-white hover:bg-gray-50 text-gray-700 font-medium rounded-lg border border-gray-200 transition-colors group text-left"
+              >
+                <span className="flex-1 whitespace-nowrap">Compliance Dashboard Low-Fi Wireframe</span>
+                <ChevronRightIcon size="sm" className="text-gray-500 group-hover:translate-x-1 transition-transform flex-shrink-0 ml-2" />
+              </Link>
+              <Link 
                 to="/labour-rules" 
                 className="w-full flex items-center justify-between px-4 py-3 bg-white hover:bg-gray-50 text-gray-700 font-medium rounded-lg border border-gray-200 transition-colors group text-left"
               >
@@ -75,6 +83,7 @@ function App() {
         <Route path="/labour-rules" element={<LabourRules />} />
         <Route path="/labour-rules-low-fi" element={<LabourRulesLowFi />} />
         <Route path="/compliance" element={<ComplianceDashboard />} />
+        <Route path="/compliance-low-fi" element={<ComplianceDashboardLowFi />} />
       </Routes>
       <FloatingNav />
     </>

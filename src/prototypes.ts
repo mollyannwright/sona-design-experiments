@@ -40,6 +40,11 @@ export const prototypes: Prototype[] = [
     name: 'Compliance Dashboard',
     description: 'Monitor employee right to work and policy acknowledgements'
   },
+  {
+    route: '/compliance-low-fi',
+    name: 'Compliance Dashboard Low-Fi',
+    description: 'Low-fidelity wireframe version'
+  },
   // Add more prototypes here as they're added to prototype-outputs/
 ];
 
