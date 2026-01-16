@@ -192,7 +192,7 @@ const CarePackageTab = ({
   return (
     <div className="bg-white rounded" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
       {/* Section Header */}
-      <div className="px-6 py-3 flex items-center justify-between border-b border-gray-200">
+      <div className="px-3 py-3 flex items-center justify-between border-b border-gray-200">
         <h3 className="text-sm font-medium text-gray-900">Care package records</h3>
         <button
           onClick={onAddNew}
@@ -556,7 +556,7 @@ const OccupancyTab = ({
   return (
     <div className="bg-white rounded" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
       {/* Section Header */}
-      <div className="px-6 py-3 border-b border-gray-200">
+      <div className="px-3 py-3 border-b border-gray-200">
         <div className="flex items-center justify-between mb-2">
           <h3 className="text-sm font-medium text-gray-900">Out of service records</h3>
           <button
