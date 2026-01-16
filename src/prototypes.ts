@@ -35,6 +35,11 @@ export const prototypes: Prototype[] = [
     name: 'PWS Config',
     description: 'People We Support configuration'
   },
+  {
+    route: '/compliance',
+    name: 'Compliance Dashboard',
+    description: 'Monitor employee right to work and policy acknowledgements'
+  },
   // Add more prototypes here as they're added to prototype-outputs/
 ];
 

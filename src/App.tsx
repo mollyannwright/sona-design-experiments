@@ -3,6 +3,7 @@ import { LabourRules } from '../prototype-outputs/labour-rules-configuration/Lab
 import { LabourRulesLowFi } from '../prototype-outputs/labour-rules-low-fi/LabourRulesLowFi.tsx'
 import { FloatingNav } from './components/FloatingNav'
 import { PWSConfig } from '../prototype-outputs/pws-config/PWSConfig'
+import ComplianceDashboard from '../prototype-outputs/compliance-dashboard/ComplianceDashboard'
 import { ChevronRightIcon } from './components/shared/Icon'
 
 function Home() {
@@ -66,6 +67,7 @@ function App() {
         <Route path="/pws-config" element={<PWSConfig />} />
         <Route path="/labour-rules" element={<LabourRules />} />
         <Route path="/labour-rules-low-fi" element={<LabourRulesLowFi />} />
+        <Route path="/compliance" element={<ComplianceDashboard />} />
       </Routes>
       <FloatingNav />
     </>
