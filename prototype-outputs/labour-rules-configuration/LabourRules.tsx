@@ -1295,20 +1295,20 @@ function RulesetsTab({
   // If a ruleset is selected, show detail view
   if (selectedRuleset) {
     return (
-      <div className="space-y-6">
+      <div className="space-y-6" style={{ height: '100%', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
         {/* Back Button */}
         <button
           onClick={() => setSelectedRuleset(null)}
-          className="flex items-center gap-1 text-sm text-emerald-600 hover:text-emerald-700"
+          className="flex items-center gap-1 text-sm text-emerald-600 hover:text-emerald-700 flex-shrink-0"
         >
           <ChevronLeftIcon size="sm" />
           Back to rulesets
         </button>
 
         {/* Ruleset Detail Card */}
-        <div className="bg-white rounded border border-gray-200" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
+        <div className="bg-white rounded border border-gray-200 flex flex-col flex-1 min-h-0" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
           {/* Header */}
-          <div className="px-6 py-5 border-b border-gray-200">
+          <div className="px-6 py-5 border-b border-gray-200 flex-shrink-0">
             <div className="flex items-center justify-between">
               <div>
                 <h2 className="text-xl font-semibold text-gray-900">{selectedRuleset.name}</h2>
@@ -1328,8 +1328,9 @@ function RulesetsTab({
 
           {/* Rules Table */}
           {selectedRuleset.rules.length > 0 ? (
-            <div className="overflow-x-auto">
-              <table className="w-full border-collapse">
+            <div className="overflow-y-auto flex-1 min-h-0">
+              <div className="overflow-x-auto">
+                <table className="w-full border-collapse">
                 <thead>
                   <tr className="bg-gray-100">
                     <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Rule Name</th>
@@ -1398,10 +1399,11 @@ function RulesetsTab({
                     </tr>
                   ))}
                 </tbody>
-              </table>
+                </table>
+              </div>
             </div>
           ) : (
-            <div className="px-6 py-12">
+            <div className="px-6 py-12 flex-1 flex items-center justify-center">
               <div className="text-center py-12 bg-gray-50 rounded-lg">
                 <p className="text-gray-500">No rules in this ruleset yet.</p>
                 <button
@@ -1903,23 +1905,7 @@ function AssignmentsTab({
   const [selectedLocation, setSelectedLocation] = useState<OrgUnitWithAttributes | null>(null);
   const [showAssignModal, setShowAssignModal] = useState(false);
   const [selectedSites, setSelectedSites] = useState<Set<string>>(new Set());
-  const [filterSites, setFilterSites] = useState<Set<string>>(new Set());
-  const [showFilterDropdown, setShowFilterDropdown] = useState(false);
-  const filterDropdownRef = useRef<HTMLDivElement>(null);
-
-  // Close filter dropdown when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (filterDropdownRef.current && !filterDropdownRef.current.contains(event.target as Node)) {
-        setShowFilterDropdown(false);
-      }
-    };
-
-    if (showFilterDropdown) {
-      document.addEventListener('mousedown', handleClickOutside);
-      return () => document.removeEventListener('mousedown', handleClickOutside);
-    }
-  }, [showFilterDropdown]);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const getStatusBadge = (status: string) => {
     switch (status) {
@@ -1989,23 +1975,14 @@ function AssignmentsTab({
     });
   };
 
-  // Toggle filter site
-  const toggleFilterSite = (orgUnitId: string) => {
-    setFilterSites((prev) => {
-      const next = new Set(prev);
-      if (next.has(orgUnitId)) {
-        next.delete(orgUnitId);
-      } else {
-        next.add(orgUnitId);
-      }
-      return next;
-    });
-  };
 
-  // Get filtered locations
+  // Get filtered locations based on search
   const getFilteredLocations = () => {
-    if (filterSites.size === 0) return orgUnitAttributes;
-    return orgUnitAttributes.filter((ou) => filterSites.has(ou.orgUnit.id));
+    if (!searchQuery.trim()) return orgUnitAttributes;
+    const query = searchQuery.toLowerCase();
+    return orgUnitAttributes.filter((ou) =>
+      ou.orgUnit.name.toLowerCase().includes(query)
+    );
   };
 
   // Select all visible sites
@@ -2146,52 +2123,17 @@ function AssignmentsTab({
     <div className="bg-white rounded border border-gray-200" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
       {/* Section Header */}
       <div className="px-6 py-5 flex items-center justify-between border-b border-gray-200">
-        <div className="relative" ref={filterDropdownRef}>
-          <button
-            onClick={() => setShowFilterDropdown(!showFilterDropdown)}
-            className="flex items-center gap-2 px-4 py-2 text-sm border border-gray-200 rounded-lg hover:bg-gray-50 text-gray-700 bg-white"
-          >
-            Filter sites
-            {filterSites.size > 0 && (
-              <span className="px-2 py-0.5 text-xs bg-emerald-100 text-emerald-700 rounded-full">
-                {filterSites.size}
-              </span>
-            )}
-            <ChevronDownIcon size="sm" />
-          </button>
-          {showFilterDropdown && (
-            <div className="absolute left-0 top-full mt-2 w-64 bg-white border border-gray-200 rounded-lg shadow-lg z-10 max-h-80 overflow-y-auto">
-              <div className="p-3 border-b border-gray-200">
-                <div className="flex items-center justify-between mb-2">
-                  <p className="text-xs font-semibold text-gray-500 uppercase">Filter sites</p>
-                  {filterSites.size > 0 && (
-                    <button
-                      onClick={() => setFilterSites(new Set())}
-                      className="text-xs text-emerald-600 hover:text-emerald-700"
-                    >
-                      Clear all
-                    </button>
-                  )}
-                </div>
-              </div>
-              <div className="p-2">
-                {orgUnitAttributes.map((ou) => (
-                  <label
-                    key={ou.orgUnit.id}
-                    className="flex items-center px-3 py-2 hover:bg-gray-50 rounded cursor-pointer"
-                  >
-                    <input
-                      type="checkbox"
-                      checked={filterSites.has(ou.orgUnit.id)}
-                      onChange={() => toggleFilterSite(ou.orgUnit.id)}
-                      className="mr-3 rounded border-gray-300 text-emerald-600 focus:ring-emerald-500"
-                    />
-                    <span className="text-sm text-gray-700">{ou.orgUnit.name}</span>
-                  </label>
-                ))}
-              </div>
-            </div>
-          )}
+        <div className="relative w-64">
+          <input
+            type="text"
+            placeholder="Search locations..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full px-4 py-2 pl-10 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+          />
+          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+            <SearchIcon size="sm" />
+          </span>
         </div>
         <button
           onClick={() => setShowAssignModal(true)}
@@ -2208,7 +2150,7 @@ function AssignmentsTab({
         <table className="w-full border-collapse">
           <thead>
             <tr className="bg-gray-100">
-              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase w-12">
+              <th className="sticky left-0 z-10 bg-gray-100 px-4 py-3 border-b border-r border-gray-200 w-12">
                 <input
                   type="checkbox"
                   checked={allVisibleSelected}
@@ -2216,7 +2158,7 @@ function AssignmentsTab({
                   className="rounded border-gray-300 text-emerald-600 focus:ring-emerald-500"
                 />
               </th>
-              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Site</th>
+              <th className="sticky left-12 z-10 bg-gray-100 px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase border-b border-r border-gray-200 min-w-[200px]">Location</th>
               <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">No. of Rulesets</th>
               <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">No. of Attributes</th>
             </tr>
@@ -2229,11 +2171,11 @@ function AssignmentsTab({
               return (
                 <tr
                   key={ou.orgUnit.id}
-                  className={`hover:bg-gray-50 transition-colors ${
-                    isSelected ? 'bg-emerald-50' : ''
-                  }`}
+                  className={`${
+                    isSelected ? 'bg-emerald-50' : 'hover:bg-gray-50'
+                  } transition-colors`}
                 >
-                  <td className="px-6 py-4">
+                  <td className="sticky left-0 z-10 bg-inherit px-4 py-3 border-r border-gray-200">
                     <input
                       type="checkbox"
                       checked={isSelected}
@@ -2243,7 +2185,7 @@ function AssignmentsTab({
                     />
                   </td>
                   <td
-                    className="px-6 py-4 text-sm font-medium text-gray-900 cursor-pointer"
+                    className="sticky left-12 z-10 bg-inherit px-4 py-3 border-r border-gray-200 text-sm font-medium text-gray-900 cursor-pointer"
                     onClick={() => setSelectedLocation(ou)}
                   >
                     {ou.orgUnit.name}
