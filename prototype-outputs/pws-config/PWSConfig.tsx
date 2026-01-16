@@ -136,7 +136,7 @@ const MetricCard = ({
   isWarning?: boolean;
   valueColor?: string;
 }) => (
-  <div className={`bg-white p-5 rounded-lg border ${isWarning ? 'border-amber-200 bg-amber-50' : 'border-gray-200'}`}>
+  <div className={`bg-white p-5 rounded ${isWarning ? 'border-amber-200 bg-amber-50' : ''}`} style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
     <div className="text-sm text-gray-500 mb-2">{label}</div>
     <div className={`text-3xl font-semibold flex items-center gap-2 ${isWarning ? 'text-amber-600' : valueColor}`}>
       {isWarning && <ExclamationTriangleIcon className="text-amber-500" size="md" />}
@@ -192,8 +192,7 @@ const CarePackageTab = ({
   return (
     <div className="bg-white rounded" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
       {/* Section Header */}
-      <div className="px-3 py-3 flex items-center justify-between border-b border-gray-200">
-        <h3 className="text-sm font-medium text-gray-900">Care package records</h3>
+      <div className="px-3 py-3 flex items-center justify-end border-b border-gray-200">
         <button
           onClick={onAddNew}
           className="flex items-center gap-2 px-4 py-2 text-emerald-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 text-sm font-medium shadow-sm"
@@ -557,8 +556,7 @@ const OccupancyTab = ({
     <div className="bg-white rounded" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
       {/* Section Header */}
       <div className="px-3 py-3 border-b border-gray-200">
-        <div className="flex items-center justify-between mb-2">
-          <h3 className="text-sm font-medium text-gray-900">Out of service records</h3>
+        <div className="flex items-center justify-end">
           <button
             onClick={() => {
               if (pws.status === 'In service') {
@@ -577,7 +575,7 @@ const OccupancyTab = ({
           </button>
         </div>
         {pws.status === 'Out of service' && pws.expectedReturn && (
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-gray-600 mt-3">
             Expected back: {pws.expectedReturn}
           </p>
         )}
