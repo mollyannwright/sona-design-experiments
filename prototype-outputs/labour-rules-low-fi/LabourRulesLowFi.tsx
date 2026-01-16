@@ -61,7 +61,7 @@ export function LabourRulesLowFi() {
     <SonaLayout
       showHeader={false}
     >
-      <div className="flex flex-col h-full bg-gray-50">
+      <div className="flex flex-col h-full bg-gray-50 -m-6">
         {/* Sticky Header */}
         <div className="sticky top-0 z-10 bg-white">
           {/* Main Header */}
@@ -103,7 +103,7 @@ export function LabourRulesLowFi() {
         </div>
 
         {/* Content */}
-        <div className="p-6 overflow-y-auto">
+        <div className="px-6 pb-6 pt-6">
           {/* Tab Content */}
           <div className="bg-white rounded-lg border border-slate-300">
             <div className="p-6">

@@ -92,7 +92,7 @@ function ComplianceDashboardV2() {
       navigation={navigation}
       showHeader={false}
     >
-      <div className="flex flex-col h-full bg-gray-50">
+      <div className="flex flex-col h-full bg-gray-50 -m-6">
         {/* Sticky Header */}
         <div className="sticky top-0 z-10 bg-white">
           {/* Main Header */}
@@ -111,7 +111,7 @@ function ComplianceDashboardV2() {
         </div>
 
         {/* Content */}
-        <div className="p-6 overflow-y-auto">
+        <div className="px-6 pb-6 pt-6">
           {/* Overview Stats */}
           <div className="grid grid-cols-4 gap-4 mb-6">
         <div className="bg-white p-5 rounded-lg border border-slate-200">
