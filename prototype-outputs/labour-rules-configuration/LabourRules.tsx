@@ -118,7 +118,7 @@ export function LabourRules() {
         </div>
 
         {/* Content */}
-        <div className="px-6 pb-6 pt-6 overflow-y-auto flex-1">
+        <div className="px-6 pb-6 pt-6 overflow-y-auto" style={{ height: 'calc(100vh - 180px)' }}>
           {/* Tab Content */}
           {activeTab === 'attributes' && (
             <AttributesTab
