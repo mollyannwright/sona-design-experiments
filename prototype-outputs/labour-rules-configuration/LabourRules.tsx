@@ -1859,20 +1859,9 @@ function AssignmentsTab({
   rulesets,
   orgUnitAttributes,
 }: AssignmentsTabProps) {
-  const [selectedOrgUnit, setSelectedOrgUnit] = useState<string | null>(null);
+  const [selectedAssignment, setSelectedAssignment] = useState<RulesetAssignment | null>(null);
   const [showAssignModal, setShowAssignModal] = useState(false);
   const [statusFilter, setStatusFilter] = useState<string>('all');
-
-  // Set first site as default
-  useEffect(() => {
-    if (!selectedOrgUnit && orgUnitAttributes.length > 0) {
-      setSelectedOrgUnit(orgUnitAttributes[0].orgUnit.id);
-    }
-  }, [orgUnitAttributes, selectedOrgUnit]);
-
-  const getAssignmentsForOrgUnit = (orgUnitId: string) => {
-    return assignments.filter((a) => a.orgUnitId === orgUnitId);
-  };
 
   const getStatusBadge = (status: string) => {
     switch (status) {
@@ -1889,6 +1878,9 @@ function AssignmentsTab({
 
   const handleRemoveAssignment = (assignmentId: string) => {
     setAssignments((prev) => prev.filter((a) => a.id !== assignmentId));
+    if (selectedAssignment?.id === assignmentId) {
+      setSelectedAssignment(null);
+    }
   };
 
   const handleAddAssignment = (data: {
@@ -1919,176 +1911,136 @@ function AssignmentsTab({
     setShowAssignModal(false);
   };
 
-  // Filter sites based on status
-  const getFilteredSites = () => {
-    if (statusFilter === 'all') return orgUnitAttributes;
-    
-    return orgUnitAttributes.filter((ou) => {
-      const siteAssignments = getAssignmentsForOrgUnit(ou.orgUnit.id);
-      if (statusFilter === 'configured') {
-        return siteAssignments.length > 0;
-      }
-      if (statusFilter === 'no-rules') {
-        return siteAssignments.length === 0;
-      }
-      // Filter by assignment status
-      return siteAssignments.some((a) => a.status === statusFilter);
-    });
+  // Filter assignments based on status
+  const getFilteredAssignments = () => {
+    if (statusFilter === 'all') return assignments;
+    return assignments.filter((a) => a.status === statusFilter);
   };
 
-  return (
-    <div className="bg-white rounded border border-gray-200 flex flex-col" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)', height: '100%', overflow: 'hidden' }}>
-      <div className="flex flex-1 min-h-0" style={{ overflow: 'hidden' }}>
-        {/* Site List */}
-        <div className="w-80 flex-shrink-0 border-r border-gray-200 flex flex-col min-h-0" style={{ overflow: 'hidden' }}>
-          {/* Status Filter */}
-          <div className="mb-3 px-4 flex-shrink-0 pt-4">
-            <label className="block text-xs font-medium text-gray-600 mb-1.5">Filter sites</label>
-            <select
-              value={statusFilter}
-              onChange={(e) => setStatusFilter(e.target.value)}
-              className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
-            >
-              <option value="all">All sites</option>
-              <option value="configured">Configured</option>
-              <option value="no-rules">No rules</option>
-              <option value="active">Active assignments</option>
-              <option value="scheduled">Scheduled</option>
-            </select>
+  // If an assignment is selected, show detail view
+  if (selectedAssignment) {
+    return (
+      <div className="space-y-6">
+        {/* Back Button */}
+        <button
+          onClick={() => setSelectedAssignment(null)}
+          className="flex items-center gap-1 text-sm text-emerald-600 hover:text-emerald-700"
+        >
+          <ChevronLeftIcon size="sm" />
+          Back to assignments
+        </button>
+
+        {/* Assignment Detail Card */}
+        <div className="bg-white rounded border border-gray-200" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
+          {/* Header */}
+          <div className="px-6 py-5 border-b border-gray-200">
+            <div className="flex items-center justify-between">
+              <div>
+                <h2 className="text-xl font-semibold text-gray-900">{selectedAssignment.rulesetName}</h2>
+                <p className="text-sm text-gray-500 mt-1">{selectedAssignment.orgUnitName}</p>
+              </div>
+              <div className="flex items-center gap-3">
+                {getStatusBadge(selectedAssignment.status)}
+                <button
+                  onClick={() => handleRemoveAssignment(selectedAssignment.id)}
+                  className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded transition-colors"
+                  title="Remove assignment"
+                >
+                  <TrashIcon size="sm" />
+                </button>
+              </div>
+            </div>
           </div>
-          <div className="border-t border-b border-gray-200 bg-white flex-1 overflow-y-auto min-h-0">
-          {getFilteredSites().map((ou) => {
-            const siteAssignments = getAssignmentsForOrgUnit(ou.orgUnit.id);
-            const activeAssignments = siteAssignments.filter((a) => a.status === 'active');
-            
-            return (
-              <button
-                key={ou.orgUnit.id}
-                onClick={() => setSelectedOrgUnit(ou.orgUnit.id)}
-                className={`w-full text-left px-4 py-3 border-b border-gray-100 last:border-b-0 transition-colors ${
-                  selectedOrgUnit === ou.orgUnit.id
-                    ? 'bg-gray-100'
-                    : 'hover:bg-gray-50'
-                }`}
-              >
-                <div className="flex items-center justify-between mb-1">
-                  <span className={`text-sm font-medium ${
-                    selectedOrgUnit === ou.orgUnit.id
-                      ? 'text-gray-900'
-                      : 'text-gray-900'
-                  }`}>
-                    {ou.orgUnit.name}
-                  </span>
+
+          {/* Details Grid */}
+          <div className="px-6 py-6">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
+              <div>
+                <div className="text-xs text-gray-500 mb-1">Effective From</div>
+                <div className="text-sm font-medium text-gray-900">{selectedAssignment.effectiveFrom}</div>
+              </div>
+              <div>
+                <div className="text-xs text-gray-500 mb-1">Effective Until</div>
+                <div className="text-sm font-medium text-gray-900">
+                  {selectedAssignment.effectiveUntil || (
+                    <span className="text-blue-600">Indefinite</span>
+                  )}
                 </div>
-                {activeAssignments.length > 0 && (
-                  <div className="flex flex-wrap gap-1 mt-1.5">
-                    {activeAssignments.map((a) => (
-                      <span
-                        key={a.id}
-                        className="text-xs bg-blue-50 text-blue-700 px-2 py-0.5 rounded"
-                      >
-                        {a.rulesetName}
-                      </span>
-                    ))}
-                  </div>
-                )}
-              </button>
-            );
-          })}
+              </div>
+              <div>
+                <div className="text-xs text-gray-500 mb-1">Created At</div>
+                <div className="text-sm font-medium text-gray-900">{selectedAssignment.createdAt}</div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
+    );
+  }
 
-      {/* Assignment Timeline */}
-      <div className="flex-1 pl-6 pr-6 overflow-y-auto min-w-0">
-        {selectedOrgUnit ? (
-          <div className="px-6 pt-4">
-            <div className="flex items-center justify-between">
-              <h4 className="text-lg font-semibold text-gray-900">
-                {
-                  orgUnitAttributes.find((ou) => ou.orgUnit.id === selectedOrgUnit)
-                    ?.orgUnit.name
-                }
-              </h4>
-              <button
-                onClick={() => setShowAssignModal(true)}
-                className="ui-button ui-button--primary"
-              >
-                <PlusIcon className="mr-2" />
-                Assign ruleset
-              </button>
-            </div>
-            
-            <div className="mt-6">
-              {getAssignmentsForOrgUnit(selectedOrgUnit).length > 0 ? (
-                <div className="grid grid-cols-1 gap-4">
-                  {getAssignmentsForOrgUnit(selectedOrgUnit).map((assignment) => (
-                    <div
-                      key={assignment.id}
-                      className="bg-white border border-gray-200 rounded-lg p-5 hover:shadow-sm transition-shadow"
-                    >
-                      <div className="flex items-start justify-between">
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-3 mb-3">
-                            <h5 className="text-sm font-semibold text-gray-900">
-                              {assignment.rulesetName}
-                            </h5>
-                            {getStatusBadge(assignment.status)}
-                          </div>
-                          
-                          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                            <div>
-                              <div className="text-xs text-gray-500 mb-1">Effective From</div>
-                              <div className="text-sm text-gray-900">{assignment.effectiveFrom}</div>
-                            </div>
-                            <div>
-                              <div className="text-xs text-gray-500 mb-1">Effective Until</div>
-                              <div className="text-sm text-gray-900">
-                                {assignment.effectiveUntil || (
-                                  <span className="text-blue-600 font-medium">Indefinite</span>
-                                )}
-                              </div>
-                            </div>
-                            <div>
-                              <div className="text-xs text-gray-500 mb-1">Created At</div>
-                              <div className="text-sm text-gray-900">{assignment.createdAt}</div>
-                            </div>
-                          </div>
-                        </div>
-                        
-                        <div className="ml-4 flex-shrink-0">
-                          <button
-                            onClick={() => handleRemoveAssignment(assignment.id)}
-                            className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded transition-colors"
-                            title="Remove assignment"
-                          >
-                            <TrashIcon size="sm" />
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <div className="text-center py-12 bg-gray-50 rounded-lg border border-gray-200">
-                  <p className="text-gray-500 text-sm">
-                    No ruleset assignments for this site.
-                  </p>
-                  <button
-                    onClick={() => setShowAssignModal(true)}
-                    className="mt-4 text-sm text-emerald-600 hover:text-emerald-700 font-medium transition-colors"
-                  >
-                    + Assign a ruleset
-                  </button>
-                </div>
-              )}
-            </div>
-          </div>
-        ) : (
-          <div className="flex items-center justify-center h-full text-gray-500">
-            <p>Select a site to view its assignments</p>
-          </div>
-        )}
+  // Table view - show all assignments
+  return (
+    <div className="bg-white rounded border border-gray-200" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
+      {/* Section Header */}
+      <div className="px-6 py-5 flex items-center justify-between border-b border-gray-200">
+        <div className="flex items-center gap-4">
+          <p className="text-sm text-gray-700">Manage ruleset assignments to locations</p>
+          <select
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value)}
+            className="px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+          >
+            <option value="all">All statuses</option>
+            <option value="active">Active</option>
+            <option value="scheduled">Scheduled</option>
+            <option value="expired">Expired</option>
+          </select>
+        </div>
+        <button
+          onClick={() => setShowAssignModal(true)}
+          className="flex items-center gap-2 px-4 py-2 text-emerald-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 text-sm font-medium shadow-sm"
+        >
+          <PlusIcon />
+          Assign ruleset
+        </button>
       </div>
+
+      {/* Table */}
+      <div className="overflow-x-auto">
+        <table className="w-full border-collapse">
+          <thead>
+            <tr className="bg-gray-100">
+              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Site</th>
+              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Ruleset</th>
+              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Status</th>
+              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Effective From</th>
+              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Effective Until</th>
+              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Created At</th>
+            </tr>
+          </thead>
+          <tbody className="bg-white divide-y divide-gray-100">
+            {getFilteredAssignments().map((assignment) => (
+              <tr
+                key={assignment.id}
+                className="hover:bg-gray-50 transition-colors cursor-pointer"
+                onClick={() => setSelectedAssignment(assignment)}
+              >
+                <td className="px-6 py-4 text-sm font-medium text-gray-900">{assignment.orgUnitName}</td>
+                <td className="px-6 py-4 text-sm text-gray-700">{assignment.rulesetName}</td>
+                <td className="px-6 py-4">
+                  {getStatusBadge(assignment.status)}
+                </td>
+                <td className="px-6 py-4 text-sm text-gray-700">{assignment.effectiveFrom}</td>
+                <td className="px-6 py-4 text-sm text-gray-700">
+                  {assignment.effectiveUntil || (
+                    <span className="text-blue-600 font-medium">Indefinite</span>
+                  )}
+                </td>
+                <td className="px-6 py-4 text-sm text-gray-700">{assignment.createdAt}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
 
       {/* Assign Modal */}
@@ -2096,7 +2048,7 @@ function AssignmentsTab({
         <AssignModal
           rulesets={rulesets}
           sites={orgUnitAttributes}
-          selectedOrgUnitId={selectedOrgUnit}
+          selectedOrgUnitId={null}
           onSave={handleAddAssignment}
           onClose={() => setShowAssignModal(false)}
         />
