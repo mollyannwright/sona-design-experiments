@@ -190,7 +190,7 @@ const CarePackageTab = ({
   onAddNew: () => void;
 }) => {
   return (
-    <div className="bg-white rounded-lg shadow-sm">
+    <div className="bg-white rounded-lg" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
       {/* Section Header */}
       <div className="px-6 py-5 flex items-center justify-between border-b border-gray-200">
         <h3 className="text-base font-medium text-gray-900">Care package records</h3>
@@ -276,7 +276,7 @@ const CarePackageDetail = ({
       </button>
 
       {/* Main Card */}
-      <div className="bg-white rounded-lg shadow-sm">
+      <div className="bg-white rounded-lg" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
         {/* Package Header */}
         <div className="px-6 py-5">
           <div className="flex items-center gap-3">
@@ -424,7 +424,7 @@ const ScheduleTab_UNUSED = ({ pws }: { pws: PWS }) => {
   }, {} as Record<string, Shift[]>) || {};
 
   return (
-    <div className="bg-white rounded-lg shadow-sm">
+    <div className="bg-white rounded-lg" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
       {/* Section Header */}
       <div className="px-6 py-5 flex items-center justify-between">
         <div className="flex items-center gap-3">
@@ -554,7 +554,7 @@ const OccupancyTab = ({
   onLogBackInService: () => void;
 }) => {
   return (
-    <div className="bg-white rounded-lg shadow-sm">
+    <div className="bg-white rounded-lg" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
       {/* Section Header */}
       <div className="px-6 py-5 border-b border-gray-200">
         <div className="flex items-center justify-between mb-2">

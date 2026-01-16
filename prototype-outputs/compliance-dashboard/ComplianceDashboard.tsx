@@ -244,7 +244,7 @@ function ComplianceDashboard() {
           </div>
 
           {/* Tabs Content */}
-          <div className="bg-white rounded-lg shadow-sm">
+          <div className="bg-white rounded-lg" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
             {/* Filters and Search */}
             <div className="px-6 py-4 border-b border-gray-200 flex items-center gap-4">
               <div className="flex-1 relative">
