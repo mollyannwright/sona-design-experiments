@@ -29,6 +29,12 @@ vercel inspect
 
 ---
 
+## Important Rules
+
+**DO NOT automatically push changes to Git.** Only commit and push when the user explicitly requests it (e.g., "push this", "commit", "deploy", "create a link"). This allows the user to review changes before they go to the repository.
+
+---
+
 ## Resource Locations
 
 ### Design System Sources (Priority Order)
@@ -733,13 +739,15 @@ The project uses Vercel's **automatic detection** for Vite projects. No `vercel.
 
 **Standard flow when user requests deployment:**
 
-1. **Ensure code is committed and pushed**:
+1. **Commit and push (ONLY when user explicitly requests)**:
    ```bash
    git add .
    git commit -m "Update prototype"
    git push
    ```
    → Auto-deploys via GitHub integration
+   
+   **⚠️ DO NOT run git commands unless user asks to deploy/push/commit**
 
 2. **Or deploy directly**:
    ```bash
@@ -801,8 +809,9 @@ The project uses Vercel's **automatic detection** for Vite projects. No `vercel.
 - Note which patterns were extracted from examples
 - Highlight any deviations from standard Sona
 
-### 6. Deploy & Share (when requested)
-- When user asks to "create a link" or "deploy":
+### 6. Deploy & Share (ONLY when explicitly requested)
+- **DO NOT automatically push to git** - wait for user to request deployment
+- When user asks to "create a link", "deploy", "push", or "commit":
   - Run `vercel --prod` to deploy
   - Share the returned URL
   - Or push to GitHub for automatic deployment
