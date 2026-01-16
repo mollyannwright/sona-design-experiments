@@ -1599,7 +1599,7 @@ export const PWSConfig = () => {
   // Show Package Detail
   if (selectedPackage) {
     return (
-      <div className="flex h-screen" style={{ backgroundColor: '#F8FAFC' }}>
+      <div className="flex h-screen bg-white">
         <Sidebar />
         <main className="flex-1 ml-[280px] overflow-y-auto">
           {/* Sticky Header */}
@@ -1655,7 +1655,7 @@ export const PWSConfig = () => {
   }
 
   return (
-    <div className="flex h-screen" style={{ backgroundColor: '#F8FAFC' }}>
+    <div className="flex h-screen bg-white">
       <Sidebar />
       <main className="flex-1 ml-[280px] overflow-y-auto">
         {/* Sticky Header */}
