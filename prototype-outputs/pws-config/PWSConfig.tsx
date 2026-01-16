@@ -191,9 +191,9 @@ const CarePackageTab = ({
   onAddNew: () => void;
 }) => {
   return (
-    <div className="bg-white rounded-lg border border-gray-200">
-      {/* Section Header */}
-      <div className="px-6 py-5 flex items-center justify-between">
+    <div className="space-y-4">
+      {/* Section Header - Outside container */}
+      <div className="flex items-center justify-between">
         <h3 className="text-base font-medium text-gray-900">Care package records</h3>
         <button
           onClick={onAddNew}
@@ -204,56 +204,54 @@ const CarePackageTab = ({
         </button>
       </div>
 
-      {/* Table with padding */}
-      <div className="px-6 pb-6">
-        <div className="border border-gray-200 rounded overflow-hidden">
-          <table className="w-full">
-            <thead>
-              <tr className="bg-slate-100 border-b border-gray-200">
-                <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                  Care Package Name
-                </th>
+      {/* Table */}
+      <div className="overflow-x-auto">
+        <table className="w-full border border-gray-200 rounded-sm">
+          <thead>
+            <tr className="bg-slate-100 border-b border-gray-200">
               <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                Status
+                Care Package Name
               </th>
-              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                Effective Date
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                End Date
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                Package Code
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                Primary Service
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                Residency Address
-              </th>
+            <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+              Status
+            </th>
+            <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+              Effective Date
+            </th>
+            <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+              End Date
+            </th>
+            <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+              Package Code
+            </th>
+            <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+              Primary Service
+            </th>
+            <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+              Residency Address
+            </th>
+          </tr>
+        </thead>
+        <tbody className="divide-y divide-gray-100">
+          {pws.carePackages.map((pkg) => (
+            <tr
+              key={pkg.id}
+              className="hover:bg-gray-50 transition-colors cursor-pointer"
+              onClick={() => onViewPackage(pkg)}
+            >
+              <td className="px-6 py-4 text-sm text-gray-900">{pkg.name}</td>
+              <td className="px-6 py-4">
+                <StatusBadge status={pkg.status} />
+              </td>
+              <td className="px-6 py-4 text-sm text-gray-700">{pkg.effectiveDate}</td>
+              <td className="px-6 py-4 text-sm text-gray-700">{pkg.endDate}</td>
+              <td className="px-6 py-4 text-sm text-gray-700">{pkg.packageCode}</td>
+              <td className="px-6 py-4 text-sm text-gray-700">{pkg.primaryService}</td>
+              <td className="px-6 py-4 text-sm text-gray-700">{pkg.residencyAddress}</td>
             </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-100">
-            {pws.carePackages.map((pkg) => (
-              <tr
-                key={pkg.id}
-                className="hover:bg-gray-50 transition-colors cursor-pointer"
-                onClick={() => onViewPackage(pkg)}
-              >
-                <td className="px-6 py-4 text-sm text-gray-900">{pkg.name}</td>
-                <td className="px-6 py-4">
-                  <StatusBadge status={pkg.status} />
-                </td>
-                <td className="px-6 py-4 text-sm text-gray-700">{pkg.effectiveDate}</td>
-                <td className="px-6 py-4 text-sm text-gray-700">{pkg.endDate}</td>
-                <td className="px-6 py-4 text-sm text-gray-700">{pkg.packageCode}</td>
-                <td className="px-6 py-4 text-sm text-gray-700">{pkg.primaryService}</td>
-                <td className="px-6 py-4 text-sm text-gray-700">{pkg.residencyAddress}</td>
-              </tr>
-            ))}
-          </tbody>
-          </table>
-        </div>
+          ))}
+        </tbody>
+        </table>
       </div>
     </div>
   );
@@ -555,9 +553,9 @@ const OccupancyTab = ({
   onLogBackInService: () => void;
 }) => {
   return (
-    <div className="bg-white rounded-lg border border-gray-200">
-      {/* Section Header */}
-      <div className="px-6 py-5">
+    <div className="space-y-4">
+      {/* Section Header - Outside container */}
+      <div>
         <div className="flex items-center justify-between mb-2">
           <h3 className="text-base font-medium text-gray-900">Out of service records</h3>
           <button
@@ -584,46 +582,44 @@ const OccupancyTab = ({
         )}
       </div>
 
-      {/* Table with padding */}
-      <div className="px-6 pb-6">
-        <div className="border border-gray-200 rounded overflow-hidden">
-          <table className="w-full">
-            <thead>
-              <tr className="bg-slate-100 border-b border-gray-200">
-                <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                  Out of Service Date
-                </th>
+      {/* Table */}
+      <div className="overflow-x-auto">
+        <table className="w-full border border-gray-200 rounded-sm">
+          <thead>
+            <tr className="bg-slate-100 border-b border-gray-200">
               <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                Expected Return Date
+                Out of Service Date
               </th>
-              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                Reason
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                Impact on Total Commissioned Hours (Between Selected Dates)
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                Notes
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                Hour Distribution
-              </th>
+            <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+              Expected Return Date
+            </th>
+            <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+              Reason
+            </th>
+            <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+              Impact on Total Commissioned Hours (Between Selected Dates)
+            </th>
+            <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+              Notes
+            </th>
+            <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+              Hour Distribution
+            </th>
+          </tr>
+        </thead>
+        <tbody className="divide-y divide-gray-100">
+          {pws.outOfServiceRecords.map((record) => (
+            <tr key={record.id} className="hover:bg-gray-50 transition-colors">
+              <td className="px-6 py-4 text-sm text-gray-900">{record.outOfServiceDate}</td>
+              <td className="px-6 py-4 text-sm text-gray-700">{record.expectedReturnDate}</td>
+              <td className="px-6 py-4 text-sm text-gray-700">{record.reason}</td>
+              <td className="px-6 py-4 text-sm text-gray-700">{record.impactOnHours}</td>
+              <td className="px-6 py-4 text-sm text-gray-500">{record.notes}</td>
+              <td className="px-6 py-4 text-sm text-gray-700">{record.hourDistribution}</td>
             </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-100">
-            {pws.outOfServiceRecords.map((record) => (
-              <tr key={record.id} className="hover:bg-gray-50 transition-colors">
-                <td className="px-6 py-4 text-sm text-gray-900">{record.outOfServiceDate}</td>
-                <td className="px-6 py-4 text-sm text-gray-700">{record.expectedReturnDate}</td>
-                <td className="px-6 py-4 text-sm text-gray-700">{record.reason}</td>
-                <td className="px-6 py-4 text-sm text-gray-700">{record.impactOnHours}</td>
-                <td className="px-6 py-4 text-sm text-gray-500">{record.notes}</td>
-                <td className="px-6 py-4 text-sm text-gray-700">{record.hourDistribution}</td>
-              </tr>
-            ))}
-          </tbody>
-          </table>
-        </div>
+          ))}
+        </tbody>
+        </table>
       </div>
     </div>
   );
