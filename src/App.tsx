@@ -38,6 +38,13 @@ function Home() {
             </h2>
             <div className="flex flex-col gap-3">
               <Link 
+                to="/compliance" 
+                className="w-full flex items-center justify-between px-4 py-3 bg-white hover:bg-gray-50 text-gray-700 font-medium rounded-lg border border-gray-200 transition-colors group text-left"
+              >
+                <span className="flex-1 whitespace-nowrap">Compliance Dashboard</span>
+                <ChevronRightIcon size="sm" className="text-gray-500 group-hover:translate-x-1 transition-transform flex-shrink-0 ml-2" />
+              </Link>
+              <Link 
                 to="/labour-rules" 
                 className="w-full flex items-center justify-between px-4 py-3 bg-white hover:bg-gray-50 text-gray-700 font-medium rounded-lg border border-gray-200 transition-colors group text-left"
               >
