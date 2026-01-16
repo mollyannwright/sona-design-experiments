@@ -119,7 +119,7 @@ export function LabourRules() {
         </div>
 
         {/* Content */}
-        <div className="px-6 pb-6 pt-6">
+        <div className="px-6 pb-6 pt-6 overflow-y-auto flex-1">
           {/* Tab Content */}
           {activeTab === 'attributes' && (
             <AttributesTab
@@ -993,10 +993,10 @@ function RulesetsTab({
   }, [rulesets]);
 
   return (
-    <div className="bg-white rounded border border-gray-200" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
-      <div className="flex">
+    <div className="bg-white rounded border border-gray-200 flex flex-col" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)', maxHeight: 'calc(100vh - 200px)' }}>
+      <div className="flex flex-1 min-h-0">
         {/* Rulesets List */}
-        <div className="w-80 flex-shrink-0 pr-6 border-r border-gray-200 -ml-6">
+        <div className="w-80 flex-shrink-0 pr-6 border-r border-gray-200 -ml-6 overflow-y-auto">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-sm font-semibold text-gray-900 pl-4">Rulesets</h3>
           <button
@@ -1006,7 +1006,7 @@ function RulesetsTab({
             + New
           </button>
         </div>
-        <div className="border-t border-b border-gray-200 bg-white -mr-6">
+        <div className="border-t border-b border-gray-200 bg-white -mr-6 overflow-y-auto">
           {rulesets.map((ruleset) => (
             <div
               key={ruleset.id}
@@ -1065,7 +1065,7 @@ function RulesetsTab({
       </div>
 
       {/* Rules Detail */}
-      <div className="flex-1 pl-6">
+      <div className="flex-1 pl-6 overflow-y-auto min-w-0">
         {selectedRuleset ? (
           <div className="px-6">
             <div className="flex items-center justify-between mb-4">
@@ -1731,10 +1731,10 @@ function AssignmentsTab({
   };
 
   return (
-    <div className="bg-white rounded border border-gray-200" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
-      <div className="flex">
+    <div className="bg-white rounded border border-gray-200 flex flex-col" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)', maxHeight: 'calc(100vh - 200px)' }}>
+      <div className="flex flex-1 min-h-0">
         {/* Site List */}
-        <div className="w-80 flex-shrink-0 pr-6 border-r border-gray-200 -ml-6">
+        <div className="w-80 flex-shrink-0 pr-6 border-r border-gray-200 -ml-6 overflow-y-auto">
         {/* Status Filter */}
         <div className="mb-3 pl-4">
           <label className="block text-xs font-medium text-gray-600 mb-1.5">Filter sites</label>
@@ -1750,7 +1750,7 @@ function AssignmentsTab({
             <option value="scheduled">Scheduled</option>
           </select>
         </div>
-        <div className="border-t border-b border-gray-200 bg-white -mr-6">
+        <div className="border-t border-b border-gray-200 bg-white -mr-6 overflow-y-auto">
           {getFilteredSites().map((ou) => {
             const siteAssignments = getAssignmentsForOrgUnit(ou.orgUnit.id);
             const activeAssignments = siteAssignments.filter((a) => a.status === 'active');
@@ -1793,7 +1793,7 @@ function AssignmentsTab({
       </div>
 
       {/* Assignment Timeline */}
-      <div className="flex-1 pl-6">
+      <div className="flex-1 pl-6 overflow-y-auto min-w-0">
         {selectedOrgUnit ? (
           <div className="px-6">
             <div className="flex items-center justify-between">
