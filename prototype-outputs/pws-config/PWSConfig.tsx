@@ -353,7 +353,7 @@ const CarePackageTab = ({
   return (
     <div className="bg-white rounded border border-gray-200" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
       {/* Section Header */}
-      <div className="py-3 flex items-center justify-between border-b border-gray-200">
+      <div className="pt-6 pb-3 flex items-center justify-between border-b border-gray-200">
         <p className="text-sm text-gray-700 px-6">Add a new care package to make changes to the care details and commissioned hours</p>
         <button
           onClick={onAddNew}
@@ -717,7 +717,7 @@ const OccupancyTab = ({
   return (
     <div className="bg-white rounded border border-gray-200" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
       {/* Section Header */}
-      <div className="py-3 border-b border-gray-200">
+      <div className="pt-6 pb-3 border-b border-gray-200">
         <div className="flex items-center justify-between">
           <div className="px-6">
             <p className="text-sm text-gray-700">Current status: {pws.status}</p>
