@@ -1020,30 +1020,32 @@ function RulesetsTab({
       {/* Rules Detail */}
       <div className="flex-1 pl-6 pr-6 overflow-y-auto min-w-0">
         {selectedRuleset ? (
-          <div className="px-6 pt-4">
-            <div className="flex items-center justify-between mb-4">
-              <div>
-                <h3 className="text-lg font-semibold text-gray-900">
-                  {selectedRuleset.name}
-                </h3>
-                {selectedRuleset.description && (
-                  <p className="text-sm text-gray-500 mt-1">
-                    {selectedRuleset.description}
-                  </p>
-                )}
+          <>
+            <div className="px-6 pt-4">
+              <div className="flex items-center justify-between mb-4">
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-900">
+                    {selectedRuleset.name}
+                  </h3>
+                  {selectedRuleset.description && (
+                    <p className="text-sm text-gray-500 mt-1">
+                      {selectedRuleset.description}
+                    </p>
+                  )}
+                </div>
+                <button
+                  onClick={handleCreateRule}
+                  className="ui-button ui-button--primary"
+                >
+                  <PlusIcon className="mr-2" />
+                  Add rule
+                </button>
               </div>
-              <button
-                onClick={handleCreateRule}
-                className="ui-button ui-button--primary"
-              >
-                <PlusIcon className="mr-2" />
-                Add rule
-              </button>
             </div>
 
             {/* Rules List */}
             {selectedRuleset.rules.length > 0 ? (
-              <div className="mt-6 overflow-x-auto">
+              <div className="mt-6 -mx-6 overflow-x-auto">
                 <table className="w-full border-collapse">
                   <thead>
                     <tr className="bg-gray-100">
@@ -1062,13 +1064,11 @@ function RulesetsTab({
                           <div className="text-sm text-gray-900">{rule.name}</div>
                         </td>
                         <td className="px-6 py-4">
-                          <span className="text-sm bg-gray-100 px-2 py-1 rounded font-mono">
-                            {rule.type}
-                          </span>
+                          <span className="ui-badge ui-badge--info">{rule.type}</span>
                         </td>
                         <td className="px-6 py-4">
                           {rule.dayOfWeek ? (
-                            <span className="text-sm text-gray-700 uppercase">
+                            <span className="text-sm text-gray-700 capitalize">
                               {rule.dayOfWeek}
                             </span>
                           ) : (
@@ -1118,17 +1118,19 @@ function RulesetsTab({
                 </table>
               </div>
             ) : (
-              <div className="text-center py-12 bg-gray-50 rounded-lg">
-                <p className="text-gray-500">No rules in this ruleset yet.</p>
-                <button
-                  onClick={handleCreateRule}
-                  className="mt-4 text-sm text-emerald-600 hover:text-emerald-700 font-medium"
-                >
-                  + Add your first rule
-                </button>
+              <div className="px-6 mt-6">
+                <div className="text-center py-12 bg-gray-50 rounded-lg">
+                  <p className="text-gray-500">No rules in this ruleset yet.</p>
+                  <button
+                    onClick={handleCreateRule}
+                    className="mt-4 text-sm text-emerald-600 hover:text-emerald-700 font-medium"
+                  >
+                    + Add your first rule
+                  </button>
+                </div>
               </div>
             )}
-          </div>
+          </>
         ) : (
           <div className="flex items-center justify-center h-full text-gray-500">
             <p>Select a ruleset to view its rules</p>
