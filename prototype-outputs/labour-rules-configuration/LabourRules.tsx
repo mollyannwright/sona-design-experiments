@@ -993,9 +993,10 @@ function RulesetsTab({
   }, [rulesets]);
 
   return (
-    <div className="flex">
-      {/* Rulesets List */}
-      <div className="w-80 flex-shrink-0 pr-6 border-r border-gray-200 -ml-6">
+    <div className="bg-white rounded-lg border border-gray-200">
+      <div className="flex">
+        {/* Rulesets List */}
+        <div className="w-80 flex-shrink-0 pr-6 border-r border-gray-200 -ml-6">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-sm font-semibold text-gray-900 pl-4">Rulesets</h3>
           <button
@@ -1135,6 +1136,7 @@ function RulesetsTab({
             <p>Select a ruleset to view its rules</p>
           </div>
         )}
+      </div>
       </div>
 
       {/* Ruleset Modal */}
@@ -1729,9 +1731,10 @@ function AssignmentsTab({
   };
 
   return (
-    <div className="flex">
-      {/* Site List */}
-      <div className="w-80 flex-shrink-0 pr-6 border-r border-gray-200 -ml-6">
+    <div className="bg-white rounded-lg border border-gray-200">
+      <div className="flex">
+        {/* Site List */}
+        <div className="w-80 flex-shrink-0 pr-6 border-r border-gray-200 -ml-6">
         {/* Status Filter */}
         <div className="mb-3 pl-4">
           <label className="block text-xs font-medium text-gray-600 mb-1.5">Filter sites</label>
@@ -1868,6 +1871,7 @@ function AssignmentsTab({
             <p>Select a site to view its assignments</p>
           </div>
         )}
+      </div>
       </div>
 
       {/* Assign Modal */}
