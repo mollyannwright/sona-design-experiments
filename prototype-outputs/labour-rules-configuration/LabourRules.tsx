@@ -1157,6 +1157,7 @@ function RulesetsTab({
   initialSelectedRulesetId,
 }: RulesetsTabProps) {
   const [selectedRuleset, setSelectedRuleset] = useState<Ruleset | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
 
   // Listen for navigation events from other tabs
   useEffect(() => {
@@ -1292,6 +1293,16 @@ function RulesetsTab({
     return uniqueSites.size;
   };
 
+  // Filter rulesets based on search query
+  const getFilteredRulesets = () => {
+    if (!searchQuery.trim()) return rulesets;
+    const query = searchQuery.toLowerCase();
+    return rulesets.filter((rs) =>
+      rs.name.toLowerCase().includes(query) ||
+      (rs.description && rs.description.toLowerCase().includes(query))
+    );
+  };
+
   // If a ruleset is selected, show detail view
   if (selectedRuleset) {
     return (
@@ -1421,11 +1432,24 @@ function RulesetsTab({
   }
 
   // Table view - show all rulesets
+  const filteredRulesets = getFilteredRulesets();
+
   return (
     <div className="bg-white rounded border border-gray-200" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
       {/* Section Header */}
       <div className="px-6 py-5 flex items-center justify-between border-b border-gray-200">
-        <p className="text-sm text-gray-700">Create and manage rulesets for labour planning</p>
+        <div className="relative w-64">
+          <input
+            type="text"
+            placeholder="Search rulesets..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full px-4 py-2 pl-10 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+          />
+          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+            <SearchIcon size="sm" />
+          </span>
+        </div>
         <button
           onClick={handleCreateRuleset}
           className="flex items-center gap-2 px-4 py-2 text-emerald-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 text-sm font-medium shadow-sm"
@@ -1449,7 +1473,7 @@ function RulesetsTab({
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-100">
-            {rulesets.map((ruleset) => {
+            {filteredRulesets.map((ruleset) => {
               const siteCount = getSiteCountForRuleset(ruleset.id);
               return (
                 <tr
