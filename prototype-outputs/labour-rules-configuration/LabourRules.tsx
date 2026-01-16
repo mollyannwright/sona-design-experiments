@@ -529,6 +529,8 @@ function OrgUnitAttributesTab({
   } | null>(null);
   const [showColumnSelector, setShowColumnSelector] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
+  const tableScrollRef = useRef<HTMLDivElement>(null);
+  const horizontalScrollbarRef = useRef<HTMLDivElement>(null);
 
   const displayedAttributes = attributes.filter((a) =>
     visibleColumns.includes(a.name)
@@ -572,6 +574,17 @@ function OrgUnitAttributesTab({
       setSelectedRows(new Set(orgUnitAttributes.map((ou) => ou.orgUnit.id)));
     }
   };
+
+  // Sync scrollbar width with table
+  useEffect(() => {
+    if (tableScrollRef.current && horizontalScrollbarRef.current) {
+      const table = tableScrollRef.current.querySelector('table');
+      const scrollbarContent = horizontalScrollbarRef.current.querySelector('div');
+      if (table && scrollbarContent) {
+        scrollbarContent.style.width = `${table.scrollWidth}px`;
+      }
+    }
+  }, [displayedAttributes, orgUnitAttributes]);
 
   return (
     <div className="bg-white rounded border border-gray-200 flex flex-col h-full" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
@@ -642,9 +655,18 @@ function OrgUnitAttributesTab({
       </div>
 
       {/* Bulk Edit Table */}
-      <div className="overflow-y-auto flex-1 min-h-0">
-        <div className="overflow-x-auto">
-        <table className="w-full min-w-max border-collapse">
+      <div className="flex-1 min-h-0 flex flex-col">
+        <div className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden">
+          <div 
+            ref={tableScrollRef}
+            className="pb-4 overflow-x-auto"
+            onScroll={(e) => {
+              if (horizontalScrollbarRef.current) {
+                horizontalScrollbarRef.current.scrollLeft = e.currentTarget.scrollLeft;
+              }
+            }}
+          >
+            <table className="w-full min-w-max border-collapse">
           <thead>
             <tr className="bg-gray-100">
                 <th className="sticky left-0 z-10 bg-gray-100 px-4 py-3 border-b border-r border-gray-200 w-12">
@@ -678,10 +700,12 @@ function OrgUnitAttributesTab({
                 <tr
                   key={ou.orgUnit.id}
                   className={`${
-                    selectedRows.has(ou.orgUnit.id) ? 'bg-emerald-50' : 'hover:bg-gray-50'
+                    selectedRows.has(ou.orgUnit.id) ? 'bg-emerald-50' : 'bg-white hover:bg-gray-50'
                   }`}
                 >
-                  <td className="sticky left-0 z-10 bg-inherit px-4 py-3 border-r border-gray-200">
+                  <td className={`sticky left-0 z-10 px-4 py-3 border-r border-gray-200 ${
+                    selectedRows.has(ou.orgUnit.id) ? 'bg-emerald-50' : 'bg-white'
+                  }`}>
                     <input
                       type="checkbox"
                       checked={selectedRows.has(ou.orgUnit.id)}
@@ -689,7 +713,9 @@ function OrgUnitAttributesTab({
                       className="rounded border-gray-300 text-emerald-600 focus:ring-emerald-500"
                     />
                   </td>
-                  <td className="sticky left-12 z-10 bg-inherit px-4 py-3 border-r border-gray-200">
+                  <td className={`sticky left-12 z-10 px-4 py-3 border-r border-gray-200 ${
+                    selectedRows.has(ou.orgUnit.id) ? 'bg-emerald-50' : 'bg-white'
+                  }`}>
                     <div className="flex items-center">
                       <span className="font-medium text-sm text-gray-900">
                         {ou.orgUnit.name}
@@ -756,7 +782,20 @@ function OrgUnitAttributesTab({
                 </tr>
               ))}
             </tbody>
-          </table>
+            </table>
+          </div>
+        </div>
+        <div 
+          ref={horizontalScrollbarRef}
+          className="sticky bottom-0 overflow-x-auto bg-white border-t border-gray-100"
+          style={{ height: '17px', flexShrink: 0 }}
+          onScroll={(e) => {
+            if (tableScrollRef.current) {
+              tableScrollRef.current.scrollLeft = e.currentTarget.scrollLeft;
+            }
+          }}
+        >
+          <div style={{ height: '1px', minWidth: 'max-content' }}></div>
         </div>
       </div>
 
