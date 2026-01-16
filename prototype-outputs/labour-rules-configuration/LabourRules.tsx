@@ -224,9 +224,9 @@ function AttributesTab({ attributes, setAttributes }: AttributesTabProps) {
   };
 
   return (
-    <div className="bg-white rounded border border-gray-200" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
+    <div className="bg-white rounded border border-gray-200 flex flex-col h-full" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
       {/* Header with search and add button */}
-      <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
+      <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between flex-shrink-0">
         <div className="flex items-center gap-4">
           <div className="relative">
             <input
@@ -254,7 +254,8 @@ function AttributesTab({ attributes, setAttributes }: AttributesTabProps) {
       </div>
 
       {/* Attributes Table */}
-      <div className="overflow-x-auto">
+      <div className="overflow-y-auto flex-1 min-h-0">
+        <div className="overflow-x-auto">
         <table className="w-full border-collapse">
           <thead>
             <tr className="bg-gray-100">
@@ -326,6 +327,7 @@ function AttributesTab({ attributes, setAttributes }: AttributesTabProps) {
             ))}
           </tbody>
         </table>
+        </div>
       </div>
 
       {/* Add/Edit Modal */}
@@ -572,9 +574,9 @@ function OrgUnitAttributesTab({
   };
 
   return (
-    <div className="bg-white rounded border border-gray-200" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
+    <div className="bg-white rounded border border-gray-200 flex flex-col h-full" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
       {/* Header */}
-      <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
+      <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between flex-shrink-0">
         <div className="flex items-center gap-4">
           <span className="text-sm text-gray-500">
             {orgUnitAttributes.length} sites
@@ -641,7 +643,8 @@ function OrgUnitAttributesTab({
       </div>
 
       {/* Bulk Edit Table */}
-      <div className="overflow-x-auto">
+      <div className="overflow-y-auto flex-1 min-h-0">
+        <div className="overflow-x-auto">
         <table className="w-full min-w-max border-collapse">
           <thead>
             <tr className="bg-gray-100">
@@ -755,10 +758,11 @@ function OrgUnitAttributesTab({
               ))}
             </tbody>
           </table>
+        </div>
       </div>
 
       {/* Legend */}
-      <div className="mt-4 flex items-center gap-6 text-xs text-gray-500">
+      <div className="px-6 py-4 border-t border-gray-200 flex items-center gap-6 text-xs text-gray-500 flex-shrink-0">
         <div className="flex items-center gap-2">
           <span className="w-4 h-4 bg-amber-50 border border-amber-200 rounded"></span>
           <span>Missing required value</span>
@@ -1435,9 +1439,9 @@ function RulesetsTab({
   const filteredRulesets = getFilteredRulesets();
 
   return (
-    <div className="bg-white rounded border border-gray-200" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
+    <div className="bg-white rounded border border-gray-200 flex flex-col h-full" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
       {/* Section Header */}
-      <div className="px-6 py-5 flex items-center justify-between border-b border-gray-200">
+      <div className="px-6 py-5 flex items-center justify-between border-b border-gray-200 flex-shrink-0">
         <div className="relative w-64">
           <input
             type="text"
@@ -1460,7 +1464,8 @@ function RulesetsTab({
       </div>
 
       {/* Table */}
-      <div className="overflow-x-auto">
+      <div className="overflow-y-auto flex-1 min-h-0">
+        <div className="overflow-x-auto">
         <table className="w-full border-collapse">
           <thead>
             <tr className="bg-gray-100">
@@ -1498,6 +1503,7 @@ function RulesetsTab({
             })}
           </tbody>
         </table>
+        </div>
       </div>
 
       {/* Ruleset Modal */}
@@ -2033,20 +2039,20 @@ function AssignmentsTab({
     const locationAssignments = getAssignmentsForLocation(selectedLocation.orgUnit.id);
     
     return (
-      <div className="space-y-6">
+      <div className="space-y-6 flex flex-col h-full" style={{ overflow: 'hidden' }}>
         {/* Back Button */}
         <button
           onClick={() => setSelectedLocation(null)}
-          className="flex items-center gap-1 text-sm text-emerald-600 hover:text-emerald-700"
+          className="flex items-center gap-1 text-sm text-emerald-600 hover:text-emerald-700 flex-shrink-0"
         >
           <ChevronLeftIcon size="sm" />
           Back to locations
         </button>
 
         {/* Location Detail Card */}
-        <div className="bg-white rounded border border-gray-200" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
+        <div className="bg-white rounded border border-gray-200 flex flex-col flex-1 min-h-0" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
           {/* Header */}
-          <div className="px-6 py-5 border-b border-gray-200">
+          <div className="px-6 py-5 border-b border-gray-200 flex-shrink-0">
             <div className="flex items-center justify-between">
               <h2 className="text-xl font-semibold text-gray-900">{selectedLocation.orgUnit.name}</h2>
               <button
@@ -2061,7 +2067,8 @@ function AssignmentsTab({
 
           {/* Rulesets Sections */}
           {locationAssignments.length > 0 ? (
-            <div className="divide-y divide-gray-200">
+            <div className="overflow-y-auto flex-1 min-h-0">
+              <div className="divide-y divide-gray-200">
               {locationAssignments.map((assignment) => {
                 const ruleset = rulesets.find((rs) => rs.id === assignment.rulesetId);
                 return (
@@ -2118,10 +2125,11 @@ function AssignmentsTab({
                   </div>
                 );
               })}
+              </div>
             </div>
           ) : (
-            <div className="px-6 py-12">
-              <div className="text-center py-12 bg-gray-50 rounded-lg">
+            <div className="flex-1 flex items-center justify-center">
+              <div className="text-center py-12 bg-gray-50 rounded-lg px-6">
                 <p className="text-gray-500 text-sm">
                   No ruleset assignments for this location.
                 </p>
@@ -2144,9 +2152,9 @@ function AssignmentsTab({
   const allVisibleSelected = filteredLocations.length > 0 && filteredLocations.every((ou) => selectedSites.has(ou.orgUnit.id));
 
   return (
-    <div className="bg-white rounded border border-gray-200" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
+    <div className="bg-white rounded border border-gray-200 flex flex-col h-full" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
       {/* Section Header */}
-      <div className="px-6 py-5 flex items-center justify-between border-b border-gray-200">
+      <div className="px-6 py-5 flex items-center justify-between border-b border-gray-200 flex-shrink-0">
         <div className="relative w-64">
           <input
             type="text"
@@ -2170,7 +2178,8 @@ function AssignmentsTab({
       </div>
 
       {/* Table */}
-      <div className="overflow-x-auto">
+      <div className="overflow-y-auto flex-1 min-h-0">
+        <div className="overflow-x-auto">
         <table className="w-full border-collapse">
           <thead>
             <tr className="bg-gray-100">
@@ -2231,6 +2240,7 @@ function AssignmentsTab({
             })}
           </tbody>
         </table>
+        </div>
       </div>
 
       {/* Assign Modal */}
