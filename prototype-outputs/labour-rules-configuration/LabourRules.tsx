@@ -1041,39 +1041,81 @@ function RulesetsTab({
               </button>
             </div>
 
-            {/* Required Attributes */}
-            {selectedRuleset.requiredAttributes.length > 0 && (
-              <div className="mb-4 py-3 border-t border-b border-gray-200">
-                <p className="text-xs font-semibold text-gray-600 mb-2">
-                  Required attributes for this ruleset:
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {selectedRuleset.requiredAttributes.map((attr) => (
-                    <code
-                      key={attr}
-                      className="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded"
-                    >
-                      {attr}
-                    </code>
-                  ))}
-                </div>
-              </div>
-            )}
-
             {/* Rules List */}
             {selectedRuleset.rules.length > 0 ? (
-              <div className="mt-6">
-                <h4 className="text-sm font-semibold text-gray-900 mb-3">Rules</h4>
-                <div className="space-y-3">
-                  {selectedRuleset.rules.map((rule) => (
-                    <RuleCard
-                      key={rule.id}
-                      rule={rule}
-                      onEdit={() => handleEditRule(rule)}
-                      onDelete={() => handleDeleteRule(rule.id)}
-                    />
-                  ))}
-                </div>
+              <div className="mt-6 overflow-x-auto">
+                <table className="w-full border-collapse">
+                  <thead>
+                    <tr className="bg-gray-100">
+                      <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Rule Name</th>
+                      <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Type</th>
+                      <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Schedule</th>
+                      <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Role</th>
+                      <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Start/End</th>
+                      <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase w-24">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody className="bg-white divide-y divide-gray-100">
+                    {selectedRuleset.rules.map((rule) => (
+                      <tr key={rule.id} className="hover:bg-gray-50 transition-colors group">
+                        <td className="px-6 py-4">
+                          <div className="text-sm text-gray-900">{rule.name}</div>
+                        </td>
+                        <td className="px-6 py-4">
+                          <span className="text-sm bg-gray-100 px-2 py-1 rounded font-mono">
+                            {rule.type}
+                          </span>
+                        </td>
+                        <td className="px-6 py-4">
+                          {rule.dayOfWeek ? (
+                            <span className="text-sm text-gray-700 uppercase">
+                              {rule.dayOfWeek}
+                            </span>
+                          ) : (
+                            <span className="text-sm text-gray-400">All days</span>
+                          )}
+                        </td>
+                        <td className="px-6 py-4">
+                          <div className="text-sm text-gray-700">{rule.role || '—'}</div>
+                        </td>
+                        <td className="px-6 py-4">
+                          <div className="flex flex-col gap-1">
+                            {rule.startTime && (
+                              <div className="flex items-center gap-1.5">
+                                <span className="text-sm text-gray-500 w-12">Start:</span>
+                                <FormulaDisplay formula={rule.startTime} />
+                              </div>
+                            )}
+                            {rule.endTime && (
+                              <div className="flex items-center gap-1.5">
+                                <span className="text-sm text-gray-500 w-12">End:</span>
+                                <FormulaDisplay formula={rule.endTime} />
+                              </div>
+                            )}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4">
+                          <div className="flex items-center gap-2">
+                            <button
+                              onClick={() => handleEditRule(rule)}
+                              className="p-1.5 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded"
+                              title="Edit"
+                            >
+                              <EditIcon size="sm" />
+                            </button>
+                            <button
+                              onClick={() => handleDeleteRule(rule.id)}
+                              className="p-1.5 text-gray-500 hover:text-red-600 hover:bg-red-50 rounded"
+                              title="Delete"
+                            >
+                              <TrashIcon size="sm" />
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
             ) : (
               <div className="text-center py-12 bg-gray-50 rounded-lg">
@@ -1117,98 +1159,6 @@ function RulesetsTab({
   );
 }
 
-// Rule Card Component
-interface RuleCardProps {
-  rule: Rule;
-  onEdit: () => void;
-  onDelete: () => void;
-}
-
-function RuleCard({ rule, onEdit, onDelete }: RuleCardProps) {
-  return (
-    <div className="bg-white border border-gray-200 rounded p-4 transition-shadow hover:shadow-sm">
-      <div className="flex items-start justify-between">
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2 mb-3">
-            <h4 className="font-medium text-sm text-gray-900">{rule.name}</h4>
-            <span className="text-[10px] px-1.5 py-0.5 font-medium bg-gray-100 text-gray-600 rounded">
-              {rule.type}
-            </span>
-            {rule.dayOfWeek && (
-              <span className="text-[10px] text-gray-400 font-medium uppercase tracking-wider">
-                {rule.dayOfWeek}
-              </span>
-            )}
-          </div>
-          
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-y-3 gap-x-6">
-            {rule.role && (
-              <div>
-                <div className="text-[10px] text-gray-400 uppercase tracking-wider mb-0.5">Role</div>
-                <div className="text-xs font-medium text-gray-700">{rule.role}</div>
-              </div>
-            )}
-            {rule.startTime && (
-              <div>
-                <div className="text-[10px] text-gray-400 uppercase tracking-wider mb-0.5">Start</div>
-                <FormulaDisplay formula={rule.startTime} />
-              </div>
-            )}
-            {rule.endTime && (
-              <div>
-                <div className="text-[10px] text-gray-400 uppercase tracking-wider mb-0.5">End</div>
-                <FormulaDisplay formula={rule.endTime} />
-              </div>
-            )}
-            {rule.duration && (
-              <div>
-                <div className="text-[10px] text-gray-400 uppercase tracking-wider mb-0.5">Duration</div>
-                <FormulaDisplay formula={rule.duration} />
-              </div>
-            )}
-            {rule.minimumPeopleRequired && (
-              <div>
-                <div className="text-[10px] text-gray-400 uppercase tracking-wider mb-0.5">Min. People</div>
-                <FormulaDisplay formula={rule.minimumPeopleRequired} />
-              </div>
-            )}
-          </div>
-
-          {rule.requiredAttributes.length > 0 && (
-            <div className="mt-4 pt-3 border-t border-gray-50 flex flex-wrap gap-1.5">
-              {rule.requiredAttributes.map((attr) => (
-                <code
-                  key={attr}
-                  className="text-[10px] bg-gray-50 text-gray-500 px-1.5 py-0.5 rounded border border-gray-100"
-                >
-                  {attr}
-                </code>
-              ))}
-            </div>
-          )}
-        </div>
-
-        <div className="flex gap-1 ml-4">
-          <button
-            onClick={onEdit}
-            className="p-1 text-gray-400 hover:text-emerald-600 transition-colors"
-            title="Edit"
-          >
-            <EditIcon size="sm" />
-          </button>
-          <button
-            onClick={onDelete}
-            className="p-1 text-gray-400 hover:text-red-600 transition-colors"
-            title="Delete"
-          >
-            <TrashIcon size="sm" />
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 // Formula Display Component (with syntax highlighting)
 function FormulaDisplay({ formula }: { formula: string }) {
   // Simple syntax highlighting for formulas
@@ -1219,7 +1169,7 @@ function FormulaDisplay({ formula }: { formula: string }) {
 
   return (
     <div
-      className="text-gray-900 font-mono text-[11px] leading-relaxed"
+      className="text-gray-900 font-mono text-sm"
       dangerouslySetInnerHTML={{ __html: highlighted }}
     />
   );
@@ -1770,70 +1720,76 @@ function AssignmentsTab({
               </button>
             </div>
             
-            <div className="mt-6">
-              <h4 className="text-sm font-semibold text-gray-900 mb-3">Assignments</h4>
-              <div className="space-y-3">
-                {getAssignmentsForOrgUnit(selectedOrgUnit).length > 0 ? (
-                  getAssignmentsForOrgUnit(selectedOrgUnit).map((assignment) => (
-                    <div
-                      key={assignment.id}
-                      className="bg-white border border-gray-200 rounded p-4 transition-shadow hover:shadow-sm"
-                    >
-                      <div className="flex items-start justify-between">
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2 mb-2">
-                            <h5 className="font-medium text-sm text-gray-900 truncate">
-                              {assignment.rulesetName}
-                            </h5>
-                            {getStatusBadge(assignment.status)}
+            <div className="mt-6 overflow-x-auto">
+              {getAssignmentsForOrgUnit(selectedOrgUnit).length > 0 ? (
+                <table className="w-full border-collapse">
+                  <thead>
+                    <tr className="bg-gray-100">
+                      <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Ruleset</th>
+                      <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Status</th>
+                      <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Effective Dates</th>
+                      <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Created At</th>
+                      <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase w-24">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody className="bg-white divide-y divide-gray-100">
+                    {getAssignmentsForOrgUnit(selectedOrgUnit).map((assignment) => (
+                      <tr key={assignment.id} className="hover:bg-gray-50 transition-colors">
+                        <td className="px-6 py-4">
+                          <div className="text-sm text-gray-900 truncate max-w-[200px]">
+                            {assignment.rulesetName}
                           </div>
-                          
-                          <div className="grid grid-cols-2 md:grid-cols-3 gap-y-3 gap-x-6">
-                            <div>
-                              <div className="text-[10px] text-gray-400 uppercase tracking-wider mb-0.5">Effective From</div>
-                              <div className="text-xs font-medium text-gray-700">{assignment.effectiveFrom}</div>
+                        </td>
+                        <td className="px-6 py-4">
+                          {getStatusBadge(assignment.status)}
+                        </td>
+                        <td className="px-6 py-4">
+                          <div className="flex flex-col gap-1 text-sm text-gray-700">
+                            <div className="flex items-center gap-1.5">
+                              <span className="text-sm text-gray-500 w-12">From:</span>
+                              <span>{assignment.effectiveFrom}</span>
                             </div>
-                            <div>
-                              <div className="text-[10px] text-gray-400 uppercase tracking-wider mb-0.5">Effective Until</div>
-                              <div className="text-xs font-medium text-gray-700">
+                            <div className="flex items-center gap-1.5">
+                              <span className="text-sm text-gray-500 w-12">To:</span>
+                              <span>
                                 {assignment.effectiveUntil || (
-                                  <span className="text-blue-600">Indefinite</span>
+                                  <span className="text-blue-600 font-medium">Indefinite</span>
                                 )}
-                              </div>
-                            </div>
-                            <div>
-                              <div className="text-[10px] text-gray-400 uppercase tracking-wider mb-0.5">Created At</div>
-                              <div className="text-xs font-medium text-gray-700">{assignment.createdAt}</div>
+                              </span>
                             </div>
                           </div>
-                        </div>
-                        
-                        <div className="flex gap-1 ml-4">
-                          <button
-                            onClick={() => handleRemoveAssignment(assignment.id)}
-                            className="p-1 text-gray-400 hover:text-red-600 transition-colors"
-                            title="Remove assignment"
-                          >
-                            <TrashIcon size="sm" />
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  ))
-                ) : (
-                  <div className="text-center py-12 bg-gray-50 rounded border border-gray-100 border-dashed">
-                    <p className="text-gray-500 text-sm">
-                      No ruleset assignments for this site.
-                    </p>
-                    <button
-                      onClick={() => setShowAssignModal(true)}
-                      className="mt-4 text-sm text-emerald-600 hover:text-emerald-700 font-medium transition-colors"
-                    >
-                      + Assign a ruleset
-                    </button>
-                  </div>
-                )}
-              </div>
+                        </td>
+                        <td className="px-6 py-4 text-sm text-gray-500">
+                          {assignment.createdAt}
+                        </td>
+                        <td className="px-6 py-4">
+                          <div className="flex items-center gap-2">
+                            <button
+                              onClick={() => handleRemoveAssignment(assignment.id)}
+                              className="p-1.5 text-gray-500 hover:text-red-600 hover:bg-red-50 rounded"
+                              title="Remove assignment"
+                            >
+                              <TrashIcon size="sm" />
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              ) : (
+                <div className="text-center py-12 bg-gray-50 rounded-lg">
+                  <p className="text-gray-500 text-sm">
+                    No ruleset assignments for this site.
+                  </p>
+                  <button
+                    onClick={() => setShowAssignModal(true)}
+                    className="mt-4 text-sm text-emerald-600 hover:text-emerald-700 font-medium transition-colors"
+                  >
+                    + Assign a ruleset
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         ) : (
