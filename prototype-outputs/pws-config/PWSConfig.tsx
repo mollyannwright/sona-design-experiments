@@ -110,7 +110,7 @@ const Sidebar = () => {
 // Status Badge Component
 const StatusBadge = ({ status }: { status: 'In service' | 'Out of service' | 'Active' | 'Pending' | 'Expired' }) => {
   const styles = {
-    'In service': 'bg-blue-100 text-blue-800 border-blue-500',
+    'In service': 'bg-emerald-100 text-emerald-700 border-emerald-500',
     'Out of service': 'bg-red-100 text-red-800 border-red-600',
     'Active': 'bg-emerald-100 text-emerald-700 border-emerald-500',
     'Pending': 'bg-amber-100 text-amber-700 border-amber-500',
