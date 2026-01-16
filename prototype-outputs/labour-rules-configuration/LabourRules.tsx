@@ -625,7 +625,7 @@ function OrgUnitAttributesTab({
         <table className="w-full min-w-max border-collapse">
           <thead>
             <tr className="bg-gray-100">
-                <th className="sticky left-0 z-10 bg-gray-50 px-4 py-3 border-b border-r border-gray-200 w-12">
+                <th className="sticky left-0 z-10 bg-gray-100 px-4 py-3 border-b border-r border-gray-200 w-12">
                   <input
                     type="checkbox"
                     checked={selectedRows.size === orgUnitAttributes.length}
@@ -633,7 +633,7 @@ function OrgUnitAttributesTab({
                     className="rounded border-gray-300 text-emerald-600 focus:ring-emerald-500"
                   />
                 </th>
-                <th className="sticky left-12 z-10 bg-gray-50 px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase border-b border-r border-gray-200 min-w-[200px]">
+                <th className="sticky left-12 z-10 bg-gray-100 px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase border-b border-r border-gray-200 min-w-[200px]">
                   Site
                 </th>
                 {displayedAttributes.map((attr) => (
