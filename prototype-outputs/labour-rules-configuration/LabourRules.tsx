@@ -1006,7 +1006,7 @@ function RulesetsTab({
               + New
             </button>
           </div>
-          <div className="border-t border-b border-gray-200 bg-white flex-1 overflow-y-auto min-h-0">
+          <div className="border-t border-b border-gray-200 bg-white flex-1 overflow-y-auto min-h-0 pt-4">
           {rulesets.map((ruleset) => (
             <div
               key={ruleset.id}
@@ -1067,7 +1067,7 @@ function RulesetsTab({
       {/* Rules Detail */}
       <div className="flex-1 pl-6 overflow-y-auto min-w-0">
         {selectedRuleset ? (
-          <div className="px-6">
+          <div className="px-6 pt-6">
             <div className="flex items-center justify-between mb-4">
               <div>
                 <h3 className="text-lg font-semibold text-gray-900">
@@ -1750,7 +1750,7 @@ function AssignmentsTab({
               <option value="scheduled">Scheduled</option>
             </select>
           </div>
-          <div className="border-t border-b border-gray-200 bg-white flex-1 overflow-y-auto min-h-0">
+          <div className="border-t border-b border-gray-200 bg-white flex-1 overflow-y-auto min-h-0 pt-4">
           {getFilteredSites().map((ou) => {
             const siteAssignments = getAssignmentsForOrgUnit(ou.orgUnit.id);
             const activeAssignments = siteAssignments.filter((a) => a.status === 'active');
@@ -1795,7 +1795,7 @@ function AssignmentsTab({
       {/* Assignment Timeline */}
       <div className="flex-1 pl-6 overflow-y-auto min-w-0">
         {selectedOrgUnit ? (
-          <div className="px-6">
+          <div className="px-6 pt-6">
             <div className="flex items-center justify-between">
               <h4 className="text-lg font-semibold text-gray-900">
                 {
