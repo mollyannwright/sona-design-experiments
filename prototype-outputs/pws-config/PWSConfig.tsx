@@ -189,6 +189,161 @@ const CarePackageTab = ({
   onViewPackage: (pkg: CarePackage) => void;
   onAddNew: () => void;
 }) => {
+  const isSinglePackage = pws.carePackages.length === 1;
+  const singlePackage = isSinglePackage ? pws.carePackages[0] : null;
+
+  // Single package view - show card with no back button
+  if (isSinglePackage && singlePackage) {
+    return (
+      <div className="space-y-4">
+        {/* Add New Button */}
+        <div className="flex justify-end">
+          <button
+            onClick={onAddNew}
+            className="flex items-center gap-2 px-4 py-2 text-emerald-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 text-sm font-medium shadow-sm"
+          >
+            <PlusIcon />
+            Add new
+          </button>
+        </div>
+
+        {/* Care Package Card */}
+        <div className="bg-white rounded border border-gray-200" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
+          {/* Package Header */}
+          <div className="px-6 py-5">
+            <div className="flex items-center gap-3">
+              <h2 className="text-xl font-semibold text-gray-900">{singlePackage.name}</h2>
+              <StatusBadge status={singlePackage.status} />
+            </div>
+          </div>
+
+          {/* Summary of Changes (for Pending packages) */}
+          {singlePackage.status === 'Pending' && singlePackage.summaryOfChanges && (
+            <div className="px-6 mb-6">
+              <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
+                <h4 className="text-sm font-semibold text-amber-800 mb-1">Summary of changes</h4>
+                <p className="text-sm text-amber-700">{singlePackage.summaryOfChanges}</p>
+              </div>
+            </div>
+          )}
+
+          {/* Package Details Grid */}
+          <div className="px-6 pb-6 mb-6 border-b border-gray-200">
+            <div className="grid grid-cols-5 gap-6">
+              <div>
+                <div className="text-xs text-gray-500 mb-1">Effective date</div>
+                <div className="text-sm font-medium text-gray-900">{singlePackage.effectiveDate}</div>
+              </div>
+              <div>
+                <div className="text-xs text-gray-500 mb-1">End date</div>
+                <div className="text-sm font-medium text-gray-900">{singlePackage.endDate}</div>
+              </div>
+              <div>
+                <div className="text-xs text-gray-500 mb-1">Package code</div>
+                <div className="text-sm font-medium text-gray-900">{singlePackage.packageCode}</div>
+              </div>
+              <div>
+                <div className="text-xs text-gray-500 mb-1">Primary service</div>
+                <div className="text-sm font-medium text-emerald-600">{singlePackage.primaryService}</div>
+              </div>
+              <div>
+                <div className="text-xs text-gray-500 mb-1">Residency address</div>
+                <div className="text-sm font-medium text-gray-900">{singlePackage.residencyAddress}</div>
+              </div>
+            </div>
+          </div>
+
+          {/* Specified Commissioned Hours */}
+          <div className="px-6 pb-6 mb-6">
+            <h3 className="text-base font-medium text-gray-900 mb-4">Specified commissioned hours</h3>
+            <div className="overflow-x-auto border border-gray-200 rounded">
+              <table className="w-full border-collapse">
+                <thead>
+                  <tr className="bg-gray-100">
+                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200">
+                      Hour Type
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200">
+                      Hours Amount
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200">
+                      Carer Ratio
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200">
+                      Applied When
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200">
+                      Hour Banking
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-100">
+                  {singlePackage.specifiedHours.map((hour, idx) => (
+                    <tr key={idx} className="hover:bg-gray-50">
+                      <td className="px-6 py-4 text-sm text-gray-900">{hour.hourType}</td>
+                      <td className="px-6 py-4 text-sm text-gray-700">{hour.hoursAmount}</td>
+                      <td className="px-6 py-4 text-sm text-gray-700">{hour.carerRatio}</td>
+                      <td className="px-6 py-4 text-sm text-gray-700">{hour.appliedWhen}</td>
+                      <td className="px-6 py-4 text-sm text-gray-700">{hour.hourBanking}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          {/* Shared Commissioned Hours */}
+          <div className="px-6 pb-6 mb-6">
+            <h3 className="text-base font-medium text-gray-900 mb-4">Shared commissioned hours</h3>
+            <div className="overflow-x-auto border border-gray-200 rounded">
+              <table className="w-full border-collapse">
+                <thead>
+                  <tr className="bg-gray-100">
+                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200">
+                      Hour Type
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200">
+                      Hours Amount
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200">
+                      Carer Ratio
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200">
+                      Applied When
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200">
+                      Hour Banking
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-100">
+                  {singlePackage.sharedHours.map((hour, idx) => (
+                    <tr key={idx} className="hover:bg-gray-50">
+                      <td className="px-6 py-4 text-sm text-gray-900">{hour.hourType}</td>
+                      <td className="px-6 py-4 text-sm text-gray-700">{hour.hoursAmount}</td>
+                      <td className="px-6 py-4 text-sm text-gray-700">{hour.carerRatio}</td>
+                      <td className="px-6 py-4 text-sm text-gray-700">{hour.appliedWhen}</td>
+                      <td className="px-6 py-4 text-sm text-gray-700">{hour.hourBanking}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          {/* Footer */}
+          <div className="px-6 py-4 border-t border-gray-200">
+            <div className="text-sm text-gray-500 space-y-1">
+              <p>Created by: {singlePackage.createdBy} on {singlePackage.createdAt}</p>
+              {singlePackage.reasonForChange && <p>Reason for change: {singlePackage.reasonForChange}</p>}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Multiple packages view - show table
   return (
     <div className="bg-white rounded border border-gray-200" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
       {/* Section Header */}
