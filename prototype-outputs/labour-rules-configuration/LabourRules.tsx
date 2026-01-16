@@ -68,48 +68,61 @@ export function LabourRules() {
 
   return (
     <SonaLayout
-      pageTitle="Labour rules"
-      pageSubtitle="Configure productivity rules for labour planning"
-      headerActions={
-        <div className="flex gap-3">
-          <button className="ui-button ui-button--secondary">
-            <DownloadIcon className="mr-2" />
-            Download CSV
-          </button>
-          <button className="ui-button ui-button--secondary">
-            <UploadIcon className="mr-2" />
-            Upload CSV
-          </button>
-        </div>
-      }
+      showHeader={false}
     >
-      {/* Tab Navigation */}
-      <div className="bg-white rounded-lg border border-gray-200 mb-6">
-        <div className="border-b border-gray-200">
-          <nav className="flex -mb-px">
-            {tabs.map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                className={`px-6 py-4 text-sm font-medium border-b-2 transition-colors ${
-                  activeTab === tab.id
-                    ? 'border-emerald-600 text-emerald-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                }`}
-              >
-                {tab.label}
-                {tab.count !== undefined && (
-                  <span className="ml-2 px-2 py-0.5 text-xs bg-gray-100 text-gray-600 rounded-full">
-                    {tab.count}
-                  </span>
-                )}
-              </button>
-            ))}
-          </nav>
+      <div className="flex flex-col h-full bg-gray-50">
+        {/* Sticky Header */}
+        <div className="sticky top-0 z-10 bg-white">
+          {/* Main Header */}
+          <div className="px-6 py-4 border-b border-gray-200">
+            <div className="flex items-center justify-between">
+              <div>
+                <h1 className="text-2xl font-semibold text-gray-900">Labour rules</h1>
+                <p className="text-sm text-gray-500 mt-1">Configure productivity rules for labour planning</p>
+              </div>
+              <div className="flex gap-3">
+                <button className="ui-button ui-button--secondary">
+                  <DownloadIcon className="mr-2" />
+                  Download CSV
+                </button>
+                <button className="ui-button ui-button--secondary">
+                  <UploadIcon className="mr-2" />
+                  Upload CSV
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Tab Navigation */}
+          <div className="border-b border-gray-200">
+            <nav className="flex -mb-px px-6">
+              {tabs.map((tab) => (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`px-6 py-4 text-sm font-medium border-b-2 transition-colors ${
+                    activeTab === tab.id
+                      ? 'border-emerald-600 text-emerald-600'
+                      : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                  }`}
+                >
+                  {tab.label}
+                  {tab.count !== undefined && (
+                    <span className="ml-2 px-2 py-0.5 text-xs bg-gray-100 text-gray-600 rounded-full">
+                      {tab.count}
+                    </span>
+                  )}
+                </button>
+              ))}
+            </nav>
+          </div>
         </div>
 
-        {/* Tab Content */}
-        <div className="p-6">
+        {/* Content */}
+        <div className="p-6 overflow-y-auto">
+          {/* Tab Content */}
+          <div className="bg-white rounded-lg border border-gray-200">
+            <div className="p-6">
           {activeTab === 'attributes' && (
             <AttributesTab
               attributes={attributes}
@@ -140,6 +153,8 @@ export function LabourRules() {
               orgUnitAttributes={orgUnitAttributes}
             />
           )}
+            </div>
+          </div>
         </div>
       </div>
     </SonaLayout>

@@ -61,49 +61,58 @@ export function LabourRulesLowFi() {
     <SonaLayout
       showHeader={false}
     >
-      {/* Custom Wireframe Header */}
-      <div className="bg-white p-6 rounded-lg border border-slate-300 mb-6 flex items-center justify-between">
-        <div>
-          <h1 className="text-h2 text-slate-900 font-[Chalkboard] mb-1">Labour rules</h1>
-          <p className="text-body text-slate-400 font-[Chalkboard]">Configure productivity rules for labour planning</p>
-        </div>
-        <div className="flex gap-3">
-          {/* Placeholder buttons */}
-          <div className="px-4 py-2 bg-slate-100 border border-slate-300 rounded text-slate-400 text-sm font-[Chalkboard]">
-            Download CSV
+      <div className="flex flex-col h-full bg-gray-50">
+        {/* Sticky Header */}
+        <div className="sticky top-0 z-10 bg-white">
+          {/* Main Header */}
+          <div className="px-6 py-4 border-b border-gray-200">
+            <div className="flex items-center justify-between">
+              <div>
+                <h1 className="text-2xl font-semibold text-gray-900 font-[Chalkboard]">Labour rules</h1>
+                <p className="text-sm text-gray-500 mt-1 font-[Chalkboard]">Configure productivity rules for labour planning</p>
+              </div>
+              <div className="flex gap-3">
+                <div className="px-4 py-2 bg-slate-100 border border-slate-300 rounded text-slate-400 text-sm font-[Chalkboard]">
+                  Download CSV
+                </div>
+                <div className="px-4 py-2 bg-slate-100 border border-slate-300 rounded text-slate-400 text-sm font-[Chalkboard]">
+                  Upload CSV
+                </div>
+              </div>
+            </div>
           </div>
-          <div className="px-4 py-2 bg-slate-100 border border-slate-300 rounded text-slate-400 text-sm font-[Chalkboard]">
-            Upload CSV
-          </div>
-        </div>
-      </div>
-      {/* Tab Navigation - Wireframe */}
-      <div className="bg-white rounded-lg border border-slate-300 mb-6">
-        {/* Tab Bar */}
-        <div className="border-b border-slate-300">
-          <div className="flex -mb-px">
-            {tabs.map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                className={`px-6 py-4 text-sm font-medium border-b-2 transition-colors font-[Chalkboard] ${
-                  activeTab === tab.id
-                    ? 'border-slate-700 text-slate-900 bg-slate-50'
-                    : 'border-transparent text-slate-400 hover:text-slate-600 hover:border-slate-300'
-                }`}
-              >
-                {tab.label}
-              </button>
-            ))}
+
+          {/* Tab Navigation */}
+          <div className="border-b border-gray-200">
+            <nav className="flex -mb-px px-6">
+              {tabs.map((tab) => (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`px-6 py-4 text-sm font-medium border-b-2 transition-colors font-[Chalkboard] ${
+                    activeTab === tab.id
+                      ? 'border-slate-700 text-slate-900'
+                      : 'border-transparent text-slate-400 hover:text-slate-600 hover:border-slate-300'
+                  }`}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </nav>
           </div>
         </div>
 
-        {/* Tab Content Area */}
-        <div className="p-6">
+        {/* Content */}
+        <div className="p-6 overflow-y-auto">
+          {/* Tab Content */}
+          <div className="bg-white rounded-lg border border-slate-300">
+            <div className="p-6">
           {activeTab === 'attributes' && <AttributesWireframe />}
           {activeTab === 'org-unit-attributes' && <OrgUnitAttributesWireframe />}
           {activeTab === 'rulesets' && <RulesetsWireframe />}
           {activeTab === 'assignments' && <AssignmentsWireframe />}
+            </div>
+          </div>
         </div>
       </div>
     </SonaLayout>
