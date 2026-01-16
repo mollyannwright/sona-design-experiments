@@ -26,9 +26,9 @@ function Home() {
             </h2>
             <Link 
               to="/labour-rules" 
-              className="w-full flex items-center justify-between px-4 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-medium rounded-lg transition-colors group text-left"
+              className="w-full flex items-center justify-between px-4 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-medium rounded-lg transition-colors group text-left min-w-0"
             >
-              <span className="flex-1 whitespace-nowrap">Labour Rules Prototype</span>
+              <span className="flex-1 truncate min-w-0">Labour Rules Prototype</span>
               <ChevronRightIcon size="sm" className="text-white group-hover:translate-x-1 transition-transform flex-shrink-0 ml-2" />
             </Link>
           </div>
@@ -41,37 +41,37 @@ function Home() {
             <div className="flex flex-col gap-3">
               <Link 
                 to="/pws-config" 
-                className="w-full flex items-center justify-between px-4 py-3 bg-white hover:bg-gray-50 text-gray-700 font-medium rounded-lg border border-gray-200 transition-colors group text-left"
+                className="w-full flex items-center justify-between px-4 py-3 bg-white hover:bg-gray-50 text-gray-700 font-medium rounded-lg border border-gray-200 transition-colors group text-left min-w-0"
               >
-                <span className="flex-1 whitespace-nowrap">PWS Configuration</span>
+                <span className="flex-1 truncate min-w-0">PWS Configuration</span>
                 <ChevronRightIcon size="sm" className="text-gray-500 group-hover:translate-x-1 transition-transform flex-shrink-0 ml-2" />
               </Link>
               <Link 
                 to="/design-system" 
-                className="w-full flex items-center justify-between px-4 py-3 bg-white hover:bg-gray-50 text-gray-700 font-medium rounded-lg border border-gray-200 transition-colors group text-left"
+                className="w-full flex items-center justify-between px-4 py-3 bg-white hover:bg-gray-50 text-gray-700 font-medium rounded-lg border border-gray-200 transition-colors group text-left min-w-0"
               >
-                <span className="flex-1 whitespace-nowrap">Design System Showcase</span>
+                <span className="flex-1 truncate min-w-0">Design System Showcase</span>
                 <ChevronRightIcon size="sm" className="text-gray-500 group-hover:translate-x-1 transition-transform flex-shrink-0 ml-2" />
               </Link>
               <Link 
                 to="/compliance-low-fi" 
-                className="w-full flex items-center justify-between px-4 py-3 bg-white hover:bg-gray-50 text-gray-700 font-medium rounded-lg border border-gray-200 transition-colors group text-left"
+                className="w-full flex items-center justify-between px-4 py-3 bg-white hover:bg-gray-50 text-gray-700 font-medium rounded-lg border border-gray-200 transition-colors group text-left min-w-0"
               >
-                <span className="flex-1 whitespace-nowrap">Compliance Dashboard Low-Fi Wireframe</span>
+                <span className="flex-1 truncate min-w-0">Compliance Dashboard Low-Fi Wireframe</span>
                 <ChevronRightIcon size="sm" className="text-gray-500 group-hover:translate-x-1 transition-transform flex-shrink-0 ml-2" />
               </Link>
               <Link 
                 to="/compliance-v2" 
-                className="w-full flex items-center justify-between px-4 py-3 bg-white hover:bg-gray-50 text-gray-700 font-medium rounded-lg border border-gray-200 transition-colors group text-left"
+                className="w-full flex items-center justify-between px-4 py-3 bg-white hover:bg-gray-50 text-gray-700 font-medium rounded-lg border border-gray-200 transition-colors group text-left min-w-0"
               >
-                <span className="flex-1 whitespace-nowrap">Compliance Dashboard V2</span>
+                <span className="flex-1 truncate min-w-0">Compliance Dashboard V2</span>
                 <ChevronRightIcon size="sm" className="text-gray-500 group-hover:translate-x-1 transition-transform flex-shrink-0 ml-2" />
               </Link>
               <Link 
                 to="/labour-rules-low-fi" 
-                className="w-full flex items-center justify-between px-4 py-3 bg-white hover:bg-gray-50 text-gray-700 font-medium rounded-lg border border-gray-200 transition-colors group text-left"
+                className="w-full flex items-center justify-between px-4 py-3 bg-white hover:bg-gray-50 text-gray-700 font-medium rounded-lg border border-gray-200 transition-colors group text-left min-w-0"
               >
-                <span className="flex-1 whitespace-nowrap">Labour Rules Low-Fi Wireframe</span>
+                <span className="flex-1 truncate min-w-0">Labour Rules Low-Fi Wireframe</span>
                 <ChevronRightIcon size="sm" className="text-gray-500 group-hover:translate-x-1 transition-transform flex-shrink-0 ml-2" />
               </Link>
             </div>
