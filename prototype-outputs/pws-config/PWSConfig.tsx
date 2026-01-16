@@ -1510,7 +1510,7 @@ const AddCarePackageWizard = ({
                     </button>
                     <button
                       onClick={() => removeSpecifiedHour(index)}
-                      className="p-2 text-gray-400 hover:text-red-500"
+                      className="py-2 pl-2 text-gray-400 hover:text-red-500"
                     >
                       <TrashIcon />
                     </button>
@@ -1616,7 +1616,7 @@ const AddCarePackageWizard = ({
                         }`}
                       />
                     </button>
-                    <button onClick={() => removeSharedHour(index)} className="p-2 text-gray-400 hover:text-red-500">
+                    <button onClick={() => removeSharedHour(index)} className="py-2 pl-2 text-gray-400 hover:text-red-500">
                       <TrashIcon />
                     </button>
                   </div>
