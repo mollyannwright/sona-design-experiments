@@ -22,6 +22,7 @@ import {
   ExclamationTriangleIcon,
   InformationCircleIcon,
   ChevronDownIcon,
+  ChevronLeftIcon,
 } from '../../src/components/shared/Icon';
 import type {
   LabourRulesTab,
@@ -140,6 +141,7 @@ export function LabourRules() {
               rules={rules}
               setRules={setRules}
               attributes={attributes}
+              assignments={assignments}
             />
           )}
           {activeTab === 'assignments' && (
@@ -1132,6 +1134,7 @@ interface RulesetsTabProps {
   rules: Rule[];
   setRules: React.Dispatch<React.SetStateAction<Rule[]>>;
   attributes: Attribute[];
+  assignments: RulesetAssignment[];
 }
 
 function RulesetsTab({
@@ -1140,6 +1143,7 @@ function RulesetsTab({
   rules: _rules,
   setRules,
   attributes,
+  assignments,
 }: RulesetsTabProps) {
   const [selectedRuleset, setSelectedRuleset] = useState<Ruleset | null>(null);
   const [showRulesetModal, setShowRulesetModal] = useState(false);
@@ -1241,196 +1245,194 @@ function RulesetsTab({
     );
   };
 
-  // Set first ruleset as default when component mounts or rulesets change
-  useEffect(() => {
-    if (!selectedRuleset && rulesets.length > 0) {
-      setSelectedRuleset(rulesets[0]);
-    } else if (selectedRuleset) {
-      // Update selectedRuleset when rulesets change
-      const updated = rulesets.find((rs) => rs.id === selectedRuleset.id);
-      if (updated) {
-        setSelectedRuleset(updated);
-      } else if (rulesets.length > 0) {
-        // If selected ruleset was deleted, select first one
-        setSelectedRuleset(rulesets[0]);
-      }
-    }
-  }, [rulesets]);
+  // Calculate number of unique sites for each ruleset
+  const getSiteCountForRuleset = (rulesetId: string) => {
+    const uniqueSites = new Set(
+      assignments.filter((a) => a.rulesetId === rulesetId).map((a) => a.orgUnitId)
+    );
+    return uniqueSites.size;
+  };
 
-  return (
-    <div className="bg-white rounded border border-gray-200 flex flex-col" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)', height: '100%', overflow: 'hidden' }}>
-      <div className="flex flex-1 min-h-0" style={{ overflow: 'hidden' }}>
-        {/* Rulesets List */}
-        <div className="w-80 flex-shrink-0 border-r border-gray-200 flex flex-col min-h-0" style={{ overflow: 'hidden' }}>
-          <div className="flex items-center justify-between mb-4 flex-shrink-0 px-4 pt-4">
-            <h3 className="text-sm font-semibold text-gray-900">Rulesets</h3>
-            <button
-              onClick={handleCreateRuleset}
-              className="text-sm text-emerald-600 hover:text-emerald-700 font-medium"
-            >
-              + New
-            </button>
-          </div>
-          <div className="border-t border-b border-gray-200 bg-white flex-1 overflow-y-auto min-h-0">
-          {rulesets.map((ruleset) => (
-            <div
-              key={ruleset.id}
-              className={`px-4 py-3 cursor-pointer transition-colors border-b border-gray-100 last:border-b-0 ${
-                selectedRuleset?.id === ruleset.id
-                  ? 'bg-gray-100'
-                  : 'hover:bg-gray-50'
-              }`}
-              onClick={() => setSelectedRuleset(ruleset)}
-            >
-              <div className="flex items-start justify-between">
-                <div className="flex-1 min-w-0">
-                  <h4 className={`font-medium text-sm truncate ${
-                    selectedRuleset?.id === ruleset.id
-                      ? 'text-gray-900'
-                      : 'text-gray-900'
-                  }`}>
-                    {ruleset.name}
-                  </h4>
-                  {ruleset.description && (
-                    <p className="text-xs text-gray-500 mt-0.5 line-clamp-1">
-                      {ruleset.description}
-                    </p>
-                  )}
-                  <div className="flex items-center gap-2 mt-1.5">
-                    <span className="text-xs bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded">
-                      {ruleset.rules.length} rules
-                    </span>
-                    <span className="text-xs bg-purple-50 text-purple-700 px-2 py-0.5 rounded">
-                      {ruleset.assignedSiteCount} sites
-                    </span>
-                  </div>
-                </div>
+  // If a ruleset is selected, show detail view
+  if (selectedRuleset) {
+    return (
+      <div className="space-y-6">
+        {/* Back Button */}
+        <button
+          onClick={() => setSelectedRuleset(null)}
+          className="flex items-center gap-1 text-sm text-emerald-600 hover:text-emerald-700"
+        >
+          <ChevronLeftIcon size="sm" />
+          Back to rulesets
+        </button>
+
+        {/* Ruleset Detail Card */}
+        <div className="bg-white rounded border border-gray-200" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
+          {/* Header */}
+          <div className="px-6 py-5 border-b border-gray-200">
+            <div className="flex items-center justify-between">
+              <div>
+                <h2 className="text-xl font-semibold text-gray-900">{selectedRuleset.name}</h2>
+                {selectedRuleset.description && (
+                  <p className="text-sm text-gray-500 mt-1">{selectedRuleset.description}</p>
+                )}
               </div>
+              <button
+                onClick={handleCreateRule}
+                className="ui-button ui-button--primary"
+              >
+                <PlusIcon className="mr-2" />
+                Add rule
+              </button>
             </div>
-          ))}
-        </div>
-      </div>
+          </div>
 
-      {/* Rules Detail */}
-      <div className="flex-1 pl-6 pr-6 overflow-y-auto min-w-0">
-        {selectedRuleset ? (
-          <>
-            <div className="-mx-6 px-6 pt-4">
-              <div className="flex items-center justify-between mb-4">
-                <div>
-                  <h3 className="text-lg font-semibold text-gray-900">
-                    {selectedRuleset.name}
-                  </h3>
-                  {selectedRuleset.description && (
-                    <p className="text-sm text-gray-500 mt-1">
-                      {selectedRuleset.description}
-                    </p>
-                  )}
-                </div>
+          {/* Rules Table */}
+          {selectedRuleset.rules.length > 0 ? (
+            <div className="overflow-x-auto">
+              <table className="w-full border-collapse">
+                <thead>
+                  <tr className="bg-gray-100">
+                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Rule Name</th>
+                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Type</th>
+                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Schedule</th>
+                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Role</th>
+                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Start/End</th>
+                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase w-24">Actions</th>
+                  </tr>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-100">
+                  {selectedRuleset.rules.map((rule) => (
+                    <tr key={rule.id} className="hover:bg-gray-50 transition-colors group">
+                      <td className="px-6 py-4">
+                        <div className="text-sm text-gray-900">{rule.name}</div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <span className="ui-badge ui-badge--info">{rule.type}</span>
+                      </td>
+                      <td className="px-6 py-4">
+                        {rule.dayOfWeek ? (
+                          <span className="text-sm text-gray-700 capitalize">
+                            {rule.dayOfWeek}
+                          </span>
+                        ) : (
+                          <span className="text-sm text-gray-400">All days</span>
+                        )}
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="text-sm text-gray-700">{rule.role || '—'}</div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="flex flex-col gap-1">
+                          {rule.startTime && (
+                            <div className="flex items-center gap-1.5">
+                              <span className="text-sm text-gray-500 w-12">Start:</span>
+                              <FormulaDisplay formula={rule.startTime} />
+                            </div>
+                          )}
+                          {rule.endTime && (
+                            <div className="flex items-center gap-1.5">
+                              <span className="text-sm text-gray-500 w-12">End:</span>
+                              <FormulaDisplay formula={rule.endTime} />
+                            </div>
+                          )}
+                        </div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="flex items-center gap-2">
+                          <button
+                            onClick={() => handleEditRule(rule)}
+                            className="p-1.5 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded"
+                            title="Edit"
+                          >
+                            <EditIcon size="sm" />
+                          </button>
+                          <button
+                            onClick={() => handleDeleteRule(rule.id)}
+                            className="p-1.5 text-gray-500 hover:text-red-600 hover:bg-red-50 rounded"
+                            title="Delete"
+                          >
+                            <TrashIcon size="sm" />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ) : (
+            <div className="px-6 py-12">
+              <div className="text-center py-12 bg-gray-50 rounded-lg">
+                <p className="text-gray-500">No rules in this ruleset yet.</p>
                 <button
                   onClick={handleCreateRule}
-                  className="ui-button ui-button--primary"
+                  className="mt-4 text-sm text-emerald-600 hover:text-emerald-700 font-medium"
                 >
-                  <PlusIcon className="mr-2" />
-                  Add rule
+                  + Add your first rule
                 </button>
               </div>
             </div>
-
-            {/* Rules List */}
-            {selectedRuleset.rules.length > 0 ? (
-              <div className="mt-6 -mx-6 overflow-x-auto">
-                <table className="w-full border-collapse">
-                  <thead>
-                    <tr className="bg-gray-100">
-                      <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Rule Name</th>
-                      <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Type</th>
-                      <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Schedule</th>
-                      <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Role</th>
-                      <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Start/End</th>
-                      <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase w-24">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody className="bg-white divide-y divide-gray-100">
-                    {selectedRuleset.rules.map((rule) => (
-                      <tr key={rule.id} className="hover:bg-gray-50 transition-colors group">
-                        <td className="px-6 py-4">
-                          <div className="text-sm text-gray-900">{rule.name}</div>
-                        </td>
-                        <td className="px-6 py-4">
-                          <span className="ui-badge ui-badge--info">{rule.type}</span>
-                        </td>
-                        <td className="px-6 py-4">
-                          {rule.dayOfWeek ? (
-                            <span className="text-sm text-gray-700 capitalize">
-                              {rule.dayOfWeek}
-                            </span>
-                          ) : (
-                            <span className="text-sm text-gray-400">All days</span>
-                          )}
-                        </td>
-                        <td className="px-6 py-4">
-                          <div className="text-sm text-gray-700">{rule.role || '—'}</div>
-                        </td>
-                        <td className="px-6 py-4">
-                          <div className="flex flex-col gap-1">
-                            {rule.startTime && (
-                              <div className="flex items-center gap-1.5">
-                                <span className="text-sm text-gray-500 w-12">Start:</span>
-                                <FormulaDisplay formula={rule.startTime} />
-                              </div>
-                            )}
-                            {rule.endTime && (
-                              <div className="flex items-center gap-1.5">
-                                <span className="text-sm text-gray-500 w-12">End:</span>
-                                <FormulaDisplay formula={rule.endTime} />
-                              </div>
-                            )}
-                          </div>
-                        </td>
-                        <td className="px-6 py-4">
-                          <div className="flex items-center gap-2">
-                            <button
-                              onClick={() => handleEditRule(rule)}
-                              className="p-1.5 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded"
-                              title="Edit"
-                            >
-                              <EditIcon size="sm" />
-                            </button>
-                            <button
-                              onClick={() => handleDeleteRule(rule.id)}
-                              className="p-1.5 text-gray-500 hover:text-red-600 hover:bg-red-50 rounded"
-                              title="Delete"
-                            >
-                              <TrashIcon size="sm" />
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            ) : (
-              <div className="px-6 mt-6">
-                <div className="text-center py-12 bg-gray-50 rounded-lg">
-                  <p className="text-gray-500">No rules in this ruleset yet.</p>
-                  <button
-                    onClick={handleCreateRule}
-                    className="mt-4 text-sm text-emerald-600 hover:text-emerald-700 font-medium"
-                  >
-                    + Add your first rule
-                  </button>
-                </div>
-              </div>
-            )}
-          </>
-        ) : (
-          <div className="flex items-center justify-center h-full text-gray-500">
-            <p>Select a ruleset to view its rules</p>
-          </div>
-        )}
+          )}
+        </div>
       </div>
+    );
+  }
+
+  // Table view - show all rulesets
+  return (
+    <div className="bg-white rounded border border-gray-200" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
+      {/* Section Header */}
+      <div className="px-6 py-5 flex items-center justify-between border-b border-gray-200">
+        <p className="text-sm text-gray-700">Create and manage rulesets for labour planning</p>
+        <button
+          onClick={handleCreateRuleset}
+          className="flex items-center gap-2 px-4 py-2 text-emerald-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 text-sm font-medium shadow-sm"
+        >
+          <PlusIcon />
+          Add new
+        </button>
+      </div>
+
+      {/* Table */}
+      <div className="overflow-x-auto">
+        <table className="w-full border-collapse">
+          <thead>
+            <tr className="bg-gray-100">
+              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Ruleset Name</th>
+              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Description</th>
+              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Status</th>
+              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">No. of Rules</th>
+              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">No. of Sites</th>
+              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">No. of Attributes</th>
+            </tr>
+          </thead>
+          <tbody className="bg-white divide-y divide-gray-100">
+            {rulesets.map((ruleset) => {
+              const siteCount = getSiteCountForRuleset(ruleset.id);
+              return (
+                <tr
+                  key={ruleset.id}
+                  className="hover:bg-gray-50 transition-colors cursor-pointer"
+                  onClick={() => setSelectedRuleset(ruleset)}
+                >
+                  <td className="px-6 py-4 text-sm font-medium text-gray-900">{ruleset.name}</td>
+                  <td className="px-6 py-4 text-sm text-gray-700">
+                    {ruleset.description || '—'}
+                  </td>
+                  <td className="px-6 py-4">
+                    <span className="px-2 py-1 text-xs font-medium bg-emerald-50 text-emerald-700 rounded-full">
+                      Active
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 text-sm text-gray-700">{ruleset.rules.length}</td>
+                  <td className="px-6 py-4 text-sm text-gray-700">{siteCount}</td>
+                  <td className="px-6 py-4 text-sm text-gray-700">{ruleset.requiredAttributes.length}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
       </div>
 
       {/* Ruleset Modal */}
