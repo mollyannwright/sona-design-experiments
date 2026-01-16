@@ -214,7 +214,7 @@ function AttributesTab({ attributes, setAttributes }: AttributesTabProps) {
   };
 
   return (
-    <div className="bg-white rounded" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
+    <div className="bg-white rounded border border-gray-200" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
       {/* Header with search and add button */}
       <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
         <div className="flex items-center gap-4">
@@ -561,7 +561,7 @@ function OrgUnitAttributesTab({
   };
 
   return (
-    <div className="bg-white rounded" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
+    <div className="bg-white rounded border border-gray-200" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
       {/* Header */}
       <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
         <div className="flex items-center gap-4">
@@ -993,7 +993,7 @@ function RulesetsTab({
   }, [rulesets]);
 
   return (
-    <div className="bg-white rounded" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
+    <div className="bg-white rounded border border-gray-200" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
       <div className="flex">
         {/* Rulesets List */}
         <div className="w-80 flex-shrink-0 pr-6 border-r border-gray-200 -ml-6">
@@ -1731,7 +1731,7 @@ function AssignmentsTab({
   };
 
   return (
-    <div className="bg-white rounded" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
+    <div className="bg-white rounded border border-gray-200" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
       <div className="flex">
         {/* Site List */}
         <div className="w-80 flex-shrink-0 pr-6 border-r border-gray-200 -ml-6">

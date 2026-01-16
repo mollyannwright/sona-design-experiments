@@ -197,7 +197,7 @@ function ComplianceDashboard() {
           {/* Summary Cards */}
           <div className="grid grid-cols-4 gap-4 mb-6">
         {/* Right to Work - Compliant */}
-        <div className="bg-white p-5 rounded" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
+        <div className="bg-white p-5 rounded border border-gray-200" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
           <div className="flex items-center justify-between mb-2">
             <span className="text-sm font-medium text-slate-500">Right to work</span>
             <CheckIcon size="sm" className="text-emerald-600" />
@@ -207,7 +207,7 @@ function ComplianceDashboard() {
         </div>
 
         {/* Right to Work - Expiring Soon */}
-        <div className="bg-white p-5 rounded" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
+        <div className="bg-white p-5 rounded border border-gray-200" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
           <div className="flex items-center justify-between mb-2">
             <span className="text-sm font-medium text-slate-500">Expiring soon</span>
             <ExclamationTriangleIcon size="sm" className="text-amber-600" />
@@ -217,7 +217,7 @@ function ComplianceDashboard() {
         </div>
 
         {/* Right to Work - Action Required */}
-        <div className="bg-white p-5 rounded" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
+        <div className="bg-white p-5 rounded border border-gray-200" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
           <div className="flex items-center justify-between mb-2">
             <span className="text-sm font-medium text-slate-500">Action required</span>
             <ExclamationTriangleIcon size="sm" className="text-red-600" />
@@ -229,7 +229,7 @@ function ComplianceDashboard() {
         </div>
 
         {/* Policy Compliance Rate */}
-        <div className="bg-white p-5 rounded" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
+        <div className="bg-white p-5 rounded border border-gray-200" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
           <div className="flex items-center justify-between mb-2">
             <span className="text-sm font-medium text-slate-500">Policy compliance</span>
             <InformationCircleIcon size="sm" className="text-indigo-600" />
@@ -244,7 +244,7 @@ function ComplianceDashboard() {
           </div>
 
           {/* Tabs Content */}
-          <div className="bg-white rounded" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
+          <div className="bg-white rounded border border-gray-200" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
             {/* Filters and Search */}
             <div className="px-6 py-4 border-b border-gray-200 flex items-center gap-4">
               <div className="flex-1 relative">

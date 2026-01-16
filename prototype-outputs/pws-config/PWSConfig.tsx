@@ -136,7 +136,7 @@ const MetricCard = ({
   isWarning?: boolean;
   valueColor?: string;
 }) => (
-  <div className={`bg-white p-5 rounded ${isWarning ? 'border-amber-200 bg-amber-50' : ''}`} style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
+  <div className={`bg-white p-5 rounded ${isWarning ? 'border-amber-200 bg-amber-50' : 'border border-gray-200'}`} style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
     <div className="text-sm text-gray-500 mb-2">{label}</div>
     <div className={`text-3xl font-semibold flex items-center gap-2 ${isWarning ? 'text-amber-600' : valueColor}`}>
       {isWarning && <ExclamationTriangleIcon className="text-amber-500" size="md" />}
@@ -190,7 +190,7 @@ const CarePackageTab = ({
   onAddNew: () => void;
 }) => {
   return (
-    <div className="bg-white rounded" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
+    <div className="bg-white rounded border border-gray-200" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
       {/* Section Header */}
       <div className="px-3 py-3 flex items-center justify-end border-b border-gray-200">
         <button
@@ -275,7 +275,7 @@ const CarePackageDetail = ({
       </button>
 
       {/* Main Card */}
-      <div className="bg-white rounded" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
+      <div className="bg-white rounded border border-gray-200" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
         {/* Package Header */}
         <div className="px-6 py-5">
           <div className="flex items-center gap-3">
@@ -423,7 +423,7 @@ const ScheduleTab_UNUSED = ({ pws }: { pws: PWS }) => {
   }, {} as Record<string, Shift[]>) || {};
 
   return (
-    <div className="bg-white rounded" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
+    <div className="bg-white rounded border border-gray-200" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
       {/* Section Header */}
       <div className="px-6 py-5 flex items-center justify-between">
         <div className="flex items-center gap-3">
@@ -553,7 +553,7 @@ const OccupancyTab = ({
   onLogBackInService: () => void;
 }) => {
   return (
-    <div className="bg-white rounded" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
+    <div className="bg-white rounded border border-gray-200" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
       {/* Section Header */}
       <div className="px-3 py-3 border-b border-gray-200">
         <div className="flex items-center justify-end">
