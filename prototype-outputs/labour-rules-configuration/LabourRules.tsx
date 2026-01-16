@@ -247,7 +247,7 @@ function AttributesTab({ attributes, setAttributes }: AttributesTabProps) {
       <div className="overflow-x-auto">
         <table className="w-full border-collapse">
           <thead>
-            <tr className="bg-slate-100">
+            <tr className="bg-gray-100">
               <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Name</th>
               <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Type</th>
               <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Default value</th>
@@ -624,7 +624,7 @@ function OrgUnitAttributesTab({
       <div className="overflow-x-auto">
         <table className="w-full min-w-max border-collapse">
           <thead>
-            <tr className="bg-slate-100">
+            <tr className="bg-gray-100">
                 <th className="sticky left-0 z-10 bg-gray-50 px-4 py-3 border-b border-r border-gray-200 w-12">
                   <input
                     type="checkbox"

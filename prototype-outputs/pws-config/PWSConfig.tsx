@@ -207,7 +207,7 @@ const CarePackageTab = ({
       <div className="overflow-x-auto">
         <table className="w-full border-collapse">
           <thead>
-            <tr className="bg-slate-100">
+            <tr className="bg-gray-100">
               <th className="px-6 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider" style={{ paddingTop: '11px', paddingBottom: '12px' }}>
                 Care Package Name
               </th>
@@ -327,7 +327,7 @@ const CarePackageDetail = ({
           <div className="overflow-x-auto border border-gray-200 rounded">
             <table className="w-full border-collapse">
               <thead>
-                <tr className="bg-slate-100">
+                <tr className="bg-gray-100">
                   <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200">
                     Hour Type
                   </th>
@@ -366,7 +366,7 @@ const CarePackageDetail = ({
           <div className="overflow-x-auto border border-gray-200 rounded">
             <table className="w-full border-collapse">
               <thead>
-                <tr className="bg-slate-100">
+                <tr className="bg-gray-100">
                   <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200">
                     Hour Type
                   </th>
@@ -587,7 +587,7 @@ const OccupancyTab = ({
       <div className="overflow-x-auto">
         <table className="w-full border-collapse">
           <thead>
-            <tr className="bg-slate-100">
+            <tr className="bg-gray-100">
               <th className="px-6 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider" style={{ paddingTop: '11px', paddingBottom: '12px' }}>
                 Out of Service Date
               </th>

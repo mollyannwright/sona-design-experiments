@@ -285,7 +285,7 @@ function ComplianceDashboard() {
               <div className="overflow-x-auto">
                 <table className="w-full border-collapse">
               <thead>
-                <tr className="bg-slate-100">
+                <tr className="bg-gray-100">
                   <th className="px-6 py-3 text-left text-xs font-semibold text-slate-600 uppercase">
                     Employee
                   </th>
@@ -364,7 +364,7 @@ function ComplianceDashboard() {
               <div className="overflow-x-auto">
                 <table className="w-full border-collapse">
               <thead>
-                <tr className="bg-slate-100">
+                <tr className="bg-gray-100">
                   <th className="px-6 py-3 text-left text-xs font-semibold text-slate-600 uppercase">
                     Employee
                   </th>
@@ -460,7 +460,7 @@ function ComplianceDashboard() {
               <div className="overflow-x-auto">
                 <table className="w-full border-collapse">
                   <thead>
-                    <tr className="bg-slate-100">
+                    <tr className="bg-gray-100">
                       <th className="px-6 py-3 text-left text-xs font-semibold text-slate-600 uppercase">
                         Employee
                       </th>
