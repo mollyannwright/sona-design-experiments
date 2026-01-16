@@ -32,18 +32,18 @@ export const prototypes: Prototype[] = [
   },
   {
     route: '/pws-config',
-    name: 'PWS Config',
+    name: 'PWS Configuration',
     description: 'People We Support configuration'
-  },
-  {
-    route: '/compliance',
-    name: 'Compliance Dashboard',
-    description: 'Monitor employee right to work and policy acknowledgements'
   },
   {
     route: '/compliance-low-fi',
     name: 'Compliance Dashboard Low-Fi',
     description: 'Low-fidelity wireframe version'
+  },
+  {
+    route: '/compliance-v2',
+    name: 'Compliance Dashboard V2',
+    description: 'Card-based dashboard layout with employee cards'
   },
   // Add more prototypes here as they're added to prototype-outputs/
 ];

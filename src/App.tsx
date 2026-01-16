@@ -3,8 +3,9 @@ import { LabourRules } from '../prototype-outputs/labour-rules-configuration/Lab
 import { LabourRulesLowFi } from '../prototype-outputs/labour-rules-low-fi/LabourRulesLowFi.tsx'
 import { FloatingNav } from './components/FloatingNav'
 import { PWSConfig } from '../prototype-outputs/pws-config/PWSConfig'
-import ComplianceDashboard from '../prototype-outputs/compliance-dashboard/ComplianceDashboard'
 import ComplianceDashboardLowFi from '../prototype-outputs/compliance-dashboard-low-fi/ComplianceDashboardLowFi'
+import ComplianceDashboardV2 from '../prototype-outputs/compliance-dashboard-v2/ComplianceDashboardV2'
+import DesignSystemShowcase from '../prototype-outputs/sonaui-design-system/DesignSystemShowcase'
 import { ChevronRightIcon } from './components/shared/Icon'
 
 function Home() {
@@ -24,10 +25,10 @@ function Home() {
               Most recent
             </h2>
             <Link 
-              to="/pws-config" 
+              to="/labour-rules" 
               className="w-full flex items-center justify-between px-4 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-medium rounded-lg transition-colors group text-left"
             >
-              <span className="flex-1 whitespace-nowrap">PWS Config Prototype</span>
+              <span className="flex-1 whitespace-nowrap">Labour Rules Prototype</span>
               <ChevronRightIcon size="sm" className="text-white group-hover:translate-x-1 transition-transform flex-shrink-0 ml-2" />
             </Link>
           </div>
@@ -39,10 +40,17 @@ function Home() {
             </h2>
             <div className="flex flex-col gap-3">
               <Link 
-                to="/compliance" 
+                to="/pws-config" 
                 className="w-full flex items-center justify-between px-4 py-3 bg-white hover:bg-gray-50 text-gray-700 font-medium rounded-lg border border-gray-200 transition-colors group text-left"
               >
-                <span className="flex-1 whitespace-nowrap">Compliance Dashboard</span>
+                <span className="flex-1 whitespace-nowrap">PWS Configuration</span>
+                <ChevronRightIcon size="sm" className="text-gray-500 group-hover:translate-x-1 transition-transform flex-shrink-0 ml-2" />
+              </Link>
+              <Link 
+                to="/design-system" 
+                className="w-full flex items-center justify-between px-4 py-3 bg-white hover:bg-gray-50 text-gray-700 font-medium rounded-lg border border-gray-200 transition-colors group text-left"
+              >
+                <span className="flex-1 whitespace-nowrap">Design System Showcase</span>
                 <ChevronRightIcon size="sm" className="text-gray-500 group-hover:translate-x-1 transition-transform flex-shrink-0 ml-2" />
               </Link>
               <Link 
@@ -53,10 +61,10 @@ function Home() {
                 <ChevronRightIcon size="sm" className="text-gray-500 group-hover:translate-x-1 transition-transform flex-shrink-0 ml-2" />
               </Link>
               <Link 
-                to="/labour-rules" 
+                to="/compliance-v2" 
                 className="w-full flex items-center justify-between px-4 py-3 bg-white hover:bg-gray-50 text-gray-700 font-medium rounded-lg border border-gray-200 transition-colors group text-left"
               >
-                <span className="flex-1 whitespace-nowrap">Labour Rules Prototype</span>
+                <span className="flex-1 whitespace-nowrap">Compliance Dashboard V2</span>
                 <ChevronRightIcon size="sm" className="text-gray-500 group-hover:translate-x-1 transition-transform flex-shrink-0 ml-2" />
               </Link>
               <Link 
@@ -82,8 +90,9 @@ function App() {
         <Route path="/pws-config" element={<PWSConfig />} />
         <Route path="/labour-rules" element={<LabourRules />} />
         <Route path="/labour-rules-low-fi" element={<LabourRulesLowFi />} />
-        <Route path="/compliance" element={<ComplianceDashboard />} />
+        <Route path="/design-system" element={<DesignSystemShowcase />} />
         <Route path="/compliance-low-fi" element={<ComplianceDashboardLowFi />} />
+        <Route path="/compliance-v2" element={<ComplianceDashboardV2 />} />
       </Routes>
       <FloatingNav />
     </>
