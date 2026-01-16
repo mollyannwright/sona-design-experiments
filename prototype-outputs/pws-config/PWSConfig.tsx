@@ -365,7 +365,7 @@ const CarePackageTab = ({
       </div>
 
       {/* Table */}
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto py-4">
         <table className="w-full border-collapse">
           <thead>
             <tr className="bg-gray-100">
@@ -747,7 +747,7 @@ const OccupancyTab = ({
       </div>
 
       {/* Table */}
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto py-4">
         <table className="w-full border-collapse">
           <thead>
             <tr className="bg-gray-100">
