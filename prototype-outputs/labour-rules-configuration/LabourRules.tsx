@@ -60,9 +60,9 @@ export function LabourRules() {
 
   const tabs: { id: LabourRulesTab; label: string; count?: number }[] = [
     { id: 'attributes', label: 'Attributes', count: attributes.length },
-    { id: 'org-unit-attributes', label: 'Org unit attributes' },
-    { id: 'rulesets', label: 'Rulesets & rules', count: rulesets.length },
-    { id: 'assignments', label: 'Assignments' },
+    { id: 'org-unit-attributes', label: 'Location attributes' },
+    { id: 'rulesets', label: 'Rulesets', count: rulesets.length },
+    { id: 'assignments', label: 'Assign rulesets' },
   ];
 
   return (
