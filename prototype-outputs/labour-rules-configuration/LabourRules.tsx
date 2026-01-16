@@ -596,15 +596,14 @@ function OrgUnitAttributesTab({
               Filter attributes ({visibleColumns.length})
               <ChevronDownIcon className="ml-2" size="sm" />
             </button>
-            {selectedRows.size > 0 && (
-              <button
-                onClick={() => setShowEditModal(true)}
-                className="ui-button ui-button--primary"
-              >
-                <EditIcon className="mr-2" size="sm" />
-                Edit
-              </button>
-            )}
+            <button
+              onClick={() => setShowEditModal(true)}
+              disabled={selectedRows.size === 0}
+              className="ui-button ui-button--primary disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <EditIcon className="mr-2" size="sm" />
+              Edit
+            </button>
             {showColumnSelector && (
               <div className="absolute right-0 top-full mt-2 w-64 bg-white border border-gray-200 rounded-lg shadow-lg z-10 max-h-80 overflow-y-auto">
                 <div className="p-3 border-b border-gray-200">
