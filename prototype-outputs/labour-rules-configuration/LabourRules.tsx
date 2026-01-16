@@ -583,7 +583,7 @@ function OrgUnitAttributesTab({
               Filter attributes ({visibleColumns.length})
               <ChevronDownIcon className="ml-2" size="sm" />
             </button>
-            {visibleColumns.length < attributes.length && (
+            {selectedRows.size > 0 && (
               <button
                 onClick={() => setShowEditModal(true)}
                 className="ui-button ui-button--primary"
