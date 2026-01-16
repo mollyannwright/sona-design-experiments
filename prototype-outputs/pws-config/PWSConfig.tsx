@@ -1472,8 +1472,8 @@ const AddCarePackageWizard = ({
       </div>
 
       {/* Footer */}
-      <div className="mt-8 border-t border-gray-200">
-        <div className="px-6 py-6 flex items-center justify-between">
+      <div className="mt-8 px-6 border-t border-gray-200">
+        <div className="py-6 flex items-center justify-between">
           <div>
             {currentStep > 1 && (
               <button
