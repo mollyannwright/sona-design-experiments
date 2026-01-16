@@ -1774,14 +1774,14 @@ export const PWSConfig = () => {
           {/* Sticky Header */}
           <div className="sticky top-0 z-10 bg-white">
             {/* Main Header */}
-            <div className="px-6 py-4 border-b border-gray-200">
+            <div className="px-6 pt-4 pb-6 border-b border-gray-200">
               {/* Breadcrumb */}
               <div className="text-sm text-emerald-600 mb-2">
                 All people we support /
               </div>
 
               {/* PWS Header */}
-              <div className="flex items-start gap-4">
+              <div className="flex items-start gap-4 mt-4">
                 {/* Profile Image */}
                 <div className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center flex-shrink-0">
                   <span className="text-gray-500 text-lg font-medium">
@@ -1840,14 +1840,14 @@ export const PWSConfig = () => {
         {/* Sticky Header */}
         <div className="sticky top-0 z-10 bg-white">
           {/* Main Header */}
-          <div className="px-6 py-4 border-b border-gray-200">
+          <div className="px-6 pt-4 pb-6 border-b border-gray-200">
             {/* Breadcrumb */}
             <div className="text-sm text-emerald-600 mb-2">
               All people we support /
             </div>
 
             {/* PWS Header */}
-            <div className="flex items-start gap-4">
+            <div className="flex items-start gap-4 mt-4">
               {/* Profile Image */}
               <div className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center flex-shrink-0">
                 <span className="text-gray-500 text-lg font-medium">
