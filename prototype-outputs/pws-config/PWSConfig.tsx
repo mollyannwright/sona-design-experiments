@@ -192,7 +192,8 @@ const CarePackageTab = ({
   return (
     <div className="bg-white rounded border border-gray-200" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
       {/* Section Header */}
-      <div className="px-3 py-3 flex items-center justify-end border-b border-gray-200">
+      <div className="px-3 py-3 flex items-center justify-between border-b border-gray-200">
+        <p className="text-sm text-gray-500">Add a new care package to make changes to the care details and commissioned hours</p>
         <button
           onClick={onAddNew}
           className="flex items-center gap-2 px-4 py-2 text-emerald-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 text-sm font-medium shadow-sm"
@@ -556,7 +557,8 @@ const OccupancyTab = ({
     <div className="bg-white rounded border border-gray-200" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
       {/* Section Header */}
       <div className="px-3 py-3 border-b border-gray-200">
-        <div className="flex items-center justify-end">
+        <div className="flex items-center justify-between mb-2">
+          <p className="text-sm text-gray-500">Current status: {pws.status}</p>
           <button
             onClick={() => {
               if (pws.status === 'In service') {
@@ -575,7 +577,7 @@ const OccupancyTab = ({
           </button>
         </div>
         {pws.status === 'Out of service' && pws.expectedReturn && (
-          <p className="text-sm text-gray-600 mt-2">
+          <p className="text-sm text-gray-600">
             Expected back: {pws.expectedReturn}
           </p>
         )}
