@@ -1781,14 +1781,22 @@ export const PWSConfig = () => {
               </div>
 
               {/* PWS Header */}
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <h1 className="text-2xl font-semibold text-gray-900">{pws.name}</h1>
-                  <StatusBadge status={pws.status} />
+              <div className="flex items-start gap-4">
+                {/* Profile Image */}
+                <div className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center flex-shrink-0">
+                  <span className="text-gray-500 text-lg font-medium">
+                    {pws.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2)}
+                  </span>
                 </div>
-                <button className="px-4 py-2 text-emerald-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 text-sm font-medium shadow-sm">
-                  Edit profile
-                </button>
+                <div className="flex-1">
+                  <div className="flex items-center gap-3 mb-1">
+                    <h1 className="text-2xl font-semibold text-gray-900">{pws.name}</h1>
+                    <StatusBadge status={pws.status} />
+                  </div>
+                  <button className="text-sm text-emerald-600 hover:text-emerald-700 font-medium">
+                    Edit profile
+                  </button>
+                </div>
               </div>
             </div>
 
@@ -1839,14 +1847,22 @@ export const PWSConfig = () => {
             </div>
 
             {/* PWS Header */}
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <h1 className="text-2xl font-semibold text-gray-900">{pws.name}</h1>
-                <StatusBadge status={pws.status} />
+            <div className="flex items-start gap-4">
+              {/* Profile Image */}
+              <div className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center flex-shrink-0">
+                <span className="text-gray-500 text-lg font-medium">
+                  {pws.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2)}
+                </span>
               </div>
-              <button className="px-4 py-2 text-emerald-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 text-sm font-medium shadow-sm">
-                Edit profile
-              </button>
+              <div className="flex-1">
+                <div className="flex items-center gap-3 mb-1">
+                  <h1 className="text-2xl font-semibold text-gray-900">{pws.name}</h1>
+                  <StatusBadge status={pws.status} />
+                </div>
+                <button className="text-sm text-emerald-600 hover:text-emerald-700 font-medium">
+                  Edit profile
+                </button>
+              </div>
             </div>
           </div>
 
