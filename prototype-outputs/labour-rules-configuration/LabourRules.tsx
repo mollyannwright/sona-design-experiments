@@ -118,7 +118,7 @@ export function LabourRules() {
         </div>
 
         {/* Content */}
-        <div className="px-6 pb-6 pt-6 overflow-y-auto" style={{ height: 'calc(100vh - 180px)' }}>
+        <div className="px-6 pb-6 pt-6 overflow-y-auto flex-1" style={{ minHeight: 0 }}>
           {/* Tab Content */}
           {activeTab === 'attributes' && (
             <AttributesTab
@@ -964,7 +964,7 @@ function RulesetsTab({
   }, [rulesets]);
 
   return (
-    <div className="bg-white rounded border border-gray-200 flex flex-col" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)', maxHeight: 'calc(100vh - 200px)' }}>
+    <div className="bg-white rounded border border-gray-200 flex flex-col" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)', height: '100%' }}>
       <div className="flex flex-1 min-h-0">
         {/* Rulesets List */}
         <div className="w-80 flex-shrink-0 border-r border-gray-200 flex flex-col min-h-0">
@@ -1680,7 +1680,7 @@ function AssignmentsTab({
   };
 
   return (
-    <div className="bg-white rounded border border-gray-200 flex flex-col" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)', maxHeight: 'calc(100vh - 200px)' }}>
+    <div className="bg-white rounded border border-gray-200 flex flex-col" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)', height: '100%' }}>
       <div className="flex flex-1 min-h-0">
         {/* Site List */}
         <div className="w-80 flex-shrink-0 border-r border-gray-200 flex flex-col min-h-0">
