@@ -996,7 +996,7 @@ function RulesetsTab({
     <div className="bg-white rounded border border-gray-200 flex flex-col" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)', maxHeight: 'calc(100vh - 200px)' }}>
       <div className="flex flex-1 min-h-0">
         {/* Rulesets List */}
-        <div className="w-80 flex-shrink-0 pr-6 border-r border-gray-200 flex flex-col min-h-0">
+        <div className="w-80 flex-shrink-0 border-r border-gray-200 flex flex-col min-h-0">
           <div className="flex items-center justify-between mb-4 flex-shrink-0 px-4 pt-4">
             <h3 className="text-sm font-semibold text-gray-900">Rulesets</h3>
             <button
@@ -1065,9 +1065,9 @@ function RulesetsTab({
       </div>
 
       {/* Rules Detail */}
-      <div className="flex-1 pl-6 overflow-y-auto min-w-0">
+      <div className="flex-1 pl-6 pr-6 overflow-y-auto min-w-0">
         {selectedRuleset ? (
-          <div className="px-6">
+          <div className="px-6 pt-4">
             <div className="flex items-center justify-between mb-4">
               <div>
                 <h3 className="text-lg font-semibold text-gray-900">
@@ -1734,7 +1734,7 @@ function AssignmentsTab({
     <div className="bg-white rounded border border-gray-200 flex flex-col" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)', maxHeight: 'calc(100vh - 200px)' }}>
       <div className="flex flex-1 min-h-0">
         {/* Site List */}
-        <div className="w-80 flex-shrink-0 pr-6 border-r border-gray-200 flex flex-col min-h-0">
+        <div className="w-80 flex-shrink-0 border-r border-gray-200 flex flex-col min-h-0">
           {/* Status Filter */}
           <div className="mb-3 px-4 flex-shrink-0 pt-4">
             <label className="block text-xs font-medium text-gray-600 mb-1.5">Filter sites</label>
@@ -1793,9 +1793,9 @@ function AssignmentsTab({
       </div>
 
       {/* Assignment Timeline */}
-      <div className="flex-1 pl-6 overflow-y-auto min-w-0">
+      <div className="flex-1 pl-6 pr-6 overflow-y-auto min-w-0">
         {selectedOrgUnit ? (
-          <div className="px-6">
+          <div className="px-6 pt-4">
             <div className="flex items-center justify-between">
               <h4 className="text-lg font-semibold text-gray-900">
                 {
