@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { SonaLayout } from '../../src/components/shared/SonaLayout';
-import { Icon, SearchIcon, DownloadIcon, ExclamationTriangleIcon, CheckIcon, InformationCircleIcon } from '../../src/components/shared/Icon';
+import { SearchIcon, DownloadIcon, ExclamationTriangleIcon, CheckIcon, InformationCircleIcon } from '../../src/components/shared/Icon';
 import {
   rightToWorkData,
   policyAcknowledgements,
