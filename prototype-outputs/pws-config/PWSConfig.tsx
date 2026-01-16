@@ -192,11 +192,11 @@ const CarePackageTab = ({
   return (
     <div className="bg-white rounded border border-gray-200" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
       {/* Section Header */}
-      <div className="px-3 py-3 flex items-center justify-between border-b border-gray-200">
-        <p className="text-sm text-gray-500">Add a new care package to make changes to the care details and commissioned hours</p>
+      <div className="py-3 flex items-center justify-between border-b border-gray-200">
+        <p className="text-sm text-gray-700 px-6">Add a new care package to make changes to the care details and commissioned hours</p>
         <button
           onClick={onAddNew}
-          className="flex items-center gap-2 px-4 py-2 text-emerald-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 text-sm font-medium shadow-sm"
+          className="flex items-center gap-2 px-4 py-2 text-emerald-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 text-sm font-medium shadow-sm mr-6"
         >
           <PlusIcon />
           Add new
@@ -556,9 +556,9 @@ const OccupancyTab = ({
   return (
     <div className="bg-white rounded border border-gray-200" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
       {/* Section Header */}
-      <div className="px-3 py-3 border-b border-gray-200">
-        <div className="flex items-center justify-between mb-2">
-          <p className="text-sm text-gray-500">Current status: {pws.status}</p>
+      <div className="py-3 border-b border-gray-200">
+        <div className="flex items-center justify-between">
+          <p className="text-sm text-gray-700 px-6">Current status: {pws.status}</p>
           <button
             onClick={() => {
               if (pws.status === 'In service') {
@@ -567,7 +567,7 @@ const OccupancyTab = ({
                 onLogBackInService();
               }
             }}
-            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors shadow-sm ${
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors shadow-sm mr-6 ${
               pws.status === 'In service'
                 ? 'text-emerald-700 bg-white border border-gray-200 hover:bg-gray-50'
                 : 'bg-red-600 text-white hover:bg-red-700 border border-red-600'
@@ -577,7 +577,7 @@ const OccupancyTab = ({
           </button>
         </div>
         {pws.status === 'Out of service' && pws.expectedReturn && (
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-gray-600 px-6 mt-2">
             Expected back: {pws.expectedReturn}
           </p>
         )}
