@@ -1009,14 +1009,6 @@ const AddCarePackageWizard = ({
         <p className="text-sm text-gray-500 mt-1">{pwsName}</p>
       </div>
 
-      {/* Info Banner */}
-      <div className="mx-6 mb-6 bg-blue-50 border border-blue-200 rounded-lg p-4 flex items-center gap-3">
-        <InformationCircleIcon size="md" />
-        <span className="text-sm text-blue-700">
-          Current active care package details have been pre-filled below. Review and update any fields as needed.
-        </span>
-      </div>
-
       {/* Step Indicator */}
       <div className="px-6 mb-8">
         <div className="flex items-center">
@@ -1042,6 +1034,14 @@ const AddCarePackageWizard = ({
             </div>
           ))}
         </div>
+      </div>
+
+      {/* Info Banner */}
+      <div className="mx-6 mb-6 bg-blue-50 border border-blue-200 rounded-lg p-4 flex items-center gap-3">
+        <InformationCircleIcon size="md" />
+        <span className="text-sm text-blue-700">
+          Current active care package details have been pre-filled below. Review and update any fields as needed.
+        </span>
       </div>
 
       {/* Step Content */}
