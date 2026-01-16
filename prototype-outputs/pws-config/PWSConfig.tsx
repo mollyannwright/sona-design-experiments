@@ -1426,7 +1426,7 @@ const AddCarePackageWizard = ({
                 Specified commissioned hours <span className="text-red-500">*</span>
               </h3>
               <div className="space-y-2">
-                <div className="grid grid-cols-6 gap-4 text-xs font-semibold text-gray-500 uppercase">
+                <div className="grid grid-cols-6 gap-4 text-xs font-semibold text-gray-500 uppercase w-full">
                   <div>Hour type</div>
                   <div>Hours amount</div>
                   <div>Carer ratio</div>
@@ -1435,7 +1435,7 @@ const AddCarePackageWizard = ({
                   <div></div>
                 </div>
                 {formData.specifiedHours.map((hour, index) => (
-                  <div key={index} className="grid grid-cols-6 gap-4 items-center">
+                  <div key={index} className="grid grid-cols-6 gap-4 items-center w-full">
                     <select
                       value={hour.hourType}
                       onChange={(e) => {
@@ -1517,13 +1517,15 @@ const AddCarePackageWizard = ({
                   </div>
                 ))}
               </div>
-              <button
-                onClick={addSpecifiedHour}
-                className="mt-3 flex items-center gap-1 text-sm text-emerald-600 hover:text-emerald-700"
-              >
-                <PlusIcon />
-                Add new
-              </button>
+              <div className="mt-3 pt-3 border-t border-gray-200 flex justify-end">
+                <button
+                  onClick={addSpecifiedHour}
+                  className="flex items-center gap-1 text-sm text-emerald-600 hover:text-emerald-700"
+                >
+                  <PlusIcon />
+                  Add new
+                </button>
+              </div>
             </div>
 
             {/* Shared Commissioned Hours */}
@@ -1532,7 +1534,7 @@ const AddCarePackageWizard = ({
                 Shared commissioned hours <span className="text-red-500">*</span>
               </h3>
               <div className="space-y-2">
-                <div className="grid grid-cols-6 gap-4 text-xs font-semibold text-gray-500 uppercase">
+                <div className="grid grid-cols-6 gap-4 text-xs font-semibold text-gray-500 uppercase w-full">
                   <div>Hour type</div>
                   <div>Hours amount</div>
                   <div>Carer ratio</div>
@@ -1541,7 +1543,7 @@ const AddCarePackageWizard = ({
                   <div></div>
                 </div>
                 {formData.sharedHours.map((hour, index) => (
-                  <div key={index} className="grid grid-cols-6 gap-4 items-center">
+                  <div key={index} className="grid grid-cols-6 gap-4 items-center w-full">
                     <select
                       value={hour.hourType}
                       onChange={(e) => {
@@ -1620,13 +1622,15 @@ const AddCarePackageWizard = ({
                   </div>
                 ))}
               </div>
-              <button
-                onClick={addSharedHour}
-                className="mt-3 flex items-center gap-1 text-sm text-emerald-600 hover:text-emerald-700"
-              >
-                <PlusIcon />
-                Add new
-              </button>
+              <div className="mt-3 pt-3 border-t border-gray-200 flex justify-end">
+                <button
+                  onClick={addSharedHour}
+                  className="flex items-center gap-1 text-sm text-emerald-600 hover:text-emerald-700"
+                >
+                  <PlusIcon />
+                  Add new
+                </button>
+              </div>
             </div>
           </div>
         )}
