@@ -23,7 +23,6 @@ import {
   CheckIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
-  ChevronDownIcon,
   InformationCircleIcon,
   ExclamationTriangleIcon,
 } from '../../src/components/shared/Icon';
@@ -206,7 +205,7 @@ const CarePackageTab = ({
 
       {/* Table */}
       <div className="overflow-x-auto">
-        <table className="w-full border border-gray-200 rounded-sm">
+        <table className="w-full border border-gray-200 rounded bg-white">
           <thead>
             <tr className="bg-slate-100 border-b border-gray-200">
               <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
@@ -232,7 +231,7 @@ const CarePackageTab = ({
             </th>
           </tr>
         </thead>
-        <tbody className="divide-y divide-gray-100">
+        <tbody className="bg-white divide-y divide-gray-100">
           {pws.carePackages.map((pkg) => (
             <tr
               key={pkg.id}
@@ -584,7 +583,7 @@ const OccupancyTab = ({
 
       {/* Table */}
       <div className="overflow-x-auto">
-        <table className="w-full border border-gray-200 rounded-sm">
+        <table className="w-full border border-gray-200 rounded bg-white">
           <thead>
             <tr className="bg-slate-100 border-b border-gray-200">
               <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
@@ -607,7 +606,7 @@ const OccupancyTab = ({
             </th>
           </tr>
         </thead>
-        <tbody className="divide-y divide-gray-100">
+        <tbody className="bg-white divide-y divide-gray-100">
           {pws.outOfServiceRecords.map((record) => (
             <tr key={record.id} className="hover:bg-gray-50 transition-colors">
               <td className="px-6 py-4 text-sm text-gray-900">{record.outOfServiceDate}</td>
@@ -1600,7 +1599,7 @@ export const PWSConfig = () => {
   // Show Package Detail
   if (selectedPackage) {
     return (
-      <div className="flex h-screen bg-gray-50">
+      <div className="flex h-screen" style={{ backgroundColor: '#F8FAFC' }}>
         <Sidebar />
         <main className="flex-1 ml-[280px] overflow-y-auto">
           {/* Sticky Header */}
@@ -1656,7 +1655,7 @@ export const PWSConfig = () => {
   }
 
   return (
-    <div className="flex h-screen bg-gray-50">
+    <div className="flex h-screen" style={{ backgroundColor: '#F8FAFC' }}>
       <Sidebar />
       <main className="flex-1 ml-[280px] overflow-y-auto">
         {/* Sticky Header */}

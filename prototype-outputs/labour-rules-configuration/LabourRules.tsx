@@ -70,7 +70,7 @@ export function LabourRules() {
     <SonaLayout
       showHeader={false}
     >
-      <div className="flex flex-col h-full bg-gray-50 -m-6">
+      <div className="flex flex-col h-full -m-6" style={{ backgroundColor: '#F8FAFC' }}>
         {/* Sticky Header */}
         <div className="sticky top-0 z-10 bg-white">
           {/* Main Header */}
@@ -121,8 +121,6 @@ export function LabourRules() {
         {/* Content */}
         <div className="px-6 pb-6 pt-6">
           {/* Tab Content */}
-          <div className="bg-white rounded-lg border border-gray-200">
-            <div className="p-6">
           {activeTab === 'attributes' && (
             <AttributesTab
               attributes={attributes}
@@ -153,8 +151,6 @@ export function LabourRules() {
               orgUnitAttributes={orgUnitAttributes}
             />
           )}
-            </div>
-          </div>
         </div>
       </div>
     </SonaLayout>
@@ -218,9 +214,9 @@ function AttributesTab({ attributes, setAttributes }: AttributesTabProps) {
   };
 
   return (
-    <div>
-      {/* Header with search and add button */}
-      <div className="flex items-center justify-between mb-6">
+    <div className="space-y-4">
+      {/* Header with search and add button - Outside container */}
+      <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
           <div className="relative">
             <input
@@ -248,21 +244,21 @@ function AttributesTab({ attributes, setAttributes }: AttributesTabProps) {
       </div>
 
       {/* Attributes Table */}
-      <div className="sonaui-tablewrapper--default">
-        <table className="sonaui-table sonaui-table--default">
+      <div className="overflow-x-auto">
+        <table className="w-full border border-gray-200 rounded bg-white">
           <thead>
-            <tr>
-              <th className="sonaui-table__th">Name</th>
-              <th className="sonaui-table__th">Type</th>
-              <th className="sonaui-table__th">Default value</th>
-              <th className="sonaui-table__th">Used by</th>
-              <th className="sonaui-table__th w-24">Actions</th>
+            <tr className="bg-slate-100 border-b border-gray-200">
+              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Name</th>
+              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Type</th>
+              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Default value</th>
+              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Used by</th>
+              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase w-24">Actions</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="bg-white divide-y divide-gray-100">
             {filteredAttributes.map((attr) => (
-              <tr key={attr.id} className="sonaui-table__tr">
-                <td className="sonaui-table__td">
+              <tr key={attr.id} className="hover:bg-gray-50 transition-colors">
+                <td className="px-6 py-4">
                   <code className="text-sm bg-gray-100 px-2 py-1 rounded font-mono">
                     {attr.name}
                   </code>
@@ -270,10 +266,10 @@ function AttributesTab({ attributes, setAttributes }: AttributesTabProps) {
                     <p className="text-xs text-gray-500 mt-1">{attr.description}</p>
                   )}
                 </td>
-                <td className="sonaui-table__td">
+                <td className="px-6 py-4">
                   <span className="ui-badge ui-badge--info">{attr.type}</span>
                 </td>
-                <td className="sonaui-table__td">
+                <td className="px-6 py-4">
                   {attr.defaultValue !== undefined ? (
                     <span className="text-sm">
                       {typeof attr.defaultValue === 'boolean'
@@ -284,7 +280,7 @@ function AttributesTab({ attributes, setAttributes }: AttributesTabProps) {
                     <span className="text-gray-400 text-sm">—</span>
                   )}
                 </td>
-                <td className="sonaui-table__td">
+                <td className="px-6 py-4">
                   {attr.rulesetCount > 0 ? (
                     <span className="text-sm text-emerald-600">
                       {attr.rulesetCount} ruleset{attr.rulesetCount !== 1 ? 's' : ''}
@@ -293,7 +289,7 @@ function AttributesTab({ attributes, setAttributes }: AttributesTabProps) {
                     <span className="text-gray-400 text-sm">Not used</span>
                   )}
                 </td>
-                <td className="sonaui-table__td">
+                <td className="px-6 py-4">
                   <div className="flex gap-2">
                     <button
                       onClick={() => handleEditAttribute(attr)}
@@ -565,9 +561,9 @@ function OrgUnitAttributesTab({
   };
 
   return (
-    <div>
-      {/* Header */}
-      <div className="flex items-center justify-between mb-6">
+    <div className="space-y-4">
+      {/* Header - Outside container */}
+      <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
           <span className="text-sm text-gray-500">
             {orgUnitAttributes.length} sites
@@ -625,11 +621,10 @@ function OrgUnitAttributesTab({
       </div>
 
       {/* Bulk Edit Table */}
-      <div className="border border-gray-200 rounded-lg overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full min-w-max">
-            <thead>
-              <tr className="bg-gray-50">
+      <div className="overflow-x-auto">
+        <table className="w-full min-w-max border border-gray-200 rounded bg-white">
+          <thead>
+            <tr className="bg-slate-100 border-b border-gray-200">
                 <th className="sticky left-0 z-10 bg-gray-50 px-4 py-3 border-b border-r border-gray-200 w-12">
                   <input
                     type="checkbox"
@@ -656,7 +651,7 @@ function OrgUnitAttributesTab({
                 ))}
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-100">
+            <tbody className="bg-white divide-y divide-gray-100">
               {orgUnitAttributes.map((ou) => (
                 <tr
                   key={ou.orgUnit.id}
@@ -740,7 +735,6 @@ function OrgUnitAttributesTab({
               ))}
             </tbody>
           </table>
-        </div>
       </div>
 
       {/* Legend */}
@@ -1072,7 +1066,7 @@ function RulesetsTab({
       {/* Rules Detail */}
       <div className="flex-1 pl-6">
         {selectedRuleset ? (
-          <div>
+          <div className="px-6">
             <div className="flex items-center justify-between mb-4">
               <div>
                 <h3 className="text-lg font-semibold text-gray-900">
@@ -1798,7 +1792,7 @@ function AssignmentsTab({
       {/* Assignment Timeline */}
       <div className="flex-1 pl-6">
         {selectedOrgUnit ? (
-          <div>
+          <div className="px-6">
             <div className="flex items-center justify-between">
               <h4 className="text-lg font-semibold text-gray-900">
                 {

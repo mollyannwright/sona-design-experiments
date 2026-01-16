@@ -31,7 +31,7 @@ export function ComplianceDashboardLowFi() {
       navigation={navigation}
       showHeader={false}
     >
-      <div className="flex flex-col h-full bg-gray-50 -m-6">
+      <div className="flex flex-col h-full -m-6" style={{ backgroundColor: '#F8FAFC' }}>
         {/* Sticky Header */}
         <div className="sticky top-0 z-10 bg-white">
           {/* Main Header */}

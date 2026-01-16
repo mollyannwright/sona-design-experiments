@@ -148,7 +148,7 @@ function ComplianceDashboard() {
       navigation={navigation}
       showHeader={false}
     >
-      <div className="flex flex-col h-full bg-gray-50 -m-6">
+      <div className="flex flex-col h-full -m-6" style={{ backgroundColor: '#F8FAFC' }}>
         {/* Sticky Header */}
         <div className="sticky top-0 z-10 bg-white">
           {/* Main Header */}
@@ -244,48 +244,48 @@ function ComplianceDashboard() {
           </div>
 
           {/* Tabs Content */}
-          <div className="bg-white rounded-lg border border-gray-200">
-            {/* Filters and Search */}
-            <div className="px-6 py-4 border-b border-gray-200 flex items-center gap-4">
-          <div className="flex-1 relative">
-            <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400" size="sm" />
-            <input
-              type="text"
-              placeholder="Search employees, departments, or policies..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
-            />
-          </div>
-          <select
-            value={statusFilter}
-            onChange={(e) => setStatusFilter(e.target.value)}
-            className="px-4 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
-          >
-            <option value="all">All statuses</option>
-            {activeTab === 'right-to-work' ? (
-              <>
-                <option value="compliant">Compliant</option>
-                <option value="expiring_soon">Expiring soon</option>
-                <option value="expired">Expired</option>
-                <option value="missing">Missing</option>
-              </>
-            ) : (
-              <>
-                <option value="acknowledged">Acknowledged</option>
-                <option value="pending">Pending</option>
-                <option value="expired">Expired</option>
-              </>
-            )}
-          </select>
-        </div>
+          <div className="space-y-4">
+            {/* Filters and Search - Outside container */}
+            <div className="flex items-center gap-4">
+              <div className="flex-1 relative">
+                <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400" size="sm" />
+                <input
+                  type="text"
+                  placeholder="Search employees, departments, or policies..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full pl-10 pr-4 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                />
+              </div>
+              <select
+                value={statusFilter}
+                onChange={(e) => setStatusFilter(e.target.value)}
+                className="px-4 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+              >
+                <option value="all">All statuses</option>
+                {activeTab === 'right-to-work' ? (
+                  <>
+                    <option value="compliant">Compliant</option>
+                    <option value="expiring_soon">Expiring soon</option>
+                    <option value="expired">Expired</option>
+                    <option value="missing">Missing</option>
+                  </>
+                ) : (
+                  <>
+                    <option value="acknowledged">Acknowledged</option>
+                    <option value="pending">Pending</option>
+                    <option value="expired">Expired</option>
+                  </>
+                )}
+              </select>
+            </div>
 
-        {/* Right to Work Table */}
-        {activeTab === 'right-to-work' && (
-          <div className="overflow-x-auto">
-            <table className="w-full">
+            {/* Right to Work Table */}
+            {activeTab === 'right-to-work' && (
+              <div className="overflow-x-auto">
+            <table className="w-full border border-gray-200 rounded bg-white">
               <thead>
-                <tr className="bg-slate-50 border-b border-slate-200">
+                <tr className="bg-slate-100 border-b border-gray-200">
                   <th className="px-6 py-3 text-left text-xs font-semibold text-slate-600 uppercase">
                     Employee
                   </th>
@@ -309,7 +309,7 @@ function ComplianceDashboard() {
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100">
+              <tbody className="bg-white divide-y divide-gray-100">
                 {filteredRightToWork.map((employee) => (
                   <tr key={employee.employeeId} className="hover:bg-slate-50 transition-colors">
                     <td className="px-6 py-4">
@@ -351,20 +351,20 @@ function ComplianceDashboard() {
                 ))}
               </tbody>
             </table>
-            {filteredRightToWork.length === 0 && (
-              <div className="px-6 py-12 text-center text-slate-500">
-                No employees found matching your search criteria.
+                {filteredRightToWork.length === 0 && (
+                  <div className="px-6 py-12 text-center text-slate-500">
+                    No employees found matching your search criteria.
+                  </div>
+                )}
               </div>
             )}
-          </div>
-        )}
 
-        {/* Policy Acknowledgements Table */}
-        {activeTab === 'policies' && (
-          <div className="overflow-x-auto">
-            <table className="w-full">
+            {/* Policy Acknowledgements Table */}
+            {activeTab === 'policies' && (
+              <div className="overflow-x-auto">
+                <table className="w-full border border-gray-200 rounded bg-white">
               <thead>
-                <tr className="bg-slate-50 border-b border-slate-200">
+                <tr className="bg-slate-100 border-b border-gray-200">
                   <th className="px-6 py-3 text-left text-xs font-semibold text-slate-600 uppercase">
                     Employee
                   </th>
@@ -385,7 +385,7 @@ function ComplianceDashboard() {
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100">
+              <tbody className="bg-white divide-y divide-gray-100">
                 {filteredEmployeeCompliance.map((employee) => {
                   const latestAck = policyAcknowledgements
                     .filter((a) => a.employeeId === employee.employeeId && a.acknowledgedDate)
@@ -442,73 +442,73 @@ function ComplianceDashboard() {
                 })}
               </tbody>
             </table>
-            {filteredEmployeeCompliance.length === 0 && (
-              <div className="px-6 py-12 text-center text-slate-500">
-                No employees found matching your search criteria.
+                {filteredEmployeeCompliance.length === 0 && (
+                  <div className="px-6 py-12 text-center text-slate-500">
+                    No employees found matching your search criteria.
+                  </div>
+                )}
               </div>
             )}
           </div>
-        )}
-      </div>
 
-      {/* Policy Details Section */}
-      {activeTab === 'policies' && (
-        <div className="bg-white rounded-lg border border-slate-200">
-          <div className="px-6 py-4 border-b border-slate-200 bg-slate-50">
-            <h2 className="text-lg font-semibold text-slate-900">Policy details</h2>
-          </div>
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead>
-                <tr className="bg-slate-50 border-b border-slate-200">
-                  <th className="px-6 py-3 text-left text-xs font-semibold text-slate-600 uppercase">
-                    Employee
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-semibold text-slate-600 uppercase">
-                    Policy
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-semibold text-slate-600 uppercase">
-                    Version
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-semibold text-slate-600 uppercase">
-                    Status
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-semibold text-slate-600 uppercase">
-                    Acknowledged date
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-semibold text-slate-600 uppercase">
-                    Expiry date
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-100">
-                {filteredPolicies.map((ack) => (
-                  <tr key={ack.id} className="hover:bg-slate-50 transition-colors">
-                    <td className="px-6 py-4">
-                      <div className="text-sm font-medium text-slate-900">{ack.employeeName}</div>
-                      <div className="text-xs text-slate-500">{ack.department}</div>
-                    </td>
-                    <td className="px-6 py-4 text-sm text-slate-700">{ack.policyName}</td>
-                    <td className="px-6 py-4 text-sm text-slate-700">{ack.policyVersion}</td>
-                    <td className="px-6 py-4">{getStatusBadge(ack.status)}</td>
-                    <td className="px-6 py-4 text-sm text-slate-700">
-                      {formatDate(ack.acknowledgedDate)}
-                    </td>
-                    <td className="px-6 py-4 text-sm text-slate-700">
-                      {formatDate(ack.expiryDate)}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-            {filteredPolicies.length === 0 && (
-              <div className="px-6 py-12 text-center text-slate-500">
-                No policy acknowledgements found matching your search criteria.
+          {/* Policy Details Section */}
+          {activeTab === 'policies' && (
+            <div className="space-y-4 mt-6">
+              <div>
+                <h2 className="text-lg font-semibold text-slate-900">Policy details</h2>
               </div>
-            )}
-          </div>
-        </div>
-      )}
+              <div className="overflow-x-auto">
+                <table className="w-full border border-gray-200 rounded bg-white">
+                  <thead>
+                    <tr className="bg-slate-100 border-b border-gray-200">
+                      <th className="px-6 py-3 text-left text-xs font-semibold text-slate-600 uppercase">
+                        Employee
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-semibold text-slate-600 uppercase">
+                        Policy
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-semibold text-slate-600 uppercase">
+                        Version
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-semibold text-slate-600 uppercase">
+                        Status
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-semibold text-slate-600 uppercase">
+                        Acknowledged date
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-semibold text-slate-600 uppercase">
+                        Expiry date
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="bg-white divide-y divide-gray-100">
+                    {filteredPolicies.map((ack) => (
+                      <tr key={ack.id} className="hover:bg-slate-50 transition-colors">
+                        <td className="px-6 py-4">
+                          <div className="text-sm font-medium text-slate-900">{ack.employeeName}</div>
+                          <div className="text-xs text-slate-500">{ack.department}</div>
+                        </td>
+                        <td className="px-6 py-4 text-sm text-slate-700">{ack.policyName}</td>
+                        <td className="px-6 py-4 text-sm text-slate-700">{ack.policyVersion}</td>
+                        <td className="px-6 py-4">{getStatusBadge(ack.status)}</td>
+                        <td className="px-6 py-4 text-sm text-slate-700">
+                          {formatDate(ack.acknowledgedDate)}
+                        </td>
+                        <td className="px-6 py-4 text-sm text-slate-700">
+                          {formatDate(ack.expiryDate)}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+                {filteredPolicies.length === 0 && (
+                  <div className="px-6 py-12 text-center text-slate-500">
+                    No policy acknowledgements found matching your search criteria.
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </SonaLayout>
