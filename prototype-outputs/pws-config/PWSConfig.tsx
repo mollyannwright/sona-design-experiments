@@ -196,11 +196,17 @@ const CarePackageTab = ({
   if (isSinglePackage && singlePackage) {
     return (
       <div className="space-y-4">
-        {/* Add New Button */}
-        <div className="flex justify-end">
+        {/* Info Banner with Add New Button */}
+        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 flex items-center justify-between gap-3">
+          <div className="flex items-center gap-3">
+            <InformationCircleIcon size="md" />
+            <span className="text-sm text-blue-700">
+              Add a new care package to make changes to the care details and commissioned hours
+            </span>
+          </div>
           <button
             onClick={onAddNew}
-            className="flex items-center gap-2 px-4 py-2 text-emerald-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 text-sm font-medium shadow-sm"
+            className="flex items-center gap-2 px-4 py-2 text-emerald-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 text-sm font-medium shadow-sm flex-shrink-0"
           >
             <PlusIcon />
             Add new
