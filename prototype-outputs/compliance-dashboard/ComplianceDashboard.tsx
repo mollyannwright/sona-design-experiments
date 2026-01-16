@@ -244,9 +244,9 @@ function ComplianceDashboard() {
           </div>
 
           {/* Tabs Content */}
-          <div className="space-y-4">
-            {/* Filters and Search - Outside container */}
-            <div className="flex items-center gap-4">
+          <div className="bg-white rounded-lg border border-gray-200">
+            {/* Filters and Search */}
+            <div className="px-6 py-4 border-b border-gray-200 flex items-center gap-4">
               <div className="flex-1 relative">
                 <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400" size="sm" />
                 <input
@@ -283,7 +283,7 @@ function ComplianceDashboard() {
             {/* Right to Work Table */}
             {activeTab === 'right-to-work' && (
               <div className="overflow-x-auto">
-            <table className="w-full border border-gray-200 rounded bg-white">
+                <table className="w-full border-collapse">
               <thead>
                 <tr className="bg-slate-100 border-b border-gray-200">
                   <th className="px-6 py-3 text-left text-xs font-semibold text-slate-600 uppercase">
@@ -362,7 +362,7 @@ function ComplianceDashboard() {
             {/* Policy Acknowledgements Table */}
             {activeTab === 'policies' && (
               <div className="overflow-x-auto">
-                <table className="w-full border border-gray-200 rounded bg-white">
+                <table className="w-full border-collapse">
               <thead>
                 <tr className="bg-slate-100 border-b border-gray-200">
                   <th className="px-6 py-3 text-left text-xs font-semibold text-slate-600 uppercase">
@@ -453,12 +453,12 @@ function ComplianceDashboard() {
 
           {/* Policy Details Section */}
           {activeTab === 'policies' && (
-            <div className="space-y-4 mt-6">
-              <div>
+            <div className="bg-white rounded-lg border border-gray-200 mt-6">
+              <div className="px-6 py-4 border-b border-gray-200">
                 <h2 className="text-lg font-semibold text-slate-900">Policy details</h2>
               </div>
               <div className="overflow-x-auto">
-                <table className="w-full border border-gray-200 rounded bg-white">
+                <table className="w-full border-collapse">
                   <thead>
                     <tr className="bg-slate-100 border-b border-gray-200">
                       <th className="px-6 py-3 text-left text-xs font-semibold text-slate-600 uppercase">

@@ -190,9 +190,9 @@ const CarePackageTab = ({
   onAddNew: () => void;
 }) => {
   return (
-    <div className="space-y-4">
-      {/* Section Header - Outside container */}
-      <div className="flex items-center justify-between">
+    <div className="bg-white rounded-lg border border-gray-200">
+      {/* Section Header */}
+      <div className="px-6 py-5 flex items-center justify-between border-b border-gray-200">
         <h3 className="text-base font-medium text-gray-900">Care package records</h3>
         <button
           onClick={onAddNew}
@@ -205,7 +205,7 @@ const CarePackageTab = ({
 
       {/* Table */}
       <div className="overflow-x-auto">
-        <table className="w-full border border-gray-200 rounded bg-white">
+        <table className="w-full border-collapse">
           <thead>
             <tr className="bg-slate-100 border-b border-gray-200">
               <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
@@ -552,9 +552,9 @@ const OccupancyTab = ({
   onLogBackInService: () => void;
 }) => {
   return (
-    <div className="space-y-4">
-      {/* Section Header - Outside container */}
-      <div>
+    <div className="bg-white rounded-lg border border-gray-200">
+      {/* Section Header */}
+      <div className="px-6 py-5 border-b border-gray-200">
         <div className="flex items-center justify-between mb-2">
           <h3 className="text-base font-medium text-gray-900">Out of service records</h3>
           <button
@@ -583,7 +583,7 @@ const OccupancyTab = ({
 
       {/* Table */}
       <div className="overflow-x-auto">
-        <table className="w-full border border-gray-200 rounded bg-white">
+        <table className="w-full border-collapse">
           <thead>
             <tr className="bg-slate-100 border-b border-gray-200">
               <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
