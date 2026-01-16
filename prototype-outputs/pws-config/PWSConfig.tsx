@@ -208,25 +208,25 @@ const CarePackageTab = ({
         <table className="w-full border-collapse">
           <thead>
             <tr className="bg-slate-100">
-              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+              <th className="px-6 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider" style={{ paddingTop: '11px', paddingBottom: '12px' }}>
                 Care Package Name
               </th>
-            <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+            <th className="px-6 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider" style={{ paddingTop: '11px', paddingBottom: '12px' }}>
               Status
             </th>
-            <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+            <th className="px-6 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider" style={{ paddingTop: '11px', paddingBottom: '12px' }}>
               Effective Date
             </th>
-            <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+            <th className="px-6 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider" style={{ paddingTop: '11px', paddingBottom: '12px' }}>
               End Date
             </th>
-            <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+            <th className="px-6 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider" style={{ paddingTop: '11px', paddingBottom: '12px' }}>
               Package Code
             </th>
-            <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+            <th className="px-6 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider" style={{ paddingTop: '11px', paddingBottom: '12px' }}>
               Primary Service
             </th>
-            <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+            <th className="px-6 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider" style={{ paddingTop: '11px', paddingBottom: '12px' }}>
               Residency Address
             </th>
           </tr>
@@ -588,22 +588,22 @@ const OccupancyTab = ({
         <table className="w-full border-collapse">
           <thead>
             <tr className="bg-slate-100">
-              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+              <th className="px-6 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider" style={{ paddingTop: '11px', paddingBottom: '12px' }}>
                 Out of Service Date
               </th>
-            <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+            <th className="px-6 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider" style={{ paddingTop: '11px', paddingBottom: '12px' }}>
               Expected Return Date
             </th>
-            <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+            <th className="px-6 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider" style={{ paddingTop: '11px', paddingBottom: '12px' }}>
               Reason
             </th>
-            <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+            <th className="px-6 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider" style={{ paddingTop: '11px', paddingBottom: '12px' }}>
               Impact on Total Commissioned Hours (Between Selected Dates)
             </th>
-            <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+            <th className="px-6 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider" style={{ paddingTop: '11px', paddingBottom: '12px' }}>
               Notes
             </th>
-            <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+            <th className="px-6 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider" style={{ paddingTop: '11px', paddingBottom: '12px' }}>
               Hour Distribution
             </th>
           </tr>
