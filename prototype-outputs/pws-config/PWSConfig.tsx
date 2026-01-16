@@ -558,7 +558,14 @@ const OccupancyTab = ({
       {/* Section Header */}
       <div className="py-3 border-b border-gray-200">
         <div className="flex items-center justify-between">
-          <p className="text-sm text-gray-700 px-6">Current status: {pws.status}</p>
+          <div className="px-6">
+            <p className="text-sm text-gray-700">Current status: {pws.status}</p>
+            {pws.status === 'Out of service' && pws.expectedReturn && (
+              <p className="text-xs text-gray-500 mt-0.5">
+                Expected back: {pws.expectedReturn}
+              </p>
+            )}
+          </div>
           <button
             onClick={() => {
               if (pws.status === 'In service') {
@@ -576,11 +583,6 @@ const OccupancyTab = ({
             {pws.status === 'In service' ? 'Log out of service' : 'Log back in service'}
           </button>
         </div>
-        {pws.status === 'Out of service' && pws.expectedReturn && (
-          <p className="text-xs text-gray-500 px-6 mt-0.5">
-            Expected back: {pws.expectedReturn}
-          </p>
-        )}
       </div>
 
       {/* Table */}
