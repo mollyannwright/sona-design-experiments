@@ -214,7 +214,7 @@ function AttributesTab({ attributes, setAttributes }: AttributesTabProps) {
   };
 
   return (
-    <div className="bg-white rounded-lg" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
+    <div className="bg-white rounded" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
       {/* Header with search and add button */}
       <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
         <div className="flex items-center gap-4">
@@ -247,7 +247,7 @@ function AttributesTab({ attributes, setAttributes }: AttributesTabProps) {
       <div className="overflow-x-auto">
         <table className="w-full border-collapse">
           <thead>
-            <tr className="bg-slate-100 border-b border-gray-200">
+            <tr className="bg-slate-100">
               <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Name</th>
               <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Type</th>
               <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Default value</th>
@@ -561,7 +561,7 @@ function OrgUnitAttributesTab({
   };
 
   return (
-    <div className="bg-white rounded-lg" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
+    <div className="bg-white rounded" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
       {/* Header */}
       <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
         <div className="flex items-center gap-4">
@@ -624,7 +624,7 @@ function OrgUnitAttributesTab({
       <div className="overflow-x-auto">
         <table className="w-full min-w-max border-collapse">
           <thead>
-            <tr className="bg-slate-100 border-b border-gray-200">
+            <tr className="bg-slate-100">
                 <th className="sticky left-0 z-10 bg-gray-50 px-4 py-3 border-b border-r border-gray-200 w-12">
                   <input
                     type="checkbox"
@@ -993,7 +993,7 @@ function RulesetsTab({
   }, [rulesets]);
 
   return (
-    <div className="bg-white rounded-lg" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
+    <div className="bg-white rounded" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
       <div className="flex">
         {/* Rulesets List */}
         <div className="w-80 flex-shrink-0 pr-6 border-r border-gray-200 -ml-6">
@@ -1731,7 +1731,7 @@ function AssignmentsTab({
   };
 
   return (
-    <div className="bg-white rounded-lg" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
+    <div className="bg-white rounded" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
       <div className="flex">
         {/* Site List */}
         <div className="w-80 flex-shrink-0 pr-6 border-r border-gray-200 -ml-6">

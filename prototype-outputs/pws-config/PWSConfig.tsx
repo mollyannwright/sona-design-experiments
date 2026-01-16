@@ -190,10 +190,10 @@ const CarePackageTab = ({
   onAddNew: () => void;
 }) => {
   return (
-    <div className="bg-white rounded-lg" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
+    <div className="bg-white rounded" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
       {/* Section Header */}
-      <div className="px-6 py-5 flex items-center justify-between border-b border-gray-200">
-        <h3 className="text-base font-medium text-gray-900">Care package records</h3>
+      <div className="px-6 py-3 flex items-center justify-between border-b border-gray-200">
+        <h3 className="text-sm font-medium text-gray-900">Care package records</h3>
         <button
           onClick={onAddNew}
           className="flex items-center gap-2 px-4 py-2 text-emerald-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 text-sm font-medium shadow-sm"
@@ -207,7 +207,7 @@ const CarePackageTab = ({
       <div className="overflow-x-auto">
         <table className="w-full border-collapse">
           <thead>
-            <tr className="bg-slate-100 border-b border-gray-200">
+            <tr className="bg-slate-100">
               <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                 Care Package Name
               </th>
@@ -276,7 +276,7 @@ const CarePackageDetail = ({
       </button>
 
       {/* Main Card */}
-      <div className="bg-white rounded-lg" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
+      <div className="bg-white rounded" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
         {/* Package Header */}
         <div className="px-6 py-5">
           <div className="flex items-center gap-3">
@@ -424,7 +424,7 @@ const ScheduleTab_UNUSED = ({ pws }: { pws: PWS }) => {
   }, {} as Record<string, Shift[]>) || {};
 
   return (
-    <div className="bg-white rounded-lg" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
+    <div className="bg-white rounded" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
       {/* Section Header */}
       <div className="px-6 py-5 flex items-center justify-between">
         <div className="flex items-center gap-3">
@@ -554,11 +554,11 @@ const OccupancyTab = ({
   onLogBackInService: () => void;
 }) => {
   return (
-    <div className="bg-white rounded-lg" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
+    <div className="bg-white rounded" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
       {/* Section Header */}
-      <div className="px-6 py-5 border-b border-gray-200">
+      <div className="px-6 py-3 border-b border-gray-200">
         <div className="flex items-center justify-between mb-2">
-          <h3 className="text-base font-medium text-gray-900">Out of service records</h3>
+          <h3 className="text-sm font-medium text-gray-900">Out of service records</h3>
           <button
             onClick={() => {
               if (pws.status === 'In service') {
@@ -587,7 +587,7 @@ const OccupancyTab = ({
       <div className="overflow-x-auto">
         <table className="w-full border-collapse">
           <thead>
-            <tr className="bg-slate-100 border-b border-gray-200">
+            <tr className="bg-slate-100">
               <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                 Out of Service Date
               </th>
