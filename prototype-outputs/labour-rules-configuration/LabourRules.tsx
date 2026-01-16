@@ -1902,6 +1902,24 @@ function AssignmentsTab({
 }: AssignmentsTabProps) {
   const [selectedLocation, setSelectedLocation] = useState<OrgUnitWithAttributes | null>(null);
   const [showAssignModal, setShowAssignModal] = useState(false);
+  const [selectedSites, setSelectedSites] = useState<Set<string>>(new Set());
+  const [filterSites, setFilterSites] = useState<Set<string>>(new Set());
+  const [showFilterDropdown, setShowFilterDropdown] = useState(false);
+  const filterDropdownRef = useRef<HTMLDivElement>(null);
+
+  // Close filter dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (filterDropdownRef.current && !filterDropdownRef.current.contains(event.target as Node)) {
+        setShowFilterDropdown(false);
+      }
+    };
+
+    if (showFilterDropdown) {
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => document.removeEventListener('mousedown', handleClickOutside);
+    }
+  }, [showFilterDropdown]);
 
   const getStatusBadge = (status: string) => {
     switch (status) {
@@ -1956,6 +1974,57 @@ function AssignmentsTab({
   // Get number of attributes for a location
   const getAttributeCount = (orgUnit: OrgUnitWithAttributes) => {
     return Object.keys(orgUnit.attributes).length;
+  };
+
+  // Toggle site selection
+  const toggleSiteSelection = (orgUnitId: string) => {
+    setSelectedSites((prev) => {
+      const next = new Set(prev);
+      if (next.has(orgUnitId)) {
+        next.delete(orgUnitId);
+      } else {
+        next.add(orgUnitId);
+      }
+      return next;
+    });
+  };
+
+  // Toggle filter site
+  const toggleFilterSite = (orgUnitId: string) => {
+    setFilterSites((prev) => {
+      const next = new Set(prev);
+      if (next.has(orgUnitId)) {
+        next.delete(orgUnitId);
+      } else {
+        next.add(orgUnitId);
+      }
+      return next;
+    });
+  };
+
+  // Get filtered locations
+  const getFilteredLocations = () => {
+    if (filterSites.size === 0) return orgUnitAttributes;
+    return orgUnitAttributes.filter((ou) => filterSites.has(ou.orgUnit.id));
+  };
+
+  // Select all visible sites
+  const selectAllVisible = () => {
+    const filtered = getFilteredLocations();
+    const allSelected = filtered.every((ou) => selectedSites.has(ou.orgUnit.id));
+    if (allSelected) {
+      setSelectedSites((prev) => {
+        const next = new Set(prev);
+        filtered.forEach((ou) => next.delete(ou.orgUnit.id));
+        return next;
+      });
+    } else {
+      setSelectedSites((prev) => {
+        const next = new Set(prev);
+        filtered.forEach((ou) => next.add(ou.orgUnit.id));
+        return next;
+      });
+    }
   };
 
   // If a location is selected, show detail view
@@ -2070,14 +2139,64 @@ function AssignmentsTab({
   }
 
   // Table view - show all locations
+  const filteredLocations = getFilteredLocations();
+  const allVisibleSelected = filteredLocations.length > 0 && filteredLocations.every((ou) => selectedSites.has(ou.orgUnit.id));
+
   return (
     <div className="bg-white rounded border border-gray-200" style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
       {/* Section Header */}
       <div className="px-6 py-5 flex items-center justify-between border-b border-gray-200">
-        <p className="text-sm text-gray-700">Manage ruleset assignments to locations</p>
+        <div className="relative" ref={filterDropdownRef}>
+          <button
+            onClick={() => setShowFilterDropdown(!showFilterDropdown)}
+            className="flex items-center gap-2 px-4 py-2 text-sm border border-gray-200 rounded-lg hover:bg-gray-50 text-gray-700 bg-white"
+          >
+            Filter sites
+            {filterSites.size > 0 && (
+              <span className="px-2 py-0.5 text-xs bg-emerald-100 text-emerald-700 rounded-full">
+                {filterSites.size}
+              </span>
+            )}
+            <ChevronDownIcon size="sm" />
+          </button>
+          {showFilterDropdown && (
+            <div className="absolute left-0 top-full mt-2 w-64 bg-white border border-gray-200 rounded-lg shadow-lg z-10 max-h-80 overflow-y-auto">
+              <div className="p-3 border-b border-gray-200">
+                <div className="flex items-center justify-between mb-2">
+                  <p className="text-xs font-semibold text-gray-500 uppercase">Filter sites</p>
+                  {filterSites.size > 0 && (
+                    <button
+                      onClick={() => setFilterSites(new Set())}
+                      className="text-xs text-emerald-600 hover:text-emerald-700"
+                    >
+                      Clear all
+                    </button>
+                  )}
+                </div>
+              </div>
+              <div className="p-2">
+                {orgUnitAttributes.map((ou) => (
+                  <label
+                    key={ou.orgUnit.id}
+                    className="flex items-center px-3 py-2 hover:bg-gray-50 rounded cursor-pointer"
+                  >
+                    <input
+                      type="checkbox"
+                      checked={filterSites.has(ou.orgUnit.id)}
+                      onChange={() => toggleFilterSite(ou.orgUnit.id)}
+                      className="mr-3 rounded border-gray-300 text-emerald-600 focus:ring-emerald-500"
+                    />
+                    <span className="text-sm text-gray-700">{ou.orgUnit.name}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
         <button
           onClick={() => setShowAssignModal(true)}
-          className="flex items-center gap-2 px-4 py-2 text-emerald-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 text-sm font-medium shadow-sm"
+          disabled={selectedSites.size === 0}
+          className="flex items-center gap-2 px-4 py-2 text-emerald-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 text-sm font-medium shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <PlusIcon />
           Assign ruleset
@@ -2089,24 +2208,58 @@ function AssignmentsTab({
         <table className="w-full border-collapse">
           <thead>
             <tr className="bg-gray-100">
-              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Site Name</th>
+              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase w-12">
+                <input
+                  type="checkbox"
+                  checked={allVisibleSelected}
+                  onChange={selectAllVisible}
+                  className="rounded border-gray-300 text-emerald-600 focus:ring-emerald-500"
+                />
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Site</th>
               <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">No. of Rulesets</th>
               <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">No. of Attributes</th>
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-100">
-            {orgUnitAttributes.map((ou) => {
+            {filteredLocations.map((ou) => {
               const rulesetCount = getAssignmentsForLocation(ou.orgUnit.id).length;
               const attributeCount = getAttributeCount(ou);
+              const isSelected = selectedSites.has(ou.orgUnit.id);
               return (
                 <tr
                   key={ou.orgUnit.id}
-                  className="hover:bg-gray-50 transition-colors cursor-pointer"
-                  onClick={() => setSelectedLocation(ou)}
+                  className={`hover:bg-gray-50 transition-colors ${
+                    isSelected ? 'bg-emerald-50' : ''
+                  }`}
                 >
-                  <td className="px-6 py-4 text-sm font-medium text-gray-900">{ou.orgUnit.name}</td>
-                  <td className="px-6 py-4 text-sm text-gray-700">{rulesetCount}</td>
-                  <td className="px-6 py-4 text-sm text-gray-700">{attributeCount}</td>
+                  <td className="px-6 py-4">
+                    <input
+                      type="checkbox"
+                      checked={isSelected}
+                      onChange={() => toggleSiteSelection(ou.orgUnit.id)}
+                      onClick={(e) => e.stopPropagation()}
+                      className="rounded border-gray-300 text-emerald-600 focus:ring-emerald-500"
+                    />
+                  </td>
+                  <td
+                    className="px-6 py-4 text-sm font-medium text-gray-900 cursor-pointer"
+                    onClick={() => setSelectedLocation(ou)}
+                  >
+                    {ou.orgUnit.name}
+                  </td>
+                  <td
+                    className="px-6 py-4 text-sm text-gray-700 cursor-pointer"
+                    onClick={() => setSelectedLocation(ou)}
+                  >
+                    {rulesetCount}
+                  </td>
+                  <td
+                    className="px-6 py-4 text-sm text-gray-700 cursor-pointer"
+                    onClick={() => setSelectedLocation(ou)}
+                  >
+                    {attributeCount}
+                  </td>
                 </tr>
               );
             })}
@@ -2119,9 +2272,12 @@ function AssignmentsTab({
         <AssignModal
           rulesets={rulesets}
           sites={orgUnitAttributes}
-          selectedOrgUnitId={null}
+          preselectedSiteIds={Array.from(selectedSites)}
           onSave={handleAddAssignment}
-          onClose={() => setShowAssignModal(false)}
+          onClose={() => {
+            setShowAssignModal(false);
+            setSelectedSites(new Set());
+          }}
         />
       )}
     </div>
@@ -2132,7 +2288,7 @@ function AssignmentsTab({
 interface AssignModalProps {
   rulesets: Ruleset[];
   sites: OrgUnitWithAttributes[];
-  selectedOrgUnitId: string | null;
+  preselectedSiteIds?: string[];
   onSave: (data: {
     rulesetId: string;
     orgUnitIds: string[];
@@ -2145,13 +2301,13 @@ interface AssignModalProps {
 function AssignModal({
   rulesets,
   sites,
-  selectedOrgUnitId,
+  preselectedSiteIds = [],
   onSave,
   onClose,
 }: AssignModalProps) {
   const [selectedRuleset, setSelectedRuleset] = useState('');
   const [selectedSites, setSelectedSites] = useState<Set<string>>(
-    selectedOrgUnitId ? new Set([selectedOrgUnitId]) : new Set()
+    new Set(preselectedSiteIds)
   );
   const [effectiveFrom, setEffectiveFrom] = useState(
     new Date().toISOString().split('T')[0]
@@ -2212,32 +2368,67 @@ function AssignModal({
 
             <div>
               <label className="block text-sm font-medium text-slate-900 mb-1">
-                Select sites
+                Selected sites
               </label>
-              <div className="border border-slate-200 rounded-lg max-h-48 overflow-y-auto">
-                {sites.map((site) => (
-                  <label
-                    key={site.orgUnit.id}
-                    className="flex items-center px-3 py-2 hover:bg-gray-50 cursor-pointer"
-                  >
-                    <input
-                      type="checkbox"
-                      checked={selectedSites.has(site.orgUnit.id)}
-                      onChange={() => toggleSite(site.orgUnit.id)}
-                      className="rounded border-gray-300 text-emerald-600 focus:ring-emerald-500 mr-3"
-                    />
-                    <span className="text-sm">{site.orgUnit.name}</span>
-                    {site.missingRequired.length > 0 && (
-                      <span className="ml-auto text-amber-500 text-xs">
-                        Missing attributes
-                      </span>
-                    )}
-                  </label>
-                ))}
-              </div>
-              <p className="text-xs text-gray-500 mt-1">
-                {selectedSites.size} site{selectedSites.size !== 1 ? 's' : ''} selected
-              </p>
+              {selectedSites.size > 0 ? (
+                <>
+                  <div className="border border-slate-200 rounded-lg max-h-48 overflow-y-auto">
+                    {sites
+                      .filter((site) => selectedSites.has(site.orgUnit.id))
+                      .map((site) => (
+                        <div
+                          key={site.orgUnit.id}
+                          className="flex items-center px-3 py-2 hover:bg-gray-50"
+                        >
+                          <span className="text-sm text-gray-900">{site.orgUnit.name}</span>
+                          {site.missingRequired.length > 0 && (
+                            <span className="ml-auto text-amber-500 text-xs">
+                              Missing attributes
+                            </span>
+                          )}
+                          <button
+                            type="button"
+                            onClick={() => toggleSite(site.orgUnit.id)}
+                            className="ml-auto text-gray-400 hover:text-red-600"
+                            title="Remove site"
+                          >
+                            <TrashIcon size="sm" />
+                          </button>
+                        </div>
+                      ))}
+                  </div>
+                  <p className="text-xs text-gray-500 mt-1">
+                    {selectedSites.size} site{selectedSites.size !== 1 ? 's' : ''} selected
+                  </p>
+                </>
+              ) : (
+                <>
+                  <div className="border border-slate-200 rounded-lg max-h-48 overflow-y-auto">
+                    {sites.map((site) => (
+                      <label
+                        key={site.orgUnit.id}
+                        className="flex items-center px-3 py-2 hover:bg-gray-50 cursor-pointer"
+                      >
+                        <input
+                          type="checkbox"
+                          checked={selectedSites.has(site.orgUnit.id)}
+                          onChange={() => toggleSite(site.orgUnit.id)}
+                          className="rounded border-gray-300 text-emerald-600 focus:ring-emerald-500 mr-3"
+                        />
+                        <span className="text-sm">{site.orgUnit.name}</span>
+                        {site.missingRequired.length > 0 && (
+                          <span className="ml-auto text-amber-500 text-xs">
+                            Missing attributes
+                          </span>
+                        )}
+                      </label>
+                    ))}
+                  </div>
+                  <p className="text-xs text-gray-500 mt-1">
+                    {selectedSites.size} site{selectedSites.size !== 1 ? 's' : ''} selected
+                  </p>
+                </>
+              )}
             </div>
 
             <div className="grid grid-cols-2 gap-4">
