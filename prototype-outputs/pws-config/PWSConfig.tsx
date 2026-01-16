@@ -136,7 +136,7 @@ const MetricCard = ({
   isWarning?: boolean;
   valueColor?: string;
 }) => (
-  <div className={`bg-white p-5 rounded ${isWarning ? 'border-amber-200 bg-amber-50' : 'border border-gray-200'}`} style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
+  <div className={`bg-white p-5 rounded border border-gray-200 ${isWarning ? 'bg-amber-50' : ''}`} style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04)' }}>
     <div className="text-sm text-gray-500 mb-2">{label}</div>
     <div className={`text-3xl font-semibold flex items-center gap-2 ${isWarning ? 'text-amber-600' : valueColor}`}>
       {isWarning && <ExclamationTriangleIcon className="text-amber-500" size="md" />}
