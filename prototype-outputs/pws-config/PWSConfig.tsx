@@ -1472,32 +1472,34 @@ const AddCarePackageWizard = ({
       </div>
 
       {/* Footer */}
-      <div className="px-6 py-6 mt-8 flex items-center justify-between border-t border-gray-200">
-        <div>
-          {currentStep > 1 && (
+      <div className="mt-8 border-t border-gray-200">
+        <div className="px-6 py-6 flex items-center justify-between">
+          <div>
+            {currentStep > 1 && (
+              <button
+                onClick={handleBack}
+                className="flex items-center gap-1 px-4 py-2 text-gray-700 border border-gray-200 rounded-lg hover:bg-gray-50 text-sm font-medium"
+              >
+                <ChevronLeftIcon />
+                Back
+              </button>
+            )}
+          </div>
+          <div className="flex gap-3">
             <button
-              onClick={handleBack}
-              className="flex items-center gap-1 px-4 py-2 text-gray-700 border border-gray-200 rounded-lg hover:bg-gray-50 text-sm font-medium"
+              onClick={onClose}
+              className="px-4 py-2 text-gray-700 border border-gray-200 rounded-lg hover:bg-gray-50 text-sm font-medium"
             >
-              <ChevronLeftIcon />
-              Back
+              Cancel
             </button>
-          )}
-        </div>
-        <div className="flex gap-3">
-          <button
-            onClick={onClose}
-            className="px-4 py-2 text-gray-700 border border-gray-200 rounded-lg hover:bg-gray-50 text-sm font-medium"
-          >
-            Cancel
-          </button>
-          <button
-            onClick={handleNext}
-            className="flex items-center gap-1 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-sm font-medium"
-          >
-            {currentStep === 4 ? 'Create care package' : 'Continue'}
-            {currentStep < 4 && <ChevronRightIcon />}
-          </button>
+            <button
+              onClick={handleNext}
+              className="flex items-center gap-1 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-sm font-medium"
+            >
+              {currentStep === 4 ? 'Create care package' : 'Continue'}
+              {currentStep < 4 && <ChevronRightIcon />}
+            </button>
+          </div>
         </div>
       </div>
 
