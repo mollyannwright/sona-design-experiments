@@ -23,6 +23,8 @@ import {
   InformationCircleIcon,
   ChevronDownIcon,
   ChevronLeftIcon,
+  ChevronRightIcon,
+  Icon,
 } from '../../src/components/shared/Icon';
 import type {
   LabourRulesTab,
@@ -1192,7 +1194,7 @@ interface RulesetsTabProps {
 function RulesetsTab({
   rulesets,
   setRulesets,
-  rules: _rules,
+  rules,
   setRules,
   attributes,
   assignments,
@@ -1230,6 +1232,8 @@ function RulesetsTab({
   }, [initialSelectedRulesetId, rulesets]);
   const [showRulesetModal, setShowRulesetModal] = useState(false);
   const [editingRuleset, setEditingRuleset] = useState<Ruleset | null>(null);
+  const [showAddRuleModal, setShowAddRuleModal] = useState(false);
+  const [showSelectRuleModal, setShowSelectRuleModal] = useState(false);
   const [showRuleModal, setShowRuleModal] = useState(false);
   const [editingRule, setEditingRule] = useState<Rule | null>(null);
 
@@ -1265,8 +1269,39 @@ function RulesetsTab({
 
   const handleCreateRule = () => {
     if (!selectedRuleset) return;
+    setShowAddRuleModal(true);
+  };
+
+  const handleSelectExistingRule = () => {
+    setShowAddRuleModal(false);
+    setShowSelectRuleModal(true);
+  };
+
+  const handleCreateNewRule = () => {
+    setShowAddRuleModal(false);
     setEditingRule(null);
     setShowRuleModal(true);
+  };
+
+  const handleAddExistingRule = (rule: Rule) => {
+    if (!selectedRuleset) return;
+    
+    // Create a copy of the rule with new ID and assign to current ruleset
+    const newRule: Rule = {
+      ...rule,
+      id: `rule-${Date.now()}`,
+      rulesetId: selectedRuleset.id,
+    };
+    
+    setRules((prev) => [...prev, newRule]);
+    setRulesets((prev) =>
+      prev.map((rs) =>
+        rs.id === selectedRuleset.id
+          ? { ...rs, rules: [...rs.rules, newRule] }
+          : rs
+      )
+    );
+    setShowSelectRuleModal(false);
   };
 
   const handleEditRule = (rule: Rule) => {
@@ -1457,18 +1492,53 @@ function RulesetsTab({
             </div>
           ) : (
             <div className="px-6 py-12 flex-1 flex items-center justify-center">
-              <div className="text-center py-12 bg-gray-50 rounded-lg">
-                <p className="text-gray-500">No rules in this ruleset yet.</p>
+              <div className="flex flex-col items-center justify-center py-12 text-center">
+                <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mb-4">
+                  <Icon name="Document" size="lg" className="text-slate-400" />
+                </div>
+                <h3 className="text-lg font-semibold text-slate-900 mb-1">No rules yet</h3>
+                <p className="text-sm text-slate-500 mb-4">Get started by creating your first rule.</p>
                 <button
                   onClick={handleCreateRule}
-                  className="mt-4 text-sm text-emerald-600 hover:text-emerald-700 font-medium"
+                  className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-medium rounded-lg"
                 >
-                  + Add your first rule
+                  Add rule
                 </button>
               </div>
             </div>
           )}
         </div>
+
+        {/* Add Rule Choice Modal */}
+        {showAddRuleModal && (
+          <AddRuleChoiceModal
+            rulesetName={selectedRuleset.name}
+            onSelectExisting={handleSelectExistingRule}
+            onCreateNew={handleCreateNewRule}
+            onClose={() => setShowAddRuleModal(false)}
+          />
+        )}
+
+        {/* Select Existing Rule Modal */}
+        {showSelectRuleModal && (
+          <SelectExistingRuleModal
+            rules={rules}
+            rulesets={rulesets}
+            currentRulesetId={selectedRuleset.id}
+            onSelect={handleAddExistingRule}
+            onClose={() => setShowSelectRuleModal(false)}
+          />
+        )}
+
+        {/* Rule Modal */}
+        {showRuleModal && (
+          <RuleModal
+            rule={editingRule}
+            attributes={attributes}
+            onSave={handleSaveRule}
+            onClose={() => setShowRuleModal(false)}
+          />
+        )}
       </div>
     );
   }
@@ -1550,6 +1620,27 @@ function RulesetsTab({
           ruleset={editingRuleset}
           onSave={handleSaveRuleset}
           onClose={() => setShowRulesetModal(false)}
+        />
+      )}
+
+      {/* Add Rule Choice Modal */}
+      {showAddRuleModal && selectedRuleset && (
+        <AddRuleChoiceModal
+          rulesetName={(selectedRuleset as Ruleset).name}
+          onSelectExisting={handleSelectExistingRule}
+          onCreateNew={handleCreateNewRule}
+          onClose={() => setShowAddRuleModal(false)}
+        />
+      )}
+
+      {/* Select Existing Rule Modal */}
+      {showSelectRuleModal && selectedRuleset && (
+        <SelectExistingRuleModal
+          rules={rules}
+          rulesets={rulesets}
+          currentRulesetId={(selectedRuleset as Ruleset).id}
+          onSelect={handleAddExistingRule}
+          onClose={() => setShowSelectRuleModal(false)}
         />
       )}
 
@@ -1656,6 +1747,207 @@ function RulesetModal({ ruleset, onSave, onClose }: RulesetModalProps) {
 }
 
 // Rule Modal with Formula Editor
+// Add Rule Choice Modal
+interface AddRuleChoiceModalProps {
+  rulesetName: string;
+  onSelectExisting: () => void;
+  onCreateNew: () => void;
+  onClose: () => void;
+}
+
+function AddRuleChoiceModal({
+  rulesetName,
+  onSelectExisting,
+  onCreateNew,
+  onClose,
+}: AddRuleChoiceModalProps) {
+  return (
+    <div className="fixed inset-0 bg-slate-500/75 flex items-center justify-center z-50">
+      <div className="bg-white rounded-lg shadow-xl w-full max-w-md">
+        <div className="px-6 py-4 border-b border-slate-200">
+          <h3 className="text-lg font-semibold text-slate-900">
+            Add rule to {rulesetName}
+          </h3>
+        </div>
+        
+        <div className="p-6 space-y-4">
+          <p className="text-sm text-slate-600 mb-4">
+            Choose how you'd like to add a rule to this ruleset.
+          </p>
+
+          <button
+            onClick={onSelectExisting}
+            className="w-full p-4 border-2 border-slate-200 rounded-lg hover:border-emerald-500 hover:bg-emerald-50 transition-colors text-left group"
+          >
+            <div className="flex items-center justify-between">
+              <div>
+                <div className="font-medium text-slate-900 mb-1">Select from existing rules</div>
+                <div className="text-sm text-slate-500">
+                  Choose a rule from other rulesets
+                </div>
+              </div>
+              <ChevronRightIcon size="sm" className="text-slate-400 group-hover:text-emerald-600" />
+            </div>
+          </button>
+
+          <button
+            onClick={onCreateNew}
+            className="w-full p-4 border-2 border-slate-200 rounded-lg hover:border-emerald-500 hover:bg-emerald-50 transition-colors text-left group"
+          >
+            <div className="flex items-center justify-between">
+              <div>
+                <div className="font-medium text-slate-900 mb-1">Create new rule</div>
+                <div className="text-sm text-slate-500">
+                  Build a new rule from scratch
+                </div>
+              </div>
+              <ChevronRightIcon size="sm" className="text-slate-400 group-hover:text-emerald-600" />
+            </div>
+          </button>
+        </div>
+
+        <div className="px-6 py-4 border-t border-slate-200 flex justify-end">
+          <button
+            onClick={onClose}
+            className="px-4 py-2 text-slate-700 hover:bg-slate-50 rounded-lg"
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Select Existing Rule Modal
+interface SelectExistingRuleModalProps {
+  rules: Rule[];
+  rulesets: Ruleset[];
+  currentRulesetId: string;
+  onSelect: (rule: Rule) => void;
+  onClose: () => void;
+}
+
+function SelectExistingRuleModal({
+  rules,
+  rulesets,
+  currentRulesetId,
+  onSelect,
+  onClose,
+}: SelectExistingRuleModalProps) {
+  const [searchQuery, setSearchQuery] = useState('');
+
+  // Filter out rules from the current ruleset and filter by search
+  const availableRules = rules.filter(
+    (rule) => rule.rulesetId !== currentRulesetId
+  );
+
+  const filteredRules = availableRules.filter((rule) => {
+    if (!searchQuery.trim()) return true;
+    const query = searchQuery.toLowerCase();
+    const ruleset = rulesets.find((rs) => rs.id === rule.rulesetId);
+    return (
+      rule.name.toLowerCase().includes(query) ||
+      rule.type.toLowerCase().includes(query) ||
+      (rule.role && rule.role.toLowerCase().includes(query)) ||
+      (ruleset && ruleset.name.toLowerCase().includes(query))
+    );
+  });
+
+
+  const getRuleTypeLabel = (type: string) => {
+    return type.charAt(0).toUpperCase() + type.slice(1);
+  };
+
+  return (
+    <div className="fixed inset-0 bg-slate-500/75 flex items-center justify-center z-50">
+      <div className="bg-white rounded-lg shadow-xl w-full max-w-3xl max-h-[90vh] flex flex-col">
+        <div className="px-6 py-4 border-b border-slate-200 flex-shrink-0">
+          <h3 className="text-lg font-semibold text-slate-900">
+            Select existing rule
+          </h3>
+        </div>
+
+        <div className="px-6 py-4 border-b border-slate-200 flex-shrink-0">
+          <div className="relative">
+            <input
+              type="text"
+              placeholder="Search rules..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full px-4 py-2 pl-10 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+            />
+            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">
+              <SearchIcon size="sm" />
+            </span>
+          </div>
+        </div>
+
+        <div className="flex-1 overflow-y-auto p-6">
+          {filteredRules.length === 0 ? (
+            <div className="text-center py-12">
+              <p className="text-slate-500 text-sm">
+                {availableRules.length === 0
+                  ? 'No existing rules available to select.'
+                  : 'No rules match your search.'}
+              </p>
+            </div>
+          ) : (
+            <div className="space-y-2">
+              {filteredRules.map((rule) => {
+                const ruleset = rulesets.find((rs) => rs.id === rule.rulesetId);
+                return (
+                  <button
+                    key={rule.id}
+                    onClick={() => onSelect(rule)}
+                    className="w-full p-4 border border-slate-200 rounded-lg hover:border-emerald-500 hover:bg-emerald-50 transition-colors text-left"
+                  >
+                    <div className="flex items-start justify-between">
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 mb-2">
+                          <span className="font-medium text-slate-900">
+                            {rule.name}
+                          </span>
+                          <span className="px-2 py-0.5 text-xs font-medium bg-slate-100 text-slate-600 rounded">
+                            {getRuleTypeLabel(rule.type)}
+                          </span>
+                        </div>
+                        <div className="text-sm text-slate-500 space-y-1">
+                          {rule.role && (
+                            <div>Role: {rule.role}</div>
+                          )}
+                          {rule.dayOfWeek && (
+                            <div>
+                              Day: {rule.dayOfWeek === 'all' ? 'All days' : rule.dayOfWeek.charAt(0).toUpperCase() + rule.dayOfWeek.slice(1)}
+                            </div>
+                          )}
+                          <div className="text-xs text-slate-400">
+                            From: {ruleset?.name || 'Unknown ruleset'}
+                          </div>
+                        </div>
+                      </div>
+                      <ChevronRightIcon size="sm" className="text-slate-400 flex-shrink-0 ml-4" />
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          )}
+        </div>
+
+        <div className="px-6 py-4 border-t border-slate-200 flex justify-end flex-shrink-0">
+          <button
+            onClick={onClose}
+            className="px-4 py-2 text-slate-700 hover:bg-slate-50 rounded-lg"
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 interface RuleModalProps {
   rule: Rule | null;
   attributes: Attribute[];
@@ -2167,15 +2459,17 @@ function AssignmentsTab({
             </div>
           ) : (
             <div className="flex-1 flex items-center justify-center">
-              <div className="text-center py-12 bg-gray-50 rounded-lg px-6">
-                <p className="text-gray-500 text-sm">
-                  No ruleset assignments for this location.
-                </p>
+              <div className="flex flex-col items-center justify-center py-12 text-center">
+                <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mb-4">
+                  <Icon name="Document" size="lg" className="text-slate-400" />
+                </div>
+                <h3 className="text-lg font-semibold text-slate-900 mb-1">No assignments yet</h3>
+                <p className="text-sm text-slate-500 mb-4">Get started by assigning a ruleset to this location.</p>
                 <button
                   onClick={() => setShowAssignModal(true)}
-                  className="mt-4 text-sm text-emerald-600 hover:text-emerald-700 font-medium transition-colors"
+                  className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-medium rounded-lg"
                 >
-                  + Assign a ruleset
+                  Assign ruleset
                 </button>
               </div>
             </div>
